@@ -6,10 +6,10 @@ import dao.interfaces.UserDao;
 import java.util.List;
 
 /**
- * Created by Kostka on 23/03/2020.
+ * Created by Ferencik on 25/03/2020.
  */
 public class UserImpl implements UserDao {
-    public void createAnimal(User user) {
+    public void createUser(User user) {
 
     }
 
