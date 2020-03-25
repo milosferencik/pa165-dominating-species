@@ -1,8 +1,7 @@
 package dao.entities;
 
-import com.sun.istack.internal.NotNull;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -20,6 +19,9 @@ public class Environment implements Serializable {
 
     @NotNull
     private String Description;
+
+    public Environment() {
+    }
 
     public Environment(String name, String description) {
         this.name = name;
