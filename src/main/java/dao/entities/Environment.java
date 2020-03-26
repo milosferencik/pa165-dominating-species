@@ -23,11 +23,6 @@ public class Environment implements Serializable {
     public Environment() {
     }
 
-    public Environment(String name, String description) {
-        this.name = name;
-        Description = description;
-    }
-
     public Long getId() {
         return id;
     }
