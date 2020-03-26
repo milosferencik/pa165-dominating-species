@@ -4,16 +4,37 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Matusova on 26/03/2020.
  */
 @Entity
-//@Table(name = "Animals")
-public class Animal {
+@Table(name = "Animal")
+public class Animal implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", unique = true, nullable = false)
     private Long id;
+
+    @NotNull(message = "Animals cannot be null")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "FoodChain", joinColumns = { @JoinColumn(name = "ID")}, inverseJoinColumns = {@JoinColumn(name="ID")})
+    private Set<FoodChain> foodChain = new HashSet<FoodChain>();
 
     @NotNull(message = "Name cannot be null")
     private String name;
@@ -21,7 +42,7 @@ public class Animal {
     @NotNull(message = "Species cannot be null")
     private String species;
 
-    @ManyToOne (cascade=CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @NotNull(message = "Environment cannot be null")
     private Environment environment;
 
@@ -32,7 +53,7 @@ public class Animal {
         this.environment = environment;
     }
 
-    public Animal(){
+    public Animal() {
     }
 
     public String getName() {
@@ -77,9 +98,9 @@ public class Animal {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Animal animal = (Animal) o;
-        return  getName().equals(animal.getName()) &&
+        return getName().equals(animal.getName()) &&
                 getSpecies().equals(animal.getSpecies()) &&
                 getEnvironment().equals(animal.getEnvironment());
     }
-
 }
+
