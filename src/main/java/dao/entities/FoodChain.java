@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Ondrej Slimak on 25/03/2020.
@@ -48,5 +49,19 @@ public class FoodChain implements Serializable {
 
     public void setAnimals(List<Animal> animals) {
         Animals = animals;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FoodChain)) return false;
+        FoodChain foodChain = (FoodChain) o;
+        return getId().equals(foodChain.getId()) &&
+                getAnimals().equals(foodChain.getAnimals());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getAnimals());
     }
 }
