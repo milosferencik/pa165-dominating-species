@@ -4,6 +4,7 @@ import dao.entities.Animal;
 import dao.entities.Environment;
 import dao.entities.User;
 import dao.interfaces.AnimalDao;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +13,8 @@ import java.util.List;
 /**
  * Created by Matusova on 26/03/2020.
  */
+
+@Repository
 public class AnimalImpl implements AnimalDao {
 
     @PersistenceContext

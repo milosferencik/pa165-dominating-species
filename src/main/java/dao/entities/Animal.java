@@ -8,6 +8,7 @@ import java.util.Objects;
  * Created by Matusova on 26/03/2020.
  */
 @Entity
+//@Table(name = "Animals")
 public class Animal {
 
     @Id
