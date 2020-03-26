@@ -5,7 +5,7 @@ import dao.entities.FoodChain;
 import java.util.List;
 
 /**
- * Created by Kostka on 23/03/2020.
+ * Created by Ondrej Slimak on 24503/2020.
  */
 public interface FoodChainDao {
     public void createFoodChain(FoodChain foodChain);
