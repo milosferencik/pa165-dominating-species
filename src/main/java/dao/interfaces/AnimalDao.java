@@ -5,7 +5,7 @@ import dao.entities.Animal;
 import java.util.List;
 
 /**
- * Created by Kostka on 23/03/2020.
+ * Created by Matusova on 26/03/2020.
  */
 public interface AnimalDao {
     public void createAnimal(Animal animal);
