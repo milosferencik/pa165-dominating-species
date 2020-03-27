@@ -1,7 +1,6 @@
 package dao.entities;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,7 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,17 +20,20 @@ import java.util.Objects;
  */
 
 @Entity()
-@Table(name = "FoodChain", uniqueConstraints = {@UniqueConstraint(columnNames = "ID")})
+@Table(name = "FoodChain")
 public class FoodChain implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", unique = true, nullable = false)
     private Long id;
 
     @NotNull(message = "Animals cannot be null")
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "Animals", joinColumns = { @JoinColumn(name = "ID")}, inverseJoinColumns = {@JoinColumn(name="ID")})
+    @JoinTable(
+            name = "FoodChain_Animals",
+            joinColumns = { @JoinColumn(name = "foodchain_id")},
+            inverseJoinColumns = {@JoinColumn(name="animal_id")}
+            )
     private List<Animal> Animals = new ArrayList<Animal>();
 
     public Long getId() {

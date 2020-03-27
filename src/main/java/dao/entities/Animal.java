@@ -28,12 +28,16 @@ public class Animal implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", unique = true, nullable = false)
     private Long id;
+
 
     @NotNull(message = "Animals cannot be null")
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "FoodChain", joinColumns = { @JoinColumn(name = "ID")}, inverseJoinColumns = {@JoinColumn(name="ID")})
+    @JoinTable(
+            name = "FoodChain_Animals",
+            joinColumns = { @JoinColumn(name = "animal_id")},
+            inverseJoinColumns = {@JoinColumn(name="foodchain_id")}
+            )
     private Set<FoodChain> foodChain = new HashSet<FoodChain>();
 
     @NotNull(message = "Name cannot be null")
