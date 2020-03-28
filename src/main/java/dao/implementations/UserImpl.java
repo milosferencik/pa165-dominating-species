@@ -42,6 +42,22 @@ public class UserImpl implements UserDao {
         {
             throw new IllegalArgumentException("User can not be null");
         }
+
+        /*if (user.getName() == null || user.getName().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty or null");
+        }
+
+        if (user.getSurname() == null || user.getSurname().isEmpty()) {
+            throw new IllegalArgumentException("Surname cannot be empty or null");
+        }
+
+        if (user.getPasswordHash() == null || user.getPasswordHash().isEmpty() ) {
+            throw new IllegalArgumentException("Password cannot be empty or null");
+        }
+
+        if (user.getId() == null) {
+            throw new IllegalArgumentException("Id cannot be empty or null");
+        }*/
         entityManager.merge(user);
     }
 

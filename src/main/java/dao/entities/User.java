@@ -2,7 +2,9 @@ package dao.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -18,15 +20,18 @@ public class User implements Serializable {
     private Long id;
 
     @NotNull(message = "Name cannot be null")
+    @NotEmpty(message = "Name cannot be empty")
     private String name;
 
     @NotNull(message = "Surname cannot be null")
+    @NotEmpty(message = "Surame cannot be empty")
     private String surname;
 
     @Email(message = "Email should be valid")
     private String email;
 
     @NotNull(message = "Password cannot be null")
+    @NotEmpty(message = "Password cannot be empty")
     private String passwordHash;
 
     @NotNull(message = "IsAdmin must be defined")
