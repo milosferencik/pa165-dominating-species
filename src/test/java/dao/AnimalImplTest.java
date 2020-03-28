@@ -194,39 +194,44 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
         assertThat(animalDao.getAnimal(lion.getId())).isEqualToComparingFieldByFieldRecursively(lion);
     }
 
-    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateAnimalWithNullName() {
         animalDao.createAnimal(lion);
         lion.setName(null);
         animalDao.updateAnimal(lion);
+        em.flush();
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateAnimalWithEmptyName() {
         animalDao.createAnimal(lion);
         lion.setName("");
         animalDao.updateAnimal(lion);
+        em.flush();
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateAnimalWithNullSpecies() {
         animalDao.createAnimal(lion);
         lion.setSpecies(null);
         animalDao.updateAnimal(lion);
+        em.flush();
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateAnimalWithEmptySpecies() {
         animalDao.createAnimal(lion);
         lion.setSpecies("");
         animalDao.updateAnimal(lion);
+        em.flush();
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateAnimalWithNullEnvironment() {
         animalDao.createAnimal(lion);
         lion.setEnvironment(null);
         animalDao.updateAnimal(lion);
+        em.flush();
     }
 
     @Test(expectedExceptions = JpaSystemException.class)
@@ -240,6 +245,7 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
         lion.setEnvironment(nonExistingEnvironment);
 
         animalDao.updateAnimal(lion);
+        em.flush();
     }
 
     @Test
