@@ -4,8 +4,13 @@ import dao.config.MainConfiguration;
 import dao.entities.User;
 import dao.interfaces.UserDao;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
+import javax.validation.ConstraintViolationException;
+
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,11 +34,12 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
     @Autowired
     private UserDao userDao;
 
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
-
     private User u1;
     private User u2;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
 
     @BeforeMethod
     public void setUp() throws Exception {
@@ -48,7 +54,7 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         u2.setName("John");
         u2.setSurname("Doe");
         u2.setEmail("johndoe@muni.cz");
-        u2.setPasswordHash("955db0b81ef1989b4a4dfeae8061a9a6");
+        u2.setPasswordHash("955db0b81ef1989b4a4dfeae8061a9b7");
         u2.setAdmin(true);
     }
 
@@ -68,55 +74,65 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
     }
 
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateUserWithNullName() throws Exception {
         u1.setName(null);
         userDao.createUser(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateUserWithEmptyName() throws Exception {
         u1.setName("");
         userDao.createUser(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateUserWithNullSurname() throws Exception {
         u1.setSurname(null);
         userDao.createUser(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateUserWithEmptySurname() throws Exception {
         u1.setSurname("");
         userDao.createUser(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test
     public void testCreateUserWithNullEmail() throws Exception {
         u1.setEmail(null);
         userDao.createUser(u1);
+        assertThat(userDao.getAllUsers()).hasSize(1);
+        assertThat(userDao.getUser(u1.getId())).isEqualTo(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test
     public void testCreateUserWithEmptyEmail() throws Exception {
         u1.setEmail("");
         userDao.createUser(u1);
+        assertThat(userDao.getAllUsers()).hasSize(1);
+        assertThat(userDao.getUser(u1.getId())).isEqualTo(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void testCreateUserWithInvalidEmail() throws Exception {
+        u1.setEmail("email");
+        userDao.createUser(u1);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateUserWithNullPasswordHash() throws Exception {
         u1.setPasswordHash(null);
         userDao.createUser(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateUserWithEmptyPasswordHash() throws Exception {
         u1.setPasswordHash("");
         userDao.createUser(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = JpaSystemException.class)
     public void testCreateUserWithId() throws Exception {
         u1.setId(1L);
         userDao.createUser(u1);
@@ -125,6 +141,8 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
     @Test
     public void testUpdateUser() {
         userDao.createUser(u1);
+        entityManager.flush();
+        entityManager.detach(u1);
         u1.setName("John");
         u1.setEmail("johndoe@fi.cz");
         userDao.updateUser(u1);
@@ -136,73 +154,61 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         userDao.updateUser(null);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateUserWithNullName() throws Exception {
         userDao.createUser(u1);
+        entityManager.flush();
+        entityManager.detach(u1);
         u1.setName(null);
         userDao.updateUser(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateUserWithEmptyName() throws Exception {
         userDao.createUser(u1);
         u1.setName("");
         userDao.updateUser(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateUserWithNullSurname() throws Exception {
         userDao.createUser(u1);
         u1.setSurname(null);
         userDao.updateUser(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateUserWithEmptySurname() throws Exception {
         userDao.createUser(u1);
         u1.setSurname("");
         userDao.updateUser(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testUpdateUserWithNullEmail() throws Exception {
-        userDao.createUser(u1);
-        u1.setEmail(null);
-        userDao.updateUser(u1);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testUpdateUserWithEmptyEmail() throws Exception {
-        userDao.createUser(u1);
-        u1.setEmail("");
-        userDao.updateUser(u1);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateUserWithNullPasswordHash() throws Exception {
         userDao.createUser(u1);
         u1.setPasswordHash(null);
         userDao.updateUser(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateUserWithEmptyPasswordHash() throws Exception {
         userDao.createUser(u1);
         u1.setPasswordHash("");
         userDao.updateUser(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = JpaSystemException.class)
     public void testUpdateUserWithNullId() throws Exception {
         userDao.createUser(u1);
         u1.setId(null);
         userDao.updateUser(u1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testUpdateUserWithId() throws Exception {
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void testUpdateUserWithInvlidEmail() throws Exception {
         userDao.createUser(u1);
-        u1.setId(2L);
+        u1.setEmail("email");
         userDao.updateUser(u1);
     }
 
@@ -239,7 +245,7 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         assertThat(userDao.getUser(u2.getId())).isEqualToComparingFieldByField(u2);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testGetUserWithNullId() throws Exception{
         userDao.createUser(u1);
         userDao.getUser(null);
