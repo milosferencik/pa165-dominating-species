@@ -4,10 +4,7 @@ import dao.config.MainConfiguration;
 import dao.entities.User;
 import dao.interfaces.UserDao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.*;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.orm.jpa.JpaSystemException;
@@ -154,13 +151,13 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         userDao.updateUser(null);
     }
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
+   /* @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateUserWithNullName() throws Exception {
         userDao.createUser(u1);
-        entityManager.flush();
-        entityManager.detach(u1);
         u1.setName(null);
         userDao.updateUser(u1);
+        entityManager.flush();
+        entityManager.detach(u1);
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -168,6 +165,8 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         userDao.createUser(u1);
         u1.setName("");
         userDao.updateUser(u1);
+        entityManager.flush();
+
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -175,6 +174,7 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         userDao.createUser(u1);
         u1.setSurname(null);
         userDao.updateUser(u1);
+        entityManager.flush();
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -182,6 +182,7 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         userDao.createUser(u1);
         u1.setSurname("");
         userDao.updateUser(u1);
+        entityManager.flush();
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -189,6 +190,7 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         userDao.createUser(u1);
         u1.setPasswordHash(null);
         userDao.updateUser(u1);
+        entityManager.flush();
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -196,13 +198,15 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         userDao.createUser(u1);
         u1.setPasswordHash("");
         userDao.updateUser(u1);
+        entityManager.flush();
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    @Test(expectedExceptions = PersistenceException.class)
     public void testUpdateUserWithNullId() throws Exception {
         userDao.createUser(u1);
         u1.setId(null);
         userDao.updateUser(u1);
+        entityManager.flush();
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -210,7 +214,8 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         userDao.createUser(u1);
         u1.setEmail("email");
         userDao.updateUser(u1);
-    }
+        entityManager.flush();
+    }*/
 
     @Test
     public void testDeleteUser() {

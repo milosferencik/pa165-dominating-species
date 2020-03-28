@@ -59,7 +59,6 @@ public class UserImpl implements UserDao {
             throw new IllegalArgumentException("Id cannot be empty or null");
         }*/
         entityManager.merge(user);
-        entityManager.flush();
     }
 
     public void deleteUser(User user) {
