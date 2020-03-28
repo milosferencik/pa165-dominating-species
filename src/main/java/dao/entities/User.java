@@ -10,11 +10,11 @@ import java.util.Objects;
  * Created by Ferencik on 25/03/2020.
  */
 @Entity
-@Table(name = "Users")
+@Table(name = "Users", uniqueConstraints = {@UniqueConstraint(columnNames = "ID")})
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull(message = "Name cannot be null")
@@ -94,7 +94,7 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof User)) return false;
         User user = (User) o;
         return isAdmin() == user.isAdmin() &&
                 getName().equals(user.getName()) &&
