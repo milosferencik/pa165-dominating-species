@@ -226,7 +226,7 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
     public void testUpdateAnimalWithNullEnvironment() {
         animalDao.createAnimal(lion);
         lion.setEnvironment(null);
-        animalDao.createAnimal(lion);
+        animalDao.updateAnimal(lion);
     }
 
     @Test(expectedExceptions = JpaSystemException.class)
@@ -239,7 +239,7 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
         nonExistingEnvironment.setDescription("This environment does not exist in Db");
         lion.setEnvironment(nonExistingEnvironment);
 
-        animalDao.createAnimal(lion);
+        animalDao.updateAnimal(lion);
     }
 
     @Test
