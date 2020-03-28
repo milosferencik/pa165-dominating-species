@@ -1,6 +1,5 @@
 package dao;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import dao.config.MainConfiguration;
 import dao.entities.Environment;
 import dao.interfaces.EnvironmentDao;
@@ -61,6 +60,12 @@ public class EnvironmentImplTest extends AbstractTestNGSpringContextTests {
         assertThat(environmentDao.getEnvironment(dam.getId())).isEqualTo(dam);
     }
 
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void testCreateEnvironmentWithNull() throws Exception {
+        environmentDao.createEnvironment(null);
+    }
+
+
     @Test(expectedExceptions = JpaSystemException.class)
     public void testCreateEnvironmentWithId() throws Exception {
         dam.setId(1L);
@@ -101,11 +106,15 @@ public class EnvironmentImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void testUpdateEnvironmentWithNull() throws Exception {
+        environmentDao.updateEnvironment(null);
+    }
+
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void testUpdateEnvironmentWithNullName() throws Exception {
         environmentDao.createEnvironment(dam);
         dam.setName(null);
         environmentDao.updateEnvironment(dam);
-        //assertThat(environmentDao.getEnvironment(dam.getId())).isEqualToComparingFieldByField(dam);
     }
 
     @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
@@ -144,6 +153,11 @@ public class EnvironmentImplTest extends AbstractTestNGSpringContextTests {
         assertThat(environmentDao.getAllEnvironments()).isEmpty();
     }
 
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void testDeleteEnvironmentWithNull() throws Exception {
+        environmentDao.deleteEnvironment(null);
+    }
+
     @Test
     public void testGetAllEnvironment() {
         environmentDao.createEnvironment(dam);
@@ -169,7 +183,7 @@ public class EnvironmentImplTest extends AbstractTestNGSpringContextTests {
 
 
     @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
-    public void testGetEnvironmentWithNullId() throws Exception{
+    public void testGetEnvironmentWithNull() throws Exception{
         environmentDao.createEnvironment(dam);
         environmentDao.getEnvironment(null);
     }

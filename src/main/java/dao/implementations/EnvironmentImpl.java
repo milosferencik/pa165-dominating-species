@@ -18,6 +18,9 @@ public class EnvironmentImpl implements EnvironmentDao {
     private EntityManager entityManager;
 
     public void createEnvironment(Environment environment) {
+        if (environment == null) {
+            throw new IllegalArgumentException("Environment cannot be null");
+        }
         entityManager.persist(environment);
     }
 
@@ -26,10 +29,16 @@ public class EnvironmentImpl implements EnvironmentDao {
     }
 
     public Environment getEnvironment(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id cannot be null or empty");
+        }
         return entityManager.find(Environment.class, id);
     }
 
     public void updateEnvironment(Environment environment) {
+        if (environment == null) {
+            throw new IllegalArgumentException("Environment cannot be null");
+        }
         if (environment.getName() == null || environment.getName().isEmpty()) {
             throw new IllegalArgumentException("Name cannot be null or empty");
         }
@@ -43,6 +52,9 @@ public class EnvironmentImpl implements EnvironmentDao {
     }
 
     public void deleteEnvironment(Environment environment) {
+        if (environment == null) {
+            throw new IllegalArgumentException("Environment cannot be null");
+        }
         entityManager.remove(environment);
     }
 }
