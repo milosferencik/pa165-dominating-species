@@ -30,10 +30,19 @@ public class EnvironmentImpl implements EnvironmentDao {
     }
 
     public void updateEnvironment(Environment environment) {
+        if (environment.getName() == null || environment.getName().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
+        if (environment.getDescription() == null || environment.getDescription().isEmpty()) {
+            throw new IllegalArgumentException("Description cannot be null or empty");
+        }
+        if (environment.getId() == null) {
+            throw new IllegalArgumentException("Id cannot be null");
+        }
         entityManager.merge(environment);
     }
 
     public void deleteEnvironment(Environment environment) {
-
+        entityManager.remove(environment);
     }
 }

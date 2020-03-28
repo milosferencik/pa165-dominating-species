@@ -1,9 +1,12 @@
 package dao;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import dao.config.MainConfiguration;
 import dao.entities.Environment;
 import dao.interfaces.EnvironmentDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -12,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.*;
+import javax.validation.ConstraintViolationException;
 
 import java.util.Collections;
 
@@ -58,31 +61,31 @@ public class EnvironmentImplTest extends AbstractTestNGSpringContextTests {
         assertThat(environmentDao.getEnvironment(dam.getId())).isEqualTo(dam);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = JpaSystemException.class)
     public void testCreateEnvironmentWithId() throws Exception {
         dam.setId(1L);
         environmentDao.createEnvironment(dam);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateEnvironmentWithNullName() throws Exception {
         dam.setName(null);
         environmentDao.createEnvironment(dam);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateEnvironmentWithEmptyName() throws Exception {
         dam.setName("");
         environmentDao.createEnvironment(dam);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateEnvironmentWithNullDescription() throws Exception {
         dam.setDescription(null);
         environmentDao.createEnvironment(dam);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateEnvironmentWithEmptyDescription() throws Exception {
         dam.setDescription("");
         environmentDao.createEnvironment(dam);
@@ -97,45 +100,39 @@ public class EnvironmentImplTest extends AbstractTestNGSpringContextTests {
         assertThat(environmentDao.getEnvironment(dam.getId())).isEqualToComparingFieldByField(dam);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void testUpdateEnvironmentWithNullName() throws Exception {
         environmentDao.createEnvironment(dam);
         dam.setName(null);
         environmentDao.updateEnvironment(dam);
+        //assertThat(environmentDao.getEnvironment(dam.getId())).isEqualToComparingFieldByField(dam);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void testUpdateEnvironmentWithEmptyName() throws Exception {
         environmentDao.createEnvironment(dam);
         dam.setName("");
         environmentDao.updateEnvironment(dam);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void testUpdateEnvironmentWithNullDescription() throws Exception {
         environmentDao.createEnvironment(dam);
         dam.setDescription(null);
         environmentDao.updateEnvironment(dam);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void testUpdateEnvironmentWithEmptyDescription() throws Exception {
         environmentDao.createEnvironment(dam);
         dam.setDescription("");
         environmentDao.updateEnvironment(dam);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void testUpdateEnvironmentWithNullId() throws Exception {
         environmentDao.createEnvironment(dam);
         dam.setId(null);
-        environmentDao.updateEnvironment(dam);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testUpdateEnvironmentWithId() throws Exception {
-        environmentDao.createEnvironment(dam);
-        dam.setId(4L);
         environmentDao.updateEnvironment(dam);
     }
 
@@ -171,7 +168,7 @@ public class EnvironmentImplTest extends AbstractTestNGSpringContextTests {
     }
 
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void testGetEnvironmentWithNullId() throws Exception{
         environmentDao.createEnvironment(dam);
         environmentDao.getEnvironment(null);

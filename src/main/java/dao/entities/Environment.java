@@ -1,6 +1,7 @@
 package dao.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -15,9 +16,11 @@ public class Environment implements Serializable {
     private Long id;
 
     @NotNull
+    @NotEmpty
     private String name;
 
     @NotNull
+    @NotEmpty
     private String Description;
 
     public Environment() {
