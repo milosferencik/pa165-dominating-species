@@ -31,7 +31,7 @@ public class Animal implements Serializable {
     private Long id;
 
 
-    @NotNull(message = "Animals cannot be null")
+    @NotNull(message = "FoodChain cannot be null")
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "FoodChain_Animals",

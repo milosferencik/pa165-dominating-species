@@ -245,4 +245,9 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         userDao.getUser(null);
     }
 
+    @Test
+    public void testGetUserWithNonExistentId() {
+        assertThat(userDao.getUser(5L)).isNull();
+    }
+
 }
