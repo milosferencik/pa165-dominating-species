@@ -1,6 +1,7 @@
 package dao.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -41,9 +42,11 @@ public class Animal implements Serializable {
     private Set<FoodChain> foodChain = new HashSet<FoodChain>();
 
     @NotNull(message = "Name cannot be null")
+    @NotEmpty(message = "Name cannot be empty")
     private String name;
 
     @NotNull(message = "Species cannot be null")
+    @NotEmpty(message = "Species connot be empty")
     private String species;
 
     @ManyToOne(cascade = CascadeType.ALL)

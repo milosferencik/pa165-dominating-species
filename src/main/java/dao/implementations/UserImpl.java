@@ -18,10 +18,6 @@ public class UserImpl implements UserDao {
     private EntityManager entityManager;
 
     public void createUser(User user) {
-        if (user == null)
-        {
-            throw new IllegalArgumentException("User can not be null");
-        }
         entityManager.persist(user);
     }
 
@@ -30,42 +26,14 @@ public class UserImpl implements UserDao {
     }
 
     public User getUser(Long id) {
-        if (id == null)
-        {
-            throw new IllegalArgumentException("Id can not be null");
-        }
         return entityManager.find(User.class, id);
     }
 
     public void updateUser(User user) {
-        if (user == null)
-        {
-            throw new IllegalArgumentException("User can not be null");
-        }
-
-        /*if (user.getName() == null || user.getName().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be empty or null");
-        }
-
-        if (user.getSurname() == null || user.getSurname().isEmpty()) {
-            throw new IllegalArgumentException("Surname cannot be empty or null");
-        }
-
-        if (user.getPasswordHash() == null || user.getPasswordHash().isEmpty() ) {
-            throw new IllegalArgumentException("Password cannot be empty or null");
-        }
-
-        if (user.getId() == null) {
-            throw new IllegalArgumentException("Id cannot be empty or null");
-        }*/
         entityManager.merge(user);
     }
 
     public void deleteUser(User user) {
-        if (user == null)
-        {
-            throw new IllegalArgumentException("User can not be null");
-        }
         entityManager.remove(user);
     }
 }
