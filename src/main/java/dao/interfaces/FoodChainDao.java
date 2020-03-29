@@ -9,9 +9,34 @@ import java.util.List;
  */
 public interface FoodChainDao {
 
-    public void createFoodChain(FoodChain foodChain);
-    public List<FoodChain> getAllFoodChains();
-    public FoodChain getFoodChain(Long id);
-    public void updateFoodChain(FoodChain foodChain);
-    public void deleteFoodChain(FoodChain foodChain);
+    /**
+     * Stores new FoodChain
+     * @param foodChain to be created
+     */
+    void createFoodChain(FoodChain foodChain);
+
+    /**
+     * Finds all FoodChains
+     * @return List of all FoodChains
+     */
+    List<FoodChain> getAllFoodChains();
+
+    /**
+     * Finds FoodChain by id
+     * @param id of FoodChain
+     * @return FoodChain or null, if there is no FoodChain with given id
+     */
+    FoodChain getFoodChain(Long id);
+
+    /**
+     * Updates existing FoodChain
+     * @param foodChain to be updated
+     */
+    void updateFoodChain(FoodChain foodChain);
+
+    /**
+     * Removes FoodChain
+     * @param foodChain to be deleted
+     */
+    void deleteFoodChain(FoodChain foodChain);
 }

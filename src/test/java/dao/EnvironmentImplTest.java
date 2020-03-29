@@ -29,9 +29,6 @@ public class EnvironmentImplTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private EnvironmentDao environmentDao;
 
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
-
     private Environment dam;
     private Environment forest;
     private Environment marsh;

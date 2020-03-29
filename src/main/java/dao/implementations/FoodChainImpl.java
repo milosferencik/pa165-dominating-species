@@ -2,6 +2,7 @@ package dao.implementations;
 
 import dao.entities.FoodChain;
 import dao.interfaces.FoodChainDao;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * Created by Ondrej Slimak on 25/03/2020.
  */
+@Repository
 public class FoodChainImpl implements FoodChainDao {
 
     @PersistenceContext

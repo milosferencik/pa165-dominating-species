@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+
 /**
  * Created by Matusova on 26/03/2020.
  */
@@ -103,6 +104,7 @@ public class Animal implements Serializable {
                 getSpecies().equals(animal.getSpecies()) &&
                 getEnvironment().equals(animal.getEnvironment());
     }
+
 
     @Override
     public int hashCode() {
