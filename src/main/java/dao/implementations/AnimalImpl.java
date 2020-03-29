@@ -29,6 +29,7 @@ public class AnimalImpl implements AnimalDao {
     }
 
     public Animal getAnimal(Long id) {
+
         return entityManager.find(Animal.class, id);
     }
 
