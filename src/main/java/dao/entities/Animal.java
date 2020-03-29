@@ -32,7 +32,7 @@ public class Animal implements Serializable {
 
 
     @NotNull(message = "FoodChain cannot be null")
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "FoodChain_Animals",
             joinColumns = { @JoinColumn(name = "animal_id")},
@@ -104,13 +104,6 @@ public class Animal implements Serializable {
                 getSpecies().equals(animal.getSpecies()) &&
                 getEnvironment().equals(animal.getEnvironment());
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName(), getSpecies(), getEnvironment());
-    }
-}
-
 
     @Override
     public int hashCode() {
