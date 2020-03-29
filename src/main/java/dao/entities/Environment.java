@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Created by Kostka on 23/03/2020.
@@ -48,5 +49,20 @@ public class Environment implements Serializable {
 
     public void setDescription(String description) {
         Description = description;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Environment)) return false;
+        Environment that = (Environment) o;
+        return getName().equals(that.getName()) &&
+                getDescription().equals(that.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getDescription());
     }
 }

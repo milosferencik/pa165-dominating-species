@@ -30,7 +30,7 @@ public class FoodChain implements Serializable {
 
     @Size(min = 2)
     @NotNull(message = "Animals cannot be null")
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "FoodChain_Animals",
             joinColumns = { @JoinColumn(name = "foodchain_id")},
@@ -59,12 +59,13 @@ public class FoodChain implements Serializable {
         if (this == o) return true;
         if (!(o instanceof FoodChain)) return false;
         FoodChain foodChain = (FoodChain) o;
-        return getId().equals(foodChain.getId()) &&
-                getAnimals().equals(foodChain.getAnimals());
+        return getAnimals().equals(foodChain.getAnimals());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getAnimals());
+        return Objects.hash( getAnimals());
     }
+
 }
+

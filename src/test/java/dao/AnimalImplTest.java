@@ -96,7 +96,7 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = JpaSystemException.class)
-    public void testCreateAnimalWithId() {
+    public void testCreateAnimalWithIdPreSet() {
         lion.setId(1L);
         animalDao.createAnimal(lion);
     }
@@ -131,10 +131,9 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
         animalDao.createAnimal(lion);
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    @Test()
     public void testCreateAnimalWithNonExistingEnvironment() {
         Environment nonExistingEnvironment = new Environment();
-        nonExistingEnvironment.setId(999L);
         nonExistingEnvironment.setName("NotExisting");
         nonExistingEnvironment.setDescription("This environment does not exist in Db");
         lion.setEnvironment(nonExistingEnvironment);
@@ -231,14 +230,13 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
         em.flush();
     }
 
-    @Test(expectedExceptions = JpaObjectRetrievalFailureException.class)
+    @Test
     public void testUpdateAnimalWithNonExistingEnvironment() {
         animalDao.createAnimal(lion);
         em.flush();
         em.detach(lion);
 
         Environment nonExistingEnvironment = new Environment();
-        nonExistingEnvironment.setId(999L);
         nonExistingEnvironment.setName("NotExisting");
         nonExistingEnvironment.setDescription("This environment does not exist in Db");
         lion.setEnvironment(nonExistingEnvironment);
