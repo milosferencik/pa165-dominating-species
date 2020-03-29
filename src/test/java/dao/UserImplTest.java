@@ -95,7 +95,7 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         userDao.createUser(u1);
     }
 
-    @Test
+    @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateUserWithNullEmail() throws Exception {
         u1.setEmail(null);
         userDao.createUser(u1);
@@ -103,17 +103,16 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         assertThat(userDao.getUser(u1.getId())).isEqualTo(u1);
     }
 
-    @Test
-    public void testCreateUserWithEmptyEmail() throws Exception {
-        u1.setEmail("");
-        userDao.createUser(u1);
-        assertThat(userDao.getAllUsers()).hasSize(1);
-        assertThat(userDao.getUser(u1.getId())).isEqualTo(u1);
-    }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void testCreateUserWithInvalidEmail() throws Exception {
         u1.setEmail("email");
+        userDao.createUser(u1);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void testCreateUserWithEmptyEmail() throws Exception {
+        u1.setEmail("");
         userDao.createUser(u1);
     }
 
@@ -210,9 +209,17 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
-    public void testUpdateUserWithInvlidEmail() throws Exception {
+    public void testUpdateUserWithInvalidEmail() throws Exception {
         userDao.createUser(u1);
         u1.setEmail("email");
+        userDao.updateUser(u1);
+        entityManager.flush();
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void testUpdateUserWithNullEmail() throws Exception {
+        userDao.createUser(u1);
+        u1.setEmail(null);
         userDao.updateUser(u1);
         entityManager.flush();
     }

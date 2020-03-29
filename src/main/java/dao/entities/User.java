@@ -27,7 +27,8 @@ public class User implements Serializable {
     @NotEmpty(message = "Surame cannot be empty")
     private String surname;
 
-    @Email(message = "Email should be valid")
+    @NotNull(message = "Email cannot be null")
+    @Email(message = "Email should be valid", regexp = ".+@.+\\..+")
     private String email;
 
     @NotNull(message = "Password cannot be null")
