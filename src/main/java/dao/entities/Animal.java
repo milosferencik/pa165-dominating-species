@@ -96,18 +96,19 @@ public class Animal implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(getName(), getSpecies(), getEnvironment());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Animal)) return false;
+        Animal animal = (Animal) o;
+        return getId().equals(animal.getId()) &&
+                getName().equals(animal.getName()) &&
+                getSpecies().equals(animal.getSpecies()) &&
+                getEnvironment().equals(animal.getEnvironment());
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Animal animal = (Animal) o;
-        return getName().equals(animal.getName()) &&
-                getSpecies().equals(animal.getSpecies()) &&
-                getEnvironment().equals(animal.getEnvironment());
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getSpecies(), getEnvironment());
     }
 }
 
