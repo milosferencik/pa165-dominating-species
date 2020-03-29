@@ -138,15 +138,29 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = JpaSystemException.class)
     public void testCreateFoodChainWithNonExistingAnimals() {
+        FoodChain foodChain = new FoodChain();
+        List<Animal> noneExistingAnimalList = foodChain2.getAnimals();
+
         Animal nonExistingAnimal = new Animal();
         nonExistingAnimal.setId(999L);
         nonExistingAnimal.setName("NotExisting");
-        nonExistingAnimal.setEnvironment(null);
+        nonExistingAnimal.setEnvironment(noneExistingAnimalList.get(0).getEnvironment());
         nonExistingAnimal.setSpecies("None");
-        List<Animal> noneExistingAnimalList = new LinkedList<>();
+
         noneExistingAnimalList.add(nonExistingAnimal);
 
-        foodChain1.setAnimals(noneExistingAnimalList);
+        foodChain.setAnimals(noneExistingAnimalList);
+        foodChainDao.createFoodChain(foodChain);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void testCreateFoodChainWithFewerExistingAnimals() {
+        FoodChain foodChain = new FoodChain();
+        List<Animal> foodChainList2Updated = foodChain2.getAnimals();
+        foodChainList2Updated.remove(1);
+        foodChainList2Updated.remove(0);
+        foodChain.setAnimals(foodChainList2Updated);
+        foodChainDao.createFoodChain(foodChain);
     }
 
     @Test
@@ -217,6 +231,8 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = JpaObjectRetrievalFailureException.class)
     public void testUpdateFoodChainWithNonExistingAnimals() {
+        List<Animal> noneExistingAnimalList = foodChain1.getAnimals();
+
         foodChainDao.createFoodChain(foodChain1);
         entityManager.flush();
         entityManager.detach(foodChain1);
@@ -224,12 +240,25 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
         Animal nonExistingAnimal = new Animal();
         nonExistingAnimal.setId(999L);
         nonExistingAnimal.setName("NotExisting");
-        nonExistingAnimal.setEnvironment(null);
+        nonExistingAnimal.setEnvironment(noneExistingAnimalList.get(0).getEnvironment());
         nonExistingAnimal.setSpecies("None");
-        List<Animal> noneExistingAnimalList = new LinkedList<>();
+
         noneExistingAnimalList.add(nonExistingAnimal);
 
         foodChain1.setAnimals(noneExistingAnimalList);
+        foodChainDao.updateFoodChain(foodChain1);
+        entityManager.flush();
+    }
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void testUpdateFoodChainWithFewerExistingAnimals() {
+        List<Animal> foodChainList2Updated = foodChain2.getAnimals();
+        foodChainDao.createFoodChain(foodChain1);
+        entityManager.flush();
+        entityManager.detach(foodChain1);
+
+        foodChainList2Updated.remove(1);
+        foodChainList2Updated.remove(0);
+        foodChain1.setAnimals(foodChainList2Updated);
         foodChainDao.updateFoodChain(foodChain1);
         entityManager.flush();
     }

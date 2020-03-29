@@ -30,7 +30,7 @@ public class FoodChain implements Serializable {
 
     @Size(min = 2)
     @NotNull(message = "Animals cannot be null")
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "FoodChain_Animals",
             joinColumns = { @JoinColumn(name = "foodchain_id")},
