@@ -4,7 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -24,7 +23,7 @@ public class User implements Serializable {
     private String name;
 
     @NotNull(message = "Surname cannot be null")
-    @NotEmpty(message = "Surame cannot be empty")
+    @NotEmpty(message = "Surname cannot be empty")
     private String surname;
 
     @Email(message = "Email should be valid")
