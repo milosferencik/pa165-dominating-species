@@ -15,12 +15,12 @@ public class Environment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "Name cannot be null")
+    @NotEmpty(message = "Name cannot be empty")
     private String name;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "Description cannot be null")
+    @NotEmpty(message = "Description cannot be empty")
     private String Description;
 
     public Environment() {
