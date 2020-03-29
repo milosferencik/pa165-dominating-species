@@ -49,7 +49,7 @@ public class Animal implements Serializable {
     @NotEmpty(message = "Species cannot be empty")
     private String species;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @NotNull(message = "Environment cannot be null")
     private Environment environment;
 

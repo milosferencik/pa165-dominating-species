@@ -4,11 +4,9 @@ import dao.config.MainConfiguration;
 import dao.entities.Animal;
 import dao.entities.Environment;
 import dao.interfaces.AnimalDao;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -19,11 +17,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.validation.ConstraintViolationException;
-
 
 import java.util.Collections;
 
@@ -186,9 +181,11 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
     @Test
     public void testUpdateAnimalCorrectly() {
         animalDao.createAnimal(lion);
+        em.flush();
+        em.detach(lion);
 
         lion.setName("Big Lion");
-        lion.setSpecies("Panthera leo Mosquito");
+        lion.setSpecies("Le Mosquito");
         animalDao.updateAnimal(lion);
 
         assertThat(animalDao.getAnimal(lion.getId())).isEqualToComparingFieldByFieldRecursively(lion);
@@ -234,9 +231,11 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
         em.flush();
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    @Test(expectedExceptions = JpaObjectRetrievalFailureException.class)
     public void testUpdateAnimalWithNonExistingEnvironment() {
         animalDao.createAnimal(lion);
+        em.flush();
+        em.detach(lion);
 
         Environment nonExistingEnvironment = new Environment();
         nonExistingEnvironment.setId(999L);
@@ -265,7 +264,7 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = DataAccessException.class)
-    public void testDeleteNullAnima() {
+    public void testDeleteNullAnimal() {
         animalDao.deleteAnimal(null);
     }
 }
