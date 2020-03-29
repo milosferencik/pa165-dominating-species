@@ -151,13 +151,13 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         userDao.updateUser(null);
     }
 
-   /* @Test(expectedExceptions = ConstraintViolationException.class)
+   @Test(expectedExceptions = ConstraintViolationException.class)
     public void testUpdateUserWithNullName() throws Exception {
         userDao.createUser(u1);
         u1.setName(null);
         userDao.updateUser(u1);
         entityManager.flush();
-        entityManager.detach(u1);
+
     }
 
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -215,7 +215,7 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         u1.setEmail("email");
         userDao.updateUser(u1);
         entityManager.flush();
-    }*/
+    }
 
     @Test
     public void testDeleteUser() {

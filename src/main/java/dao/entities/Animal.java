@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,10 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
 
 /**
  * Created by Matusova on 26/03/2020.
@@ -38,7 +37,7 @@ public class Animal implements Serializable {
             name = "FoodChain_Animals",
             joinColumns = { @JoinColumn(name = "animal_id")},
             inverseJoinColumns = {@JoinColumn(name="foodchain_id")}
-            )
+    )
     private Set<FoodChain> foodChain = new HashSet<FoodChain>();
 
     @NotNull(message = "Name cannot be null")
@@ -112,3 +111,9 @@ public class Animal implements Serializable {
     }
 }
 
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getSpecies(), getEnvironment());
+    }
+}
