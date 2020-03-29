@@ -1,6 +1,7 @@
 package dao.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -31,7 +32,7 @@ public class Animal implements Serializable {
     private Long id;
 
 
-    @NotNull(message = "Animals cannot be null")
+    @NotNull(message = "FoodChain cannot be null")
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "FoodChain_Animals",
@@ -41,12 +42,14 @@ public class Animal implements Serializable {
     private Set<FoodChain> foodChain = new HashSet<FoodChain>();
 
     @NotNull(message = "Name cannot be null")
+    @NotEmpty(message = "Name cannot be empty")
     private String name;
 
     @NotNull(message = "Species cannot be null")
+    @NotEmpty(message = "Species cannot be empty")
     private String species;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @NotNull(message = "Environment cannot be null")
     private Environment environment;
 
@@ -93,18 +96,19 @@ public class Animal implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(getName(), getSpecies(), getEnvironment());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Animal)) return false;
+        Animal animal = (Animal) o;
+        return getId().equals(animal.getId()) &&
+                getName().equals(animal.getName()) &&
+                getSpecies().equals(animal.getSpecies()) &&
+                getEnvironment().equals(animal.getEnvironment());
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Animal animal = (Animal) o;
-        return getName().equals(animal.getName()) &&
-                getSpecies().equals(animal.getSpecies()) &&
-                getEnvironment().equals(animal.getEnvironment());
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getSpecies(), getEnvironment());
     }
 }
 
