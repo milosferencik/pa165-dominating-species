@@ -34,6 +34,6 @@ public class EnvironmentImpl implements EnvironmentDao {
     }
 
     public void deleteEnvironment(Environment environment) {
-
+        entityManager.remove(environment);
     }
 }
