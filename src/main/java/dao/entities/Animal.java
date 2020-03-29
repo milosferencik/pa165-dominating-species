@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +36,7 @@ public class Animal implements Serializable {
             name = "FoodChain_Animals",
             joinColumns = { @JoinColumn(name = "animal_id")},
             inverseJoinColumns = {@JoinColumn(name="foodchain_id")}
-            )
+    )
     private Set<FoodChain> foodChain = new HashSet<FoodChain>();
 
     @NotNull(message = "Name cannot be null")
@@ -46,10 +44,10 @@ public class Animal implements Serializable {
     private String name;
 
     @NotNull(message = "Species cannot be null")
-    @NotEmpty(message = "Species connot be empty")
+    @NotEmpty(message = "Species cannot be empty")
     private String species;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @NotNull(message = "Environment cannot be null")
     private Environment environment;
 
@@ -96,18 +94,18 @@ public class Animal implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(getName(), getSpecies(), getEnvironment());
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Animal)) return false;
         Animal animal = (Animal) o;
-        return getName().equals(animal.getName()) &&
+        return getId().equals(animal.getId()) &&
+                getName().equals(animal.getName()) &&
                 getSpecies().equals(animal.getSpecies()) &&
                 getEnvironment().equals(animal.getEnvironment());
     }
-}
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getSpecies(), getEnvironment());
+    }
+}
