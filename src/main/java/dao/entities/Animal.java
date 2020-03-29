@@ -110,10 +110,3 @@ public class Animal implements Serializable {
         return Objects.hash(getId(), getName(), getSpecies(), getEnvironment());
     }
 }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName(), getSpecies(), getEnvironment());
-    }
-}
