@@ -21,12 +21,12 @@ public class FoodChain implements Serializable {
     @Column(name="FoodChain_Id")
     private Long id;
 
-    //@Size(min = 2)
+    @Size(min = 2)
     @NotNull(message = "Animals cannot be null")
     @OneToMany(cascade = {CascadeType.ALL},
                 mappedBy = "foodChain")
     @OrderBy("indexInFoodChain")
-    private List<AnimalInFoodChain> animals = new ArrayList<>();
+    private List<AnimalInFoodChain> animalsInFoodChain = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -36,16 +36,11 @@ public class FoodChain implements Serializable {
         this.id = id;
     }
 
-    public List<AnimalInFoodChain> getAnimals() {
-        return animals;
-    }
+    public void setAnimals(List<Animal> animals) {
+        if (animals == null)
+            throw new IllegalArgumentException("Animals cannot be null.");
 
-    public void setAnimals(List<AnimalInFoodChain> animals) {
-        this.animals = animals;
-    }
-
-    public void setAnimalsFromList(List<Animal> animals) {
-        this.animals.clear();
+        this.animalsInFoodChain.clear();
 
         for (int i = 0; i < animals.size(); i++) {
             Animal animal = animals.get(i);
@@ -54,8 +49,24 @@ public class FoodChain implements Serializable {
             tmp.setFoodChain(this);
             tmp.setIndexInFoodChain(i);
 
-            this.animals.add(tmp);
+            this.animalsInFoodChain.add(tmp);
         }
+    }
+
+    public List<Animal> getAnimals() {
+        List<Animal> result = new ArrayList<>();
+        for (AnimalInFoodChain animalInFoodChain : animalsInFoodChain) {
+            result.add(animalInFoodChain.getAnimal());
+        }
+        return result;
+    }
+
+    public List<AnimalInFoodChain> getAnimalsInFoodChain() {
+        return animalsInFoodChain;
+    }
+
+    public void setAnimalsInFoodChain(List<AnimalInFoodChain> animalsInFoodChain) {
+        this.animalsInFoodChain = animalsInFoodChain;
     }
 
     @Override
@@ -66,8 +77,8 @@ public class FoodChain implements Serializable {
 
         // Hibernate BUG in PersistentaBg: https://hibernate.atlassian.net/browse/HHH-5409
         // necessary to compare manually:
-        List<AnimalInFoodChain> thisAnimals = this.getAnimals();
-        List<AnimalInFoodChain> thatAnimals = that.getAnimals();
+        List<AnimalInFoodChain> thisAnimals = this.getAnimalsInFoodChain();
+        List<AnimalInFoodChain> thatAnimals = that.getAnimalsInFoodChain();
         if (thisAnimals == thatAnimals) return true;
 
         if (thisAnimals != null && thatAnimals != null) {
@@ -85,7 +96,7 @@ public class FoodChain implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAnimals());
+        return Objects.hash(getAnimalsInFoodChain());
     }
 }
 
