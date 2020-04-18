@@ -1,7 +1,5 @@
 package dao.entities;
 
-import org.springframework.core.annotation.Order;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,12 +21,12 @@ public class FoodChain implements Serializable {
     @Column(name="FoodChain_Id")
     private Long id;
 
-    @Size(min = 2)
+    //@Size(min = 2)
     @NotNull(message = "Animals cannot be null")
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-                mappedBy = "fooddChain")
-    @OrderBy
-    private List<AnimalInFoodChain> Animals = new ArrayList<AnimalInFoodChain>();
+    @OneToMany(cascade = {CascadeType.ALL},
+                mappedBy = "foodChain")
+    @OrderBy("indexInFoodChain")
+    private List<AnimalInFoodChain> animals = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -39,11 +37,25 @@ public class FoodChain implements Serializable {
     }
 
     public List<AnimalInFoodChain> getAnimals() {
-        return Animals;
+        return animals;
     }
 
     public void setAnimals(List<AnimalInFoodChain> animals) {
-        Animals = animals;
+        this.animals = animals;
+    }
+
+    public void setAnimalsFromList(List<Animal> animals) {
+        this.animals.clear();
+
+        for (int i = 0; i < animals.size(); i++) {
+            Animal animal = animals.get(i);
+            AnimalInFoodChain tmp = new AnimalInFoodChain();
+            tmp.setAnimal(animal);
+            tmp.setFoodChain(this);
+            tmp.setIndexInFoodChain(i);
+
+            this.animals.add(tmp);
+        }
     }
 
     @Override

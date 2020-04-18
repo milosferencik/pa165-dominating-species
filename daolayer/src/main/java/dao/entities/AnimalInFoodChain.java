@@ -20,14 +20,14 @@ public class AnimalInFoodChain implements Serializable {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @NotNull(message = "FoodChain cannot be null")
     @JoinColumn(name = "FoodChain_Id")
-    private FoodChain FoodChain;
+    private FoodChain foodChain;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @NotNull(message = "Animal cannot be null")
     @JoinColumn(name = "Animal_Id")
-    private Animal Animal;
+    private Animal animal;
 
-    private int Order;
+    private int indexInFoodChain;
 
     public Long getId() {
         return id;
@@ -38,27 +38,27 @@ public class AnimalInFoodChain implements Serializable {
     }
 
     public FoodChain getFoodChain() {
-        return FoodChain;
+        return foodChain;
     }
 
     public void setFoodChain(FoodChain foodChain) {
-        FoodChain = foodChain;
+        this.foodChain = foodChain;
     }
 
     public Animal getAnimal() {
-        return Animal;
+        return animal;
     }
 
     public void setAnimal(Animal animal) {
-        Animal = animal;
+        this.animal = animal;
     }
 
-    public int getOrder() {
-        return Order;
+    public int getIndexInFoodChain() {
+        return indexInFoodChain;
     }
 
-    public void setOrder(int order) {
-        Order = order;
+    public void setIndexInFoodChain(int indexInFoodChain) {
+        this.indexInFoodChain = indexInFoodChain;
     }
 
     @Override
@@ -66,14 +66,14 @@ public class AnimalInFoodChain implements Serializable {
         if (this == o) return true;
         if (!(o instanceof AnimalInFoodChain)) return false;
         AnimalInFoodChain that = (AnimalInFoodChain) o;
-        return getOrder() == that.getOrder() &&
+        return getIndexInFoodChain() == that.getIndexInFoodChain() &&
                 getFoodChain().equals(that.getFoodChain()) &&
                 getAnimal().equals(that.getAnimal());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getFoodChain(), getAnimal(), getOrder());
+        return Objects.hash(getFoodChain(), getAnimal(), getIndexInFoodChain());
     }
 }
 

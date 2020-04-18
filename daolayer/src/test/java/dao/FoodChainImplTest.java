@@ -99,8 +99,8 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
         foodChainList2.add(vole);
         foodChainList2.add(fox);
 
-        //foodChain1.setAnimals(foodChainList1);
-        //foodChain2.setAnimals(foodChainList2);
+        foodChain1.setAnimalsFromList(foodChainList1);
+        foodChain2.setAnimalsFromList(foodChainList2);
     }
 
     @Test
@@ -117,6 +117,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
         assertThat(foodChainDao.getAllFoodChains()).hasSize(1);
         foodChainDao.createFoodChain(foodChain2);
         assertThat(foodChainDao.getAllFoodChains()).hasSize(2);
+        List<FoodChain> allFoodChains = foodChainDao.getAllFoodChains();
     }
 
     @Test(expectedExceptions = JpaSystemException.class)
@@ -131,7 +132,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
         foodChainDao.createFoodChain(foodChain1);
     }
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
+    @Test()
     public void testCreateFoodChainWithEmptyList() {
         foodChain1.setAnimals(new LinkedList<>());
         foodChainDao.createFoodChain(foodChain1);
@@ -140,29 +141,34 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = JpaSystemException.class)
     public void testCreateFoodChainWithNonExistingAnimals() {
-       /* FoodChain foodChain = new FoodChain();
-        List<Animal> noneExistingAnimalList = foodChain2.getAnimals();
+        FoodChain foodChain = new FoodChain();
+        List<AnimalInFoodChain> noneExistingAnimalList = foodChain2.getAnimals();
 
         Animal nonExistingAnimal = new Animal();
         nonExistingAnimal.setId(999L);
         nonExistingAnimal.setName("NotExisting");
-        nonExistingAnimal.setEnvironment(noneExistingAnimalList.get(0).getEnvironment());
+        nonExistingAnimal.setEnvironment(noneExistingAnimalList.get(0).getAnimal().getEnvironment());
         nonExistingAnimal.setSpecies("None");
 
-        noneExistingAnimalList.add(nonExistingAnimal);
+        AnimalInFoodChain tmp = new AnimalInFoodChain();
+        tmp.setFoodChain(foodChain2);
+        tmp.setAnimal(nonExistingAnimal);
+        tmp.setIndexInFoodChain(noneExistingAnimalList.size() + 1);
+        noneExistingAnimalList.add(tmp);
 
         foodChain.setAnimals(noneExistingAnimalList);
-        foodChainDao.createFoodChain(foodChain);*/
+        foodChainDao.createFoodChain(foodChain);
     }
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
-    public void testCreateFoodChainWithFewerExistingAnimals() {/*
+
+    @Test()
+    public void testCreateFoodChainWithOneExistingAnimal() {
         FoodChain foodChain = new FoodChain();
-        List<Animal> foodChainList2Updated = foodChain2.getAnimals();
+        List<AnimalInFoodChain> foodChainList2Updated = foodChain2.getAnimals();
         foodChainList2Updated.remove(1);
         foodChainList2Updated.remove(0);
         foodChain.setAnimals(foodChainList2Updated);
-        foodChainDao.createFoodChain(foodChain);*/
+        foodChainDao.createFoodChain(foodChain);
     }
 
     @Test
@@ -201,16 +207,18 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testUpdateFoodChainCorrectly() {
-        /*foodChainDao.createFoodChain(foodChain2);
+        foodChainDao.createFoodChain(foodChain2);
         entityManager.flush();
         entityManager.detach(foodChain2);
 
-        List<Animal> foodChainList2Updated = foodChain2.getAnimals();
+        List<AnimalInFoodChain> foodChainList2Updated = foodChain2.getAnimals();
         foodChainList2Updated.remove(0);
 
         foodChain2.setAnimals(foodChainList2Updated);
         foodChainDao.updateFoodChain(foodChain2);
-*/
+
+        //TODO: toto neprochazi
+        FoodChain foodChain3 = foodChainDao.getFoodChain(foodChain2.getId());
         assertThat(foodChainDao.getFoodChain(foodChain2.getId())).isEqualToComparingFieldByFieldRecursively(foodChain2);
     }
 
@@ -222,7 +230,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
         entityManager.flush();
     }
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
+    @Test()
     public void testUpdateFoodChainWithEmptyList() {
         foodChainDao.createFoodChain(foodChain1);
         foodChain1.setAnimals(new LinkedList<>());
@@ -233,7 +241,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testUpdateFoodChainWithNonExistingAnimals() {
-        /*List<Animal> noneExistingAnimalList = foodChain1.getAnimals();
+        List<AnimalInFoodChain> noneExistingAnimalList = foodChain1.getAnimals();
 
         foodChainDao.createFoodChain(foodChain1);
         entityManager.flush();
@@ -241,14 +249,19 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
 
         Animal nonExistingAnimal = new Animal();
         nonExistingAnimal.setName("NotExisting");
-        nonExistingAnimal.setEnvironment(noneExistingAnimalList.get(0).getEnvironment());
+        nonExistingAnimal.setEnvironment(noneExistingAnimalList.get(0).getAnimal().getEnvironment());
         nonExistingAnimal.setSpecies("None");
 
-        noneExistingAnimalList.add(nonExistingAnimal);
+        AnimalInFoodChain tmp = new AnimalInFoodChain();
+        tmp.setAnimal(nonExistingAnimal);
+        tmp.setFoodChain(foodChain1);
+        tmp.setIndexInFoodChain(noneExistingAnimalList.size() + 1);
+
+        noneExistingAnimalList.add(tmp);
 
         foodChain1.setAnimals(noneExistingAnimalList);
         foodChainDao.updateFoodChain(foodChain1);
-        entityManager.flush();*/
+        entityManager.flush();
     }
 
     @Test

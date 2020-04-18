@@ -21,17 +21,17 @@ import java.io.Serializable;
  * Created by Matusova on 26/03/2020.
  */
 @Entity
-@Table(name = "ANIMAL")
+@Table(name = "Animal")
 public class Animal implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ANIMAL_ID")
+    @Column(name="Animal_Id")
     private Long id;
 
 
     @NotNull(message = "FoodChain cannot be null")
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+    @OneToMany(cascade = {CascadeType.ALL},
                 mappedBy = "animal")
     private List<AnimalInFoodChain> foodChains = new ArrayList<AnimalInFoodChain>();
 
