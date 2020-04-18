@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,6 +71,55 @@ public class FoodChainServiceImpl implements FoodChainService {
             return foodChainDao.getFoodChainsWithAnimal(animal);
         } catch (Throwable e) {
             throw new ServiceDataAccessException("Could not find foodChains with animal.", e);
+        }
+    }
+
+    @Override
+    public void addAnimalToLeft(Animal animal, Long id) {
+        FoodChain foodChain = getFoodChain(id);
+        List<Animal> animals = foodChain.getAnimals();
+        animals.add(0, animal);
+        foodChain.setAnimals(animals);
+        updateFoodChain(foodChain);
+    }
+
+    @Override
+    public void addAnimalToRight(Animal animal, Long id) {
+        FoodChain foodChain = getFoodChain(id);
+        List<Animal> animals = foodChain.getAnimals();
+        animals.add(animal);
+        foodChain.setAnimals(animals);
+        updateFoodChain(foodChain);
+    }
+
+    @Override
+    public void removeAnimal(Animal animal, Long id) {
+        FoodChain foodChain = getFoodChain(id);
+        List<Animal> animals = foodChain.getAnimals();
+        int indexOfRemovedAnimal = animals.indexOf(animal);
+        if (indexOfRemovedAnimal == -1)
+            throw new IllegalArgumentException("FoodChain doesn't contain the animal.");
+        List<Animal> animalsBeforeRemovedAnimal = animals.subList(0,indexOfRemovedAnimal);
+        List<Animal> animalsAfterRemovedAnimal = animals.subList(indexOfRemovedAnimal + 1, animals.size());
+
+        if (animalsBeforeRemovedAnimal.size() < 2 && animalsAfterRemovedAnimal.size() < 2)
+        {
+            deleteFoodChain(foodChain);
+        }
+        else if (animalsBeforeRemovedAnimal.size() > 2 && animalsAfterRemovedAnimal.size() < 2 ){
+            foodChain.setAnimals(animalsBeforeRemovedAnimal);
+            updateFoodChain(foodChain);
+        }
+        else if (animalsBeforeRemovedAnimal.size() < 2 && animalsAfterRemovedAnimal.size() > 2 ){
+            foodChain.setAnimals(animalsAfterRemovedAnimal);
+            updateFoodChain(foodChain);
+        }
+        else {
+            foodChain.setAnimals(animalsBeforeRemovedAnimal);
+            updateFoodChain(foodChain);
+            FoodChain newFoodChain = new FoodChain();
+            newFoodChain.setAnimals(animalsAfterRemovedAnimal);
+            createFoodChain(newFoodChain);
         }
     }
 }

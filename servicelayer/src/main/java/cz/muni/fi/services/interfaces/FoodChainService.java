@@ -47,4 +47,26 @@ public interface FoodChainService {
      * @return
      */
     public List<FoodChain> getFoodChainsWithAnimal(Animal animal);
+
+    /**
+     * Add the animal to the left in the foodChain
+     * @param animal to be added
+     * @param id of foodChain
+     */
+    public void addAnimalToLeft(Animal animal, Long id);
+
+    /**
+     * Add the animal to the right in the foodChain
+     * @param animal to be added
+     * @param id of foodChain
+     */
+    public void addAnimalToRight(Animal animal, Long id);
+
+    /**
+     * Remove the animal from the foodChain
+     * if animal is not on the edge, two foodChains will arise if the conditions are met
+     * @param animal to be removed
+     * @param id of foodChain
+     */
+    public void removeAnimal(Animal animal, Long id);
 }
