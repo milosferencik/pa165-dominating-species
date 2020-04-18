@@ -1,14 +1,8 @@
 package dao.entities;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import org.springframework.core.annotation.Order;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -26,17 +20,15 @@ public class FoodChain implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="FoodChain_Id")
     private Long id;
 
     @Size(min = 2)
     @NotNull(message = "Animals cannot be null")
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "FoodChain_Animals",
-            joinColumns = { @JoinColumn(name = "foodchain_id")},
-            inverseJoinColumns = {@JoinColumn(name="animal_id")}
-            )
-    private List<Animal> Animals = new ArrayList<Animal>();
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+                mappedBy = "fooddChain")
+    @OrderBy
+    private List<AnimalInFoodChain> Animals = new ArrayList<AnimalInFoodChain>();
 
     public Long getId() {
         return id;
@@ -46,11 +38,11 @@ public class FoodChain implements Serializable {
         this.id = id;
     }
 
-    public List<Animal> getAnimals() {
+    public List<AnimalInFoodChain> getAnimals() {
         return Animals;
     }
 
-    public void setAnimals(List<Animal> animals) {
+    public void setAnimals(List<AnimalInFoodChain> animals) {
         Animals = animals;
     }
 

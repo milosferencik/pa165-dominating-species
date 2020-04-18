@@ -3,7 +3,7 @@ package dao.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,30 +15,25 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 
 /**
  * Created by Matusova on 26/03/2020.
  */
 @Entity
-@Table(name = "Animal")
+@Table(name = "ANIMAL")
 public class Animal implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="ANIMAL_ID")
     private Long id;
 
 
     @NotNull(message = "FoodChain cannot be null")
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "FoodChain_Animals",
-            joinColumns = { @JoinColumn(name = "animal_id")},
-            inverseJoinColumns = {@JoinColumn(name="foodchain_id")}
-    )
-    private Set<FoodChain> foodChain = new HashSet<FoodChain>();
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+                mappedBy = "animal")
+    private List<AnimalInFoodChain> foodChains = new ArrayList<AnimalInFoodChain>();
 
     @NotNull(message = "Name cannot be null")
     @NotEmpty(message = "Name cannot be empty")
