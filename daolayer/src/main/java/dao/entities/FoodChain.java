@@ -1,14 +1,6 @@
 package dao.entities;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -26,17 +18,15 @@ public class FoodChain implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="FoodChain_Id")
     private Long id;
 
     @Size(min = 2)
     @NotNull(message = "Animals cannot be null")
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "FoodChain_Animals",
-            joinColumns = { @JoinColumn(name = "foodchain_id")},
-            inverseJoinColumns = {@JoinColumn(name="animal_id")}
-            )
-    private List<Animal> Animals = new ArrayList<Animal>();
+    @OneToMany(cascade = {CascadeType.ALL},
+                mappedBy = "foodChain")
+    @OrderBy("indexInFoodChain")
+    private List<AnimalInFoodChain> animalsInFoodChain = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -46,26 +36,67 @@ public class FoodChain implements Serializable {
         this.id = id;
     }
 
-    public List<Animal> getAnimals() {
-        return Animals;
+    public void setAnimals(List<Animal> animals) {
+        if (animals == null)
+            throw new IllegalArgumentException("Animals cannot be null.");
+
+        this.animalsInFoodChain.clear();
+
+        for (int i = 0; i < animals.size(); i++) {
+            Animal animal = animals.get(i);
+            AnimalInFoodChain tmp = new AnimalInFoodChain();
+            tmp.setAnimal(animal);
+            tmp.setFoodChain(this);
+            tmp.setIndexInFoodChain(i);
+
+            this.animalsInFoodChain.add(tmp);
+        }
     }
 
-    public void setAnimals(List<Animal> animals) {
-        Animals = animals;
+    public List<Animal> getAnimals() {
+        List<Animal> result = new ArrayList<>();
+        for (AnimalInFoodChain animalInFoodChain : animalsInFoodChain) {
+            result.add(animalInFoodChain.getAnimal());
+        }
+        return result;
+    }
+
+    public List<AnimalInFoodChain> getAnimalsInFoodChain() {
+        return animalsInFoodChain;
+    }
+
+    public void setAnimalsInFoodChain(List<AnimalInFoodChain> animalsInFoodChain) {
+        this.animalsInFoodChain = animalsInFoodChain;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof FoodChain)) return false;
-        FoodChain foodChain = (FoodChain) o;
-        return getAnimals().equals(foodChain.getAnimals());
+        FoodChain that = (FoodChain) o;
+
+        // Hibernate BUG in PersistentaBg: https://hibernate.atlassian.net/browse/HHH-5409
+        // necessary to compare manually:
+        List<AnimalInFoodChain> thisAnimals = this.getAnimalsInFoodChain();
+        List<AnimalInFoodChain> thatAnimals = that.getAnimalsInFoodChain();
+        if (thisAnimals == thatAnimals) return true;
+
+        if (thisAnimals != null && thatAnimals != null) {
+            if (thisAnimals.size() != thatAnimals.size()) return false;
+
+            for (int i = 0; i < thisAnimals.size(); i++) {
+                if (thisAnimals.get(i).getIndexInFoodChain() != (thatAnimals.get(i)).getIndexInFoodChain() ||
+                        !thisAnimals.get(i).getAnimal().equals(thatAnimals.get(i).getAnimal()))
+                    return false;
+            }
+        }
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash( getAnimals());
+        return Objects.hash(getAnimalsInFoodChain());
     }
-
 }
 
