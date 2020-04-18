@@ -6,7 +6,6 @@ import dao.entities.Environment;
 import dao.interfaces.AnimalDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -43,13 +42,16 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
     private Animal flamingo;
     private Animal hamster;
 
+    private Environment anywhere;
+    private Environment anywhereElse;
+
     @BeforeMethod
     public void setUp() {
-        Environment anywhere = new Environment();
+        anywhere = new Environment();
         anywhere.setName("Anywhere");
         anywhere.setDescription("Literally anywhere...");
 
-        Environment anywhereElse = new Environment();
+        anywhereElse = new Environment();
         anywhereElse.setName("Anywhere else");
         anywhereElse.setDescription("Anywhere except for the 'Anywhere' environments.");
 
@@ -131,7 +133,7 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
         animalDao.createAnimal(lion);
     }
 
-    @Test()
+    @Test
     public void testCreateAnimalWithNonExistingEnvironment() {
         Environment nonExistingEnvironment = new Environment();
         nonExistingEnvironment.setName("NotExisting");
@@ -153,6 +155,16 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
         animalDao.createAnimal(hamster);
 
         assertThat(animalDao.getAllAnimals()).hasSize(3);
+    }
+
+    @Test
+    public void testGetAnimalsByEnvironment() {
+        animalDao.createAnimal(lion);
+        animalDao.createAnimal(flamingo);
+        animalDao.createAnimal(hamster);
+
+        assertThat(animalDao.getAllAnimalsInEnvironment(anywhere)).containsExactlyInAnyOrder(lion, flamingo);
+        assertThat(animalDao.getAllAnimalsInEnvironment(anywhereElse)).containsExactlyInAnyOrder(hamster);
     }
 
     @Test
