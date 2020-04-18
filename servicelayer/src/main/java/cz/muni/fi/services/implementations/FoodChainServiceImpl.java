@@ -2,6 +2,7 @@ package cz.muni.fi.services.implementations;
 
 import cz.muni.fi.services.exceptions.ServiceDataAccessException;
 import cz.muni.fi.services.interfaces.FoodChainService;
+import dao.entities.Animal;
 import dao.entities.FoodChain;
 import dao.interfaces.FoodChainDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,15 @@ public class FoodChainServiceImpl implements FoodChainService {
             foodChainDao.deleteFoodChain(foodChain);
         } catch (Throwable e) {
             throw new ServiceDataAccessException("Could not delete foodChain.", e);
+        }
+    }
+
+    @Override
+    public List<FoodChain> getFoodChainsWithAnimal(Animal animal) {
+        try {
+            return foodChainDao.getFoodChainsWithAnimal(animal);
+        } catch (Throwable e) {
+            throw new ServiceDataAccessException("Could not find foodChains with animal.", e);
         }
     }
 }

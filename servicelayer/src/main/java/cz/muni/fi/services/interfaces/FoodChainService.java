@@ -1,5 +1,6 @@
 package cz.muni.fi.services.interfaces;
 
+import dao.entities.Animal;
 import dao.entities.FoodChain;
 import org.springframework.dao.DataAccessException;
 
@@ -39,4 +40,11 @@ public interface FoodChainService {
      * @param foodChain to be deleted
      */
     void deleteFoodChain(FoodChain foodChain) throws DataAccessException;
+
+    /**
+     * Finds foodChains entities with animal
+     * @param animal which foodChains contain
+     * @return
+     */
+    public List<FoodChain> getFoodChainsWithAnimal(Animal animal);
 }
