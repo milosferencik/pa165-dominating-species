@@ -33,7 +33,7 @@ public class Animal implements Serializable {
     @NotNull(message = "FoodChain cannot be null")
     @OneToMany(cascade = {CascadeType.ALL},
                 mappedBy = "animal")
-    private List<AnimalInFoodChain> foodChains = new ArrayList<AnimalInFoodChain>();
+    private List<AnimalInFoodChain> foodChains = new ArrayList<>();
 
     @NotNull(message = "Name cannot be null")
     @NotEmpty(message = "Name cannot be empty")

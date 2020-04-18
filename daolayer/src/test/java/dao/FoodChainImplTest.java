@@ -8,11 +8,9 @@ import dao.entities.Animal;
 import dao.entities.AnimalInFoodChain;
 import dao.entities.Environment;
 import dao.entities.FoodChain;
-import dao.interfaces.EnvironmentDao;
 import dao.interfaces.FoodChainDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -23,14 +21,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.validation.ConstraintViolationException;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -88,8 +83,8 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
 
         foodChain1 = new FoodChain();
         foodChain2 = new FoodChain();
-        List<Animal> foodChainList1 = new LinkedList<>();
-        List<Animal> foodChainList2 = new LinkedList<>();
+        List<Animal> foodChainList1 = new ArrayList<>();
+        List<Animal> foodChainList2 = new ArrayList<>();
 
         foodChainList1.add(insect);
         foodChainList1.add(vole);
@@ -117,7 +112,6 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
         assertThat(foodChainDao.getAllFoodChains()).hasSize(1);
         foodChainDao.createFoodChain(foodChain2);
         assertThat(foodChainDao.getAllFoodChains()).hasSize(2);
-        List<FoodChain> allFoodChains = foodChainDao.getAllFoodChains();
     }
 
     @Test(expectedExceptions = JpaSystemException.class)
@@ -134,7 +128,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
 
     @Test()
     public void testCreateFoodChainWithEmptyList() {
-        foodChain1.setAnimals(new LinkedList<>());
+        foodChain1.setAnimals(new ArrayList<>());
         foodChainDao.createFoodChain(foodChain1);
     }
 
@@ -181,7 +175,6 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
         foodChainDao.createFoodChain(foodChain1);
         foodChainDao.createFoodChain(foodChain2);
 
-
         assertThat(foodChainDao.getAllFoodChains()).hasSize(2);
     }
 
@@ -217,8 +210,6 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
         foodChain2.setAnimals(foodChainList2Updated);
         foodChainDao.updateFoodChain(foodChain2);
 
-        //TODO: toto neprochazi
-        FoodChain foodChain3 = foodChainDao.getFoodChain(foodChain2.getId());
         assertThat(foodChainDao.getFoodChain(foodChain2.getId())).isEqualToComparingFieldByFieldRecursively(foodChain2);
     }
 
@@ -233,7 +224,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
     @Test()
     public void testUpdateFoodChainWithEmptyList() {
         foodChainDao.createFoodChain(foodChain1);
-        foodChain1.setAnimals(new LinkedList<>());
+        foodChain1.setAnimals(new ArrayList<>());
         foodChainDao.updateFoodChain(foodChain1);
         entityManager.flush();
     }
