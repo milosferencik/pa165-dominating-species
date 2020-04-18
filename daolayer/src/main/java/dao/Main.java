@@ -1,6 +1,7 @@
 package dao;
 
 import dao.config.MainConfiguration;
+import dao.entities.Animal;
 import dao.entities.Environment;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -16,6 +17,5 @@ import javax.persistence.PersistenceContext;
 public class Main {
 
     public static void main(String[] args) {
-
     }
 }
