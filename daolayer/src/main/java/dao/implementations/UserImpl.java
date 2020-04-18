@@ -5,6 +5,7 @@ import dao.interfaces.UserDao;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -35,5 +36,12 @@ public class UserImpl implements UserDao {
 
     public void deleteUser(User user) {
         entityManager.remove(user);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return entityManager.createQuery("select u from User u where u.email=:email", User.class)
+                .setParameter("email", email)
+                .getSingleResult();
     }
 }

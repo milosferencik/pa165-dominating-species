@@ -268,4 +268,18 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
         assertThat(userDao.getUser(5L)).isNull();
     }
 
+    @Test
+    public void testGetUserbyEmail() {
+        userDao.createUser(u1);
+        userDao.createUser(u2);
+        assertThat(userDao.getUserByEmail(u1.getEmail())).isEqualToComparingFieldByField(u1);
+        assertThat(userDao.getUserByEmail(u2.getEmail())).isEqualToComparingFieldByField(u2);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testGetUserbyNullEmail() {
+        userDao.createUser(u1);
+        User user = userDao.getUserByEmail(null);
+    }
+
 }
