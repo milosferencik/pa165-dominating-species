@@ -28,6 +28,14 @@ public class AnimalImpl implements AnimalDao {
         return entityManager.createQuery("SELECT a FROM Animal a", Animal.class).getResultList();
     }
 
+    @Override
+    public List<Animal> getAllAnimalsInEnvironment(Environment environment) {
+        return entityManager
+                .createQuery("SELECT a FROM Animal a WHERE a.environment.id = :env", Animal.class)
+                .setParameter("env", environment.getId())
+                .getResultList();
+    }
+
     public Animal getAnimal(Long id) {
 
         return entityManager.find(Animal.class, id);
