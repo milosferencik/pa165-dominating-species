@@ -44,7 +44,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
 
     private FoodChain foodChain1;
     private FoodChain foodChain2;
-
+    private Animal vole;
     private Animal fox;
 
     @BeforeMethod
@@ -61,7 +61,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
         insect.setSpecies("Grasshopper");
         insect.setEnvironment(field);
 
-        Animal vole = new Animal();
+        vole = new Animal();
         vole.setName("Vole");
         vole.setSpecies("Bank Vole");
         vole.setEnvironment(field);
@@ -268,5 +268,16 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
         foodChainDao.deleteFoodChain(null);
     }
 
+    @Test
+    public void testGetFoodChainsWithAnimal() {
+        foodChainDao.createFoodChain(foodChain1);
+        foodChainDao.createFoodChain(foodChain2);
+        List<FoodChain> result1 = foodChainDao.getFoodChainsWithAnimal(fox);
+        assertThat(result1).hasSize(1);
+        assertThat(result1.get(0)).isEqualToComparingFieldByField(foodChain2);
+
+        List<FoodChain> result2 = foodChainDao.getFoodChainsWithAnimal(vole);
+        assertThat(result2).hasSize(2);
+    }
 
 }

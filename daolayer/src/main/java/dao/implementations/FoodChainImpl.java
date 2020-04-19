@@ -1,5 +1,6 @@
 package dao.implementations;
 
+import dao.entities.Animal;
 import dao.entities.FoodChain;
 import dao.interfaces.FoodChainDao;
 import org.springframework.stereotype.Repository;
@@ -36,5 +37,12 @@ public class FoodChainImpl implements FoodChainDao {
 
     public void deleteFoodChain(FoodChain foodChain) {
         entityManager.remove(foodChain);
+    }
+
+    @Override
+    public List<FoodChain> getFoodChainsWithAnimal(Animal animal) {
+        return entityManager.createQuery("SELECT fd FROM FoodChain fd INNER JOIN fd.animalsInFoodChain fda WHERE fda.animal = :animal", FoodChain.class)
+                .setParameter("animal", animal)
+                .getResultList();
     }
 }

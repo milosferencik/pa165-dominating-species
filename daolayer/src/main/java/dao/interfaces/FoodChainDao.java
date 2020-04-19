@@ -1,5 +1,6 @@
 package dao.interfaces;
 
+import dao.entities.Animal;
 import dao.entities.FoodChain;
 
 import java.util.List;
@@ -39,4 +40,11 @@ public interface FoodChainDao {
      * @param foodChain to be deleted
      */
     void deleteFoodChain(FoodChain foodChain);
+
+    /**
+     * Finds foodChains with animal
+     * @param animal which foodChains contain
+     * @return
+     */
+    List<FoodChain> getFoodChainsWithAnimal(Animal animal);
 }
