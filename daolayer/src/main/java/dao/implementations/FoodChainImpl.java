@@ -41,7 +41,7 @@ public class FoodChainImpl implements FoodChainDao {
 
     @Override
     public List<FoodChain> getFoodChainsWithAnimal(Animal animal) {
-        return entityManager.createQuery("SELECT fd FROM FoodChain fd INNER JOIN fd.Animals fda WHERE fda = :animal", FoodChain.class)
+        return entityManager.createQuery("SELECT fd FROM FoodChain fd INNER JOIN fd.animalsInFoodChain fda WHERE fda.animal = :animal", FoodChain.class)
                 .setParameter("animal", animal)
                 .getResultList();
     }

@@ -47,8 +47,6 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
     private Animal vole;
     private Animal fox;
 
-    private Animal fox;
-
     @BeforeMethod
     public void setUp() throws Exception {
 
