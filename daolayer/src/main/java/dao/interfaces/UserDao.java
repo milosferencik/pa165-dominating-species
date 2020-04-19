@@ -38,4 +38,11 @@ public interface UserDao {
      * @param user user already stored in the database which shall be deleted
      */
     public void deleteUser(User user);
+
+    /**
+     * Finds a user by email in the database
+     * @param email is email of user
+     * @return user retrieved from database
+     */
+    public User getUserByEmail(String email);
 }
