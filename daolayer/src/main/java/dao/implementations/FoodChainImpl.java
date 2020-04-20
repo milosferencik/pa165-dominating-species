@@ -18,8 +18,9 @@ public class FoodChainImpl implements FoodChainDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void createFoodChain(FoodChain foodChain) {
+    public FoodChain createFoodChain(FoodChain foodChain) {
         entityManager.persist(foodChain);
+        return foodChain;
     }
 
     public List<FoodChain> getAllFoodChains() {
@@ -30,13 +31,14 @@ public class FoodChainImpl implements FoodChainDao {
         return entityManager.find(FoodChain.class, id);
     }
 
-    public void updateFoodChain(FoodChain foodChain) {
-        entityManager.merge(foodChain);
+    public FoodChain updateFoodChain(FoodChain foodChain) {
+        return entityManager.merge(foodChain);
 
     }
 
-    public void deleteFoodChain(FoodChain foodChain) {
+    public FoodChain deleteFoodChain(FoodChain foodChain) {
         entityManager.remove(foodChain);
+        return foodChain;
     }
 
     @Override
