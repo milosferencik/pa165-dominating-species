@@ -124,17 +124,12 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void createEmptyFoodChainTest() {
         doAnswer(invocationOnMock -> {
-            System.out.println("CALLED!");
-
             FoodChain fd = invocationOnMock.getArgumentAt(0, FoodChain.class);
             if (fd == null || fd.getAnimals() == null || fd.getAnimals().size() < 2) {
                 throw new IllegalArgumentException("FoodChain must have at least 2 animals assigned.");
             }
             return fd;
         }).when(foodChainDao).createFoodChain(any(FoodChain.class));
-
-        System.out.println(emptyFoodChain.getClass());
-        System.out.println(emptyFoodChain.getAnimals().size());
 
         foodChainService.createFoodChain(emptyFoodChain);
     }
