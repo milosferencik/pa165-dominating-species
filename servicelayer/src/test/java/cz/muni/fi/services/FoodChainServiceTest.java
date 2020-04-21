@@ -9,8 +9,6 @@ import dao.entities.FoodChain;
 import dao.interfaces.FoodChainDao;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.*;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
@@ -20,7 +18,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.validation.ConstraintViolationException;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -50,7 +47,6 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
     @BeforeClass
     public void init() throws ServiceException {
         MockitoAnnotations.initMocks(this);
-
     }
 
     @BeforeMethod
@@ -93,12 +89,16 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void createFoodChainTest() {
+        doNothing().when(foodChainDao).createFoodChain(any(FoodChain.class));
+
         foodChainService.createFoodChain(standardFoodChain);
         Mockito.verify(foodChainDao).createFoodChain(standardFoodChain);
     }
+
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void createFoodChainWithNullTest() {
         doThrow(DataAccessException.class).when(foodChainDao).createFoodChain(null);
+
         foodChainService.createFoodChain(null);
     }
 
@@ -106,7 +106,7 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
     public void createFoodChainWithNullListTest() {
         doAnswer(invocationOnMock -> {
             FoodChain fd = invocationOnMock.getArgumentAt(0, FoodChain.class);
-            if (fd.getAnimals() == null || fd.getAnimals().size() < 2) {
+            if (fd == null || fd.getAnimals() == null || fd.getAnimals().size() < 2) {
                 throw new IllegalArgumentException("FoodChain must have at least 2 animals assigned.");
             }
             return fd;
@@ -121,7 +121,7 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
     public void createEmptyFoodChainTest() {
         doAnswer(invocationOnMock -> {
             FoodChain fd = invocationOnMock.getArgumentAt(0, FoodChain.class);
-            if (fd.getAnimals() == null || fd.getAnimals().size() < 2) {
+            if (fd == null || fd.getAnimals() == null || fd.getAnimals().size() < 2) {
                 throw new IllegalArgumentException("FoodChain must have at least 2 animals assigned.");
             }
             return fd;
