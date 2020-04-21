@@ -74,7 +74,7 @@ public class FoodChainServiceImpl implements FoodChainService {
     }
 
     @Override
-    public void addAnimalToLeft(Animal animal, Long id) {
+    public void addAnimalToBeginningOfFoodChain(Animal animal, Long id) {
         FoodChain foodChain = getFoodChain(id);
         if (foodChain == null)
             throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
@@ -85,7 +85,7 @@ public class FoodChainServiceImpl implements FoodChainService {
     }
 
     @Override
-    public void addAnimalToRight(Animal animal, Long id) {
+    public void addAnimalToEndOfFoodChain(Animal animal, Long id) {
         FoodChain foodChain = getFoodChain(id);
         if (foodChain == null)
             throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");

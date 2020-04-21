@@ -46,21 +46,21 @@ public interface FoodChainService {
      * @param animal which foodChains contain
      * @return
      */
-    public List<FoodChain> getFoodChainsWithAnimal(Animal animal) throws DataAccessException;;
+    List<FoodChain> getFoodChainsWithAnimal(Animal animal) throws DataAccessException;;
 
     /**
      * Add the animal to the left in the foodChain
      * @param animal to be added
      * @param id of foodChain
      */
-    public void addAnimalToLeft(Animal animal, Long id) throws DataAccessException;;
+    void addAnimalToBeginningOfFoodChain(Animal animal, Long id) throws DataAccessException;;
 
     /**
      * Add the animal to the right in the foodChain
      * @param animal to be added
      * @param id of foodChain
      */
-    public void addAnimalToRight(Animal animal, Long id) throws DataAccessException;;
+    void addAnimalToEndOfFoodChain(Animal animal, Long id) throws DataAccessException;;
 
     /**
      * Remove the animal from the foodChain
@@ -68,5 +68,5 @@ public interface FoodChainService {
      * @param animal to be removed
      * @param id of foodChain
      */
-    public void removeAnimal(Animal animal, Long id) throws DataAccessException;;
+    void removeAnimal(Animal animal, Long id) throws DataAccessException;;
 }
