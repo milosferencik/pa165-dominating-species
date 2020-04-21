@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -87,10 +88,13 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
         standardFoodChain.setAnimals(foodChainAnimalList);
     }
 
+    @AfterMethod
+    public void reset(){
+        Mockito.reset(foodChainDao);
+    }
+
     @Test
     public void createFoodChainTest() {
-        doNothing().when(foodChainDao).createFoodChain(any(FoodChain.class));
-
         foodChainService.createFoodChain(standardFoodChain);
         Mockito.verify(foodChainDao).createFoodChain(standardFoodChain);
     }
@@ -120,12 +124,17 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void createEmptyFoodChainTest() {
         doAnswer(invocationOnMock -> {
+            System.out.println("CALLED!");
+
             FoodChain fd = invocationOnMock.getArgumentAt(0, FoodChain.class);
             if (fd == null || fd.getAnimals() == null || fd.getAnimals().size() < 2) {
                 throw new IllegalArgumentException("FoodChain must have at least 2 animals assigned.");
             }
             return fd;
         }).when(foodChainDao).createFoodChain(any(FoodChain.class));
+
+        System.out.println(emptyFoodChain.getClass());
+        System.out.println(emptyFoodChain.getAnimals().size());
 
         foodChainService.createFoodChain(emptyFoodChain);
     }
@@ -218,34 +227,28 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void addNullAnimalToBeginningOfFoodChainTest() {
-        doNothing().when(foodChainDao);
         foodChainService.addAnimalToBeginningOfFoodChain(null, standardFoodChain.getId());
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void addAnimalToBeginningOfNullFoodChainIdTest() {
-        doNothing().when(foodChainDao);
         foodChainService.addAnimalToBeginningOfFoodChain(fox, null);
     }
 
     @Test
     public void addAnimalToEndOfFoodChainCorrectlyTest() {
         throw new NotImplementedException();
-
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void addNullAnimalToEndOfFoodChainTest() {
-        doNothing().when(foodChainDao);
         foodChainService.addAnimalToEndOfFoodChain(null, standardFoodChain.getId());
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void addAnimalToEndOfNullFoodChainIdTest() {
-        doNothing().when(foodChainDao);
         foodChainService.addAnimalToEndOfFoodChain(fox, null);
     }
-
 
     @Test
     public void removeAnimalFromFoodChainCorrectlyTest() {
@@ -253,21 +256,17 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void removeNullAnimalFromFoodChainTest() {
-        doNothing().when(foodChainDao);
         foodChainService.removeAnimal(null, standardFoodChain.getId());
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void removeAnimalFromNullFoodChainIdTest() {
-        doNothing().when(foodChainDao);
         foodChainService.removeAnimal(fox, null);
     }
-
 
     @Test
     public void removeAnimalFromFoodChainMakingItTooSmallTest() {
         throw new NotImplementedException();
-
     }
 
 }
