@@ -14,7 +14,7 @@ public interface FoodChainDao {
      * Stores new FoodChain
      * @param foodChain to be created
      */
-    FoodChain createFoodChain(FoodChain foodChain);
+    void createFoodChain(FoodChain foodChain);
 
     /**
      * Finds all FoodChains
@@ -33,13 +33,13 @@ public interface FoodChainDao {
      * Updates existing FoodChain
      * @param foodChain to be updated
      */
-    FoodChain updateFoodChain(FoodChain foodChain);
+    void updateFoodChain(FoodChain foodChain);
 
     /**
      * Removes FoodChain
      * @param foodChain to be deleted
      */
-    FoodChain deleteFoodChain(FoodChain foodChain);
+    void deleteFoodChain(FoodChain foodChain);
 
     /**
      * Finds foodChains with animal

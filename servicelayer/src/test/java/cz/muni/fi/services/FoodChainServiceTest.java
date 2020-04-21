@@ -1,22 +1,28 @@
 package cz.muni.fi.services;
 
 import cz.muni.fi.config.ServiceConfiguration;
+import cz.muni.fi.services.exceptions.ServiceDataAccessException;
 import cz.muni.fi.services.interfaces.FoodChainService;
+import dao.entities.Animal;
+import dao.entities.Environment;
 import dao.entities.FoodChain;
 import dao.interfaces.FoodChainDao;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.*;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
@@ -28,60 +34,102 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
     @InjectMocks
     private FoodChainService foodChainService;
 
-    private Long counter = 10L;
-    private Map<Long, FoodChain> foodChains = new HashMap<>();
+    private FoodChain standardFoodChain;
+    private FoodChain emptyFoodChain;
 
+    private Animal vole;
+    private Animal fox;
+    private Animal frog;
+
+    List<Animal> foodChainAnimalList;
+    
     @BeforeClass
-    public void beforeClass() throws ServiceException {
+    public void init() throws ServiceException {
         MockitoAnnotations.initMocks(this);
 
-        when(foodChainDao.createFoodChain(any(FoodChain.class))).then(invoke -> {
-                    FoodChain mockedFoodChain  = invoke.getArgumentAt(0, FoodChain.class);
-
-                    if (mockedFoodChain == null) {
-                        throw new IllegalArgumentException("FoodChain cannot be null");
-                    }
-                     //TODO: more checks/exceptions
-                    long index = counter;
-                    counter++;
-                    mockedFoodChain.setId(index);
-                    foodChains.put(index, mockedFoodChain);
-                    return mockedFoodChain;
-                });
-
-        when(foodChainDao.updateFoodChain(any(FoodChain.class))).then(invoke -> {
-            FoodChain mockedFoodChain  = invoke.getArgumentAt(0, FoodChain.class);
-            //TODO: more checks/exceptions
-            if (mockedFoodChain == null) {
-                throw new IllegalArgumentException("FoodChain cannot be null");
-            }
-
-            foodChains.replace(mockedFoodChain.getId(), mockedFoodChain);
-            return mockedFoodChain;
-        });
-
-        when(foodChainDao.deleteFoodChain(any(FoodChain.class))).then(invoke -> {
-            FoodChain mockedFoodChain  = invoke.getArgumentAt(0, FoodChain.class);
-
-            if (mockedFoodChain == null) {
-                throw new IllegalArgumentException("FoodChain cannot be null");
-            }
-
-            foodChains.remove(mockedFoodChain.getId(), mockedFoodChain);
-            return mockedFoodChain;
-        });
-
-        when(foodChainDao.getFoodChain(any(Long.class))).then(invoke -> {
-            Long id  = invoke.getArgumentAt(0, Long.class);
-
-            if (id == null) {
-                throw new IllegalArgumentException("Id cannot be null");
-            }
-
-            return foodChains.get(id);
-        });
-
-        when(foodChainDao.getAllFoodChains()).then(invoke -> Collections.unmodifiableCollection(new ArrayList<>(foodChains.values())));
     }
 
+    @BeforeMethod
+    public void setup() throws ServiceException {
+        Environment field = new Environment();
+        field.setName("Field");
+        field.setDescription("Regular field");
+
+        vole = new Animal();
+        vole.setName("Vole");
+        vole.setSpecies("Bank Vole");
+        vole.setEnvironment(field);
+
+        fox = new Animal();
+        fox.setName("Fox");
+        fox.setSpecies("Red Fox");
+        fox.setEnvironment(field);
+
+        frog = new Animal();
+        fox.setName("Frog");
+        fox.setSpecies("Big Frog");
+        fox.setEnvironment(field);
+
+        standardFoodChain = new FoodChain();
+        emptyFoodChain = new FoodChain();
+
+        foodChainAnimalList = new ArrayList<>();
+
+        foodChainAnimalList.add(vole);
+        foodChainAnimalList.add(fox);
+
+        standardFoodChain.setAnimals(foodChainAnimalList);
+    }
+
+    @Test
+    public void createFoodChainTest() {
+        foodChainService.createFoodChain(standardFoodChain);
+        Mockito.verify(foodChainDao).createFoodChain(standardFoodChain);
+    }
+
+    @Test(expectedExceptions = ServiceDataAccessException.class)
+    public void createEmptyFoodChainTest() {
+        foodChainService.createFoodChain(emptyFoodChain);
+    }
+
+    @Test
+    public void updateTest() {
+        foodChainAnimalList.add(frog);
+        standardFoodChain.setAnimals(foodChainAnimalList);
+
+        foodChainService.updateFoodChain(standardFoodChain);
+        Mockito.verify(foodChainDao).updateFoodChain(standardFoodChain);
+    }
+
+
+    @Test
+    public void getFoodChainByIdTest() {
+        Mockito.when(foodChainDao.getFoodChain(standardFoodChain.getId())).thenReturn(standardFoodChain);
+
+        FoodChain found = foodChainService.getFoodChain(standardFoodChain.getId());
+        assertThat(found).isEqualToComparingFieldByFieldRecursively(standardFoodChain);
+    }
+
+    @Test
+    public void getAllFoodChainsWithSingleFoodChainTest() {
+        Mockito.when(foodChainDao.getAllFoodChains()).thenReturn(Collections.singletonList(standardFoodChain));
+
+        List<FoodChain> found = foodChainService.getAllFoodChains();
+        assertThat(found).usingRecursiveFieldByFieldElementComparator().containsExactlyInAnyOrder(standardFoodChain);
+    }
+
+    @Test
+    public void getAllFoodChainsWithMultipleFoodChainsTest() {
+        foodChainAnimalList.add(frog);
+        emptyFoodChain.setAnimals(foodChainAnimalList);
+        Mockito.when(foodChainDao.getAllFoodChains()).thenReturn(Arrays.asList(standardFoodChain, emptyFoodChain));
+
+        List<FoodChain> found = foodChainService.getAllFoodChains();
+        assertThat(found).usingRecursiveFieldByFieldElementComparator().containsExactlyInAnyOrder(standardFoodChain, emptyFoodChain);
+    }
+
+
+
 }
+
+
