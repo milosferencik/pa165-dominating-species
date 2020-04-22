@@ -63,18 +63,11 @@ public interface FoodChainService {
      */
     void addAnimalToEndOfFoodChain(Animal animal, Long id) throws DataAccessException;;
 
-    /**
-     * Remove the animal from the foodChain
-     * if animal is not on the edge, two foodChains will arise if the conditions are met
-     * @param animal to be removed
-     * @param id of foodChain
-     */
-    void removeAnimal(Animal animal, Long id) throws DataAccessException;;
 
 
     /**
      * Remove the animal from the foodChain
      * @param animalInFoodChain animal in association FoodChain-Animal to be removed
      */
-    void removeAnimal(AnimalInFoodChain animalInFoodChain);
+    void removeAnimal(AnimalInFoodChain animalInFoodChain) throws DataAccessException;
 }

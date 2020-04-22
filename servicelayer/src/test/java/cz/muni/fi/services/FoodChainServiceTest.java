@@ -4,6 +4,7 @@ import cz.muni.fi.config.ServiceConfiguration;
 import cz.muni.fi.services.exceptions.ServiceDataAccessException;
 import cz.muni.fi.services.interfaces.FoodChainService;
 import dao.entities.Animal;
+import dao.entities.AnimalInFoodChain;
 import dao.entities.Environment;
 import dao.entities.FoodChain;
 import dao.interfaces.FoodChainDao;
@@ -285,17 +286,21 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void removeNullAnimalFromFoodChainTest() {
-        foodChainService.removeAnimal(null, standardFoodChain.getId());
+        foodChainService.removeAnimal(null);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void removeAnimalFromNullFoodChainIdTest() {
-        foodChainService.removeAnimal(fox, null);
+        AnimalInFoodChain invalidAnimalAssociation = standardFoodChain.getAnimalsInFoodChain().get(0);
+        invalidAnimalAssociation.setAnimal(null);
+        foodChainService.removeAnimal(invalidAnimalAssociation);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void removeAnimalFromNonExistingFoodChainIdTest() {
-        foodChainService.removeAnimal(fox, 99L);
+        AnimalInFoodChain invalidAnimalAssociation = standardFoodChain.getAnimalsInFoodChain().get(0);
+        invalidAnimalAssociation.setFoodChain(null);
+        foodChainService.removeAnimal(invalidAnimalAssociation);
     }
 
     @Test
@@ -303,7 +308,7 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
         addFoodChainManipulationMethodsMock();
         doAnswer(invoke -> null).when(foodChainDao).deleteFoodChain(any(FoodChain.class));
 
-        foodChainService.removeAnimal(fox, standardFoodChain.getId());
+        foodChainService.removeAnimal(standardFoodChain.getAnimalsInFoodChain().get(0));
         Mockito.verify(foodChainDao).deleteFoodChain(standardFoodChain);
     }
 
