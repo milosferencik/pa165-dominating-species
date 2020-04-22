@@ -13,6 +13,7 @@ import org.hibernate.service.spi.ServiceException;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
@@ -39,6 +40,9 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
     @InjectMocks
     private EnvironmentService environmentService;
 
+    private Environment dam;
+    private Environment forest;
+    private Environment marsh;
 
     @BeforeClass
     public void init() throws ServiceException {
@@ -47,12 +51,47 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void setup() throws ServiceException {
+        marsh = new Environment();
+        marsh.setName("Marsh");
+        marsh.setDescription("45 % of water and 55 % of mug");
+
+        dam = new Environment();
+        dam.setName("Dam");
+        dam.setDescription("95 % of fresh water and 5 % of mug");
+
+        forest = new Environment();
+        forest.setName("Forest");
+        forest.setDescription("50 % of coniferous trees and 50 % broadleaved trees ");
     }
 
     @AfterMethod
     public void reset(){
         Mockito.reset(environmentDao);
     }
+
+    @Test
+    public void createEnvironmentTest() {
+        environmentService.createEnvironment(dam);
+        Mockito.verify(environmentDao).createEnvironment(dam);
+    }
+
+    @Test(expectedExceptions = ServiceDataAccessException.class)
+    public void createEnvironmentWithNullTest() {
+        doThrow(DataAccessException.class).when(environmentDao).createEnvironment(null);
+
+        environmentService.createEnvironment(null);
+    }
+
+    @Test
+    public void updateTest() {
+        environmentDao.createEnvironment(dam);
+        dam.setName("Forest");
+        dam.setDescription("50 % of coniferous trees and 50 % broadleaved trees ");
+        environmentDao.updateEnvironment(dam);
+        Mockito.verify(environmentDao).updateEnvironment(dam);
+    }
+
+
 
 
 
