@@ -22,6 +22,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.validation.ConstraintViolationException;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -84,11 +86,26 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void updateTest() {
-        environmentDao.createEnvironment(dam);
+        environmentService.createEnvironment(dam);
         dam.setName("Forest");
         dam.setDescription("50 % of coniferous trees and 50 % broadleaved trees ");
-        environmentDao.updateEnvironment(dam);
+        environmentService.updateEnvironment(dam);
         Mockito.verify(environmentDao).updateEnvironment(dam);
+    }
+
+    @Test
+    public void DeleteEnvironmentTest() {
+        environmentService.createEnvironment(dam);
+        environmentService.deleteEnvironment(dam);
+        assertThat(environmentService.getAllEnvironments()).isEmpty();
+    }
+
+    @Test
+    public void testGetAllEnvironment() {
+        environmentService.createEnvironment(dam);
+        environmentService.createEnvironment(forest);
+        environmentService.createEnvironment(marsh);
+        assertThat(environmentDao.getAllEnvironments()).hasSize(3);
     }
 
 
