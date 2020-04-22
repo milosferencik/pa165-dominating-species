@@ -3,6 +3,7 @@ package cz.muni.fi.services.implementations;
 import cz.muni.fi.services.exceptions.ServiceDataAccessException;
 import cz.muni.fi.services.interfaces.FoodChainService;
 import dao.entities.Animal;
+import dao.entities.AnimalInFoodChain;
 import dao.entities.FoodChain;
 import dao.interfaces.FoodChainDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,6 +126,29 @@ public class FoodChainServiceImpl implements FoodChainService {
             FoodChain newFoodChain = new FoodChain();
             newFoodChain.setAnimals(animalsAfterRemovedAnimal);
             createFoodChain(newFoodChain);
+        }
+    }
+
+    @Override
+    public  void removeAnimal(AnimalInFoodChain animalInFoodChain) {
+        if (animalInFoodChain == null)
+            throw new IllegalArgumentException("AnimalInFoodChain cannot be null");
+
+        if (animalInFoodChain.getFoodChain() == null)
+            throw new IllegalArgumentException("FoodChain in the animal-foodchain association cannot be null");
+
+        if (animalInFoodChain.getAnimal() == null)
+            throw new ServiceDataAccessException("Animal in the animal-foodchain association cannot be null");
+
+        FoodChain foodChain = animalInFoodChain.getFoodChain();
+        List<AnimalInFoodChain> animalsInFoodChain = foodChain.getAnimalsInFoodChain();
+        animalsInFoodChain.remove(animalInFoodChain);
+
+        if (animalsInFoodChain.size() < 2) {
+            deleteFoodChain(foodChain);
+        } else {
+            foodChain.setAnimalsInFoodChain(animalsInFoodChain);
+            updateFoodChain(foodChain);
         }
     }
 }
