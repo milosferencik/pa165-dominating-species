@@ -3,9 +3,6 @@ package cz.muni.fi.services;
 import cz.muni.fi.config.ServiceConfiguration;
 import cz.muni.fi.services.exceptions.ServiceDataAccessException;
 import cz.muni.fi.services.interfaces.UserService;
-import dao.entities.Animal;
-import dao.entities.Environment;
-import dao.entities.FoodChain;
 import dao.entities.User;
 import dao.interfaces.UserDao;
 import org.hibernate.service.spi.ServiceException;
@@ -15,7 +12,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
@@ -23,14 +19,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import javax.jws.soap.SOAPBinding;
-import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 
