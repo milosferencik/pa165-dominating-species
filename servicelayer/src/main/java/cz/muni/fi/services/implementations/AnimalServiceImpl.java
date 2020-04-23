@@ -25,7 +25,7 @@ public class AnimalServiceImpl implements AnimalService {
         try {
             animalDao.createAnimal(animal);
         } catch (Throwable e) {
-            throw new ServiceDataAccessException("Could not create animal '" + animal.getName() + "'", e);
+            throw new ServiceDataAccessException("Could not create animal '" + ( animal == null ? "null" : animal.getName()) + "'", e);
         }
     }
 
@@ -52,7 +52,7 @@ public class AnimalServiceImpl implements AnimalService {
         try {
             return animalDao.getAllAnimalsInEnvironment(environment);
         } catch (Throwable e) {
-            throw new ServiceDataAccessException("Could not find animals in environtment '" + environment.getName() + "' with id " + environment.getId(), e);
+            throw new ServiceDataAccessException("Could not find animals in environtment '" + (environment == null ? " null" : environment.getName() + "' with id " + environment.getId()) , e);
         }
     }
 
@@ -61,7 +61,7 @@ public class AnimalServiceImpl implements AnimalService {
         try {
             animalDao.updateAnimal(animal);
         } catch (Throwable e) {
-            throw new ServiceDataAccessException("Could not update animal '" + animal.getName() + "' with id " + animal.getId(), e);
+            throw new ServiceDataAccessException("Could not update animal '" + ( animal == null ? "null" : animal.getName() + "' with id " + animal.getId()), e);
         }
     }
 
@@ -70,7 +70,7 @@ public class AnimalServiceImpl implements AnimalService {
         try {
             animalDao.deleteAnimal(animal);
         } catch (Throwable e) {
-            throw new ServiceDataAccessException("Could not remove animal '" + animal.getName() + "' with id " + animal.getId(), e);
+            throw new ServiceDataAccessException("Could not remove animal '" + ( animal == null ? "null" : animal.getName() + "' with id " + animal.getId()), e);
         }
     }
 }
