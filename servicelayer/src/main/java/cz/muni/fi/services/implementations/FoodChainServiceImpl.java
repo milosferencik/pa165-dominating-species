@@ -3,6 +3,7 @@ package cz.muni.fi.services.implementations;
 import cz.muni.fi.services.exceptions.ServiceDataAccessException;
 import cz.muni.fi.services.interfaces.FoodChainService;
 import dao.entities.Animal;
+import dao.entities.AnimalInFoodChain;
 import dao.entities.FoodChain;
 import dao.interfaces.FoodChainDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,10 +75,11 @@ public class FoodChainServiceImpl implements FoodChainService {
     }
 
     @Override
-    public void addAnimalToLeft(Animal animal, Long id) {
+    public void addAnimalToBeginningOfFoodChain(Animal animal, Long id) {
         FoodChain foodChain = getFoodChain(id);
         if (foodChain == null)
             throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
+
         List<Animal> animals = foodChain.getAnimals();
         animals.add(0, animal);
         foodChain.setAnimals(animals);
@@ -85,46 +87,38 @@ public class FoodChainServiceImpl implements FoodChainService {
     }
 
     @Override
-    public void addAnimalToRight(Animal animal, Long id) {
+    public void addAnimalToEndOfFoodChain(Animal animal, Long id) {
         FoodChain foodChain = getFoodChain(id);
         if (foodChain == null)
             throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
+
         List<Animal> animals = foodChain.getAnimals();
         animals.add(animal);
         foodChain.setAnimals(animals);
         updateFoodChain(foodChain);
     }
 
-    @Override
-    public void removeAnimal(Animal animal, Long id) {
-        FoodChain foodChain = getFoodChain(id);
-        if (foodChain == null)
-            throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
-        List<Animal> animals = foodChain.getAnimals();
-        int indexOfRemovedAnimal = animals.indexOf(animal);
-        if (indexOfRemovedAnimal == -1)
-            throw new ServiceDataAccessException("FoodChain doesn't contain the animal.");
-        List<Animal> animalsBeforeRemovedAnimal = animals.subList(0,indexOfRemovedAnimal);
-        List<Animal> animalsAfterRemovedAnimal = animals.subList(indexOfRemovedAnimal + 1, animals.size());
 
-        if (animalsBeforeRemovedAnimal.size() < 2 && animalsAfterRemovedAnimal.size() < 2)
-        {
+    @Override
+    public  void removeAnimal(AnimalInFoodChain animalInFoodChain) {
+        if (animalInFoodChain == null)
+            throw new ServiceDataAccessException("AnimalInFoodChain cannot be null");
+
+        if (animalInFoodChain.getFoodChain() == null)
+            throw new ServiceDataAccessException("FoodChain in the animal-foodchain association cannot be null");
+
+        if (animalInFoodChain.getAnimal() == null)
+            throw new ServiceDataAccessException("Animal in the animal-foodchain association cannot be null");
+
+        FoodChain foodChain = animalInFoodChain.getFoodChain();
+        List<AnimalInFoodChain> animalsInFoodChain = foodChain.getAnimalsInFoodChain();
+        animalsInFoodChain.remove(animalInFoodChain);
+
+        if (animalsInFoodChain.size() < 2) {
             deleteFoodChain(foodChain);
-        }
-        else if (animalsBeforeRemovedAnimal.size() > 2 && animalsAfterRemovedAnimal.size() < 2 ){
-            foodChain.setAnimals(animalsBeforeRemovedAnimal);
+        } else {
+            foodChain.setAnimalsInFoodChain(animalsInFoodChain);
             updateFoodChain(foodChain);
-        }
-        else if (animalsBeforeRemovedAnimal.size() < 2 && animalsAfterRemovedAnimal.size() > 2 ){
-            foodChain.setAnimals(animalsAfterRemovedAnimal);
-            updateFoodChain(foodChain);
-        }
-        else {
-            foodChain.setAnimals(animalsBeforeRemovedAnimal);
-            updateFoodChain(foodChain);
-            FoodChain newFoodChain = new FoodChain();
-            newFoodChain.setAnimals(animalsAfterRemovedAnimal);
-            createFoodChain(newFoodChain);
         }
     }
 }
