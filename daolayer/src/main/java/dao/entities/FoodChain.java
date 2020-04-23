@@ -75,8 +75,8 @@ public class FoodChain implements Serializable {
         if (!(o instanceof FoodChain)) return false;
         FoodChain that = (FoodChain) o;
 
-        // Hibernate BUG in PersistentaBg: https://hibernate.atlassian.net/browse/HHH-5409
-        // necessary to compare manually:
+        // Hibernate BUG in PersistentBag: https://hibernate.atlassian.net/browse/HHH-5409
+        // necessary to compare manually
         List<AnimalInFoodChain> thisAnimals = this.getAnimalsInFoodChain();
         List<AnimalInFoodChain> thatAnimals = that.getAnimalsInFoodChain();
         if (thisAnimals == thatAnimals) return true;
