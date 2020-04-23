@@ -84,6 +84,20 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
         environmentService.createEnvironment(null);
     }
 
+    @Test(expectedExceptions = ServiceDataAccessException.class)
+    public void testCreateEnvironmentWithNullName() throws Exception {
+        addEnvironmentManipulationMethodsMock();
+        dam.setName(null);
+        environmentService.createEnvironment(dam);
+    }
+
+    @Test(expectedExceptions = ServiceDataAccessException.class)
+    public void testCreateEnvironmentWithEmptyName() throws Exception {
+        addEnvironmentManipulationMethodsMock();
+        dam.setName("");
+        environmentService.createEnvironment(dam);
+    }
+
     @Test
     public void updateTest() {
         environmentService.createEnvironment(dam);
@@ -106,6 +120,36 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
         environmentService.createEnvironment(forest);
         environmentService.createEnvironment(marsh);
         assertThat(environmentDao.getAllEnvironments()).hasSize(3);
+    }
+
+    private void addEnvironmentManipulationMethodsMock() {
+        addEnvironmentCreationMethodMock();
+        addEnvironmentUpdateMethodMock();
+        adGetEnvironmentByIdMethodMock();
+    }
+
+    private void addEnvironmentCreationMethodMock() {
+        doAnswer(invocationOnMock -> {
+            Environment e = invocationOnMock.getArgumentAt(0, Environment.class);
+            if (e == null || e.getName() == null ||  e.getName() == null) {
+                throw new IllegalArgumentException("Environment cannot be null");
+            }
+            return e;
+        }).when(environmentDao).createEnvironment(any(Environment.class));
+    }
+
+    private void addEnvironmentUpdateMethodMock() {
+        doAnswer(invocationOnMock -> {
+            Environment e = invocationOnMock.getArgumentAt(0, Environment.class);
+            if (e == null || e.getName() == null ||  e.getName() == "") {
+                throw new IllegalArgumentException("Environment cannot be null");
+            }
+            return e;
+        }).when(environmentDao).updateEnvironment(any(Environment.class));
+    }
+
+    private void adGetEnvironmentByIdMethodMock() {
+        Mockito.when(environmentDao.getEnvironment(dam.getId())).thenReturn(dam);
     }
 
 
