@@ -6,9 +6,11 @@ import dao.entities.User;
 import dao.interfaces.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -70,7 +72,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isAdmin(User user) throws DataAccessException {
-        return getUser(user.getId()).isAdmin();
+    public boolean isAdmin(Long id) throws DataAccessException {
+        User user = getUser(id);
+        if (user == null)
+            throw new ServiceDataAccessException("User with the id doesn't exist.");
+        return user.isAdmin();
     }
 }
