@@ -98,6 +98,20 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
         environmentService.createEnvironment(dam);
     }
 
+    @Test(expectedExceptions = ServiceDataAccessException.class)
+    public void testCreateEnvironmentWithNullDescription() throws Exception {
+        addEnvironmentManipulationMethodsMock();
+        dam.setDescription(null);
+        environmentService.createEnvironment(dam);
+    }
+
+    @Test(expectedExceptions = ServiceDataAccessException.class)
+    public void testCreateEnvironmentWithEmptyDescription() throws Exception {
+        addEnvironmentManipulationMethodsMock();
+        dam.setDescription("");
+        environmentService.createEnvironment(dam);
+    }
+
     @Test
     public void updateTest() {
         environmentService.createEnvironment(dam);
@@ -107,9 +121,36 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
         Mockito.verify(environmentDao).updateEnvironment(dam);
     }
 
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testUpdateNullEnvironment() throws Exception {
+        doThrow(DataAccessException.class).when(environmentDao).updateEnvironment(null);
+        environmentService.updateEnvironment(null);
+    }
+
+    @Test(expectedExceptions = ServiceDataAccessException.class)
+    public void testUpdateEnvironmentWithNullName() throws Exception {
+        addEnvironmentManipulationMethodsMock();
+        dam.setName(null);
+        environmentService.updateEnvironment(dam);
+    }
+
+    @Test(expectedExceptions = ServiceDataAccessException.class)
+    public void testUpdateEnvironmentWithEmptyName() throws Exception {
+        addEnvironmentManipulationMethodsMock();
+        dam.setName("");
+        environmentService.updateEnvironment(dam);
+    }
+
+    @Test(expectedExceptions = ServiceDataAccessException.class)
+    public void testUpdateEnvironmentWithNullDescription() throws Exception {
+        addEnvironmentManipulationMethodsMock();
+        dam.setDescription(null);
+        environmentService.updateEnvironment(dam);
+    }
+
     @Test
     public void DeleteEnvironmentTest() {
-        environmentService.createEnvironment(dam);
+
         environmentService.deleteEnvironment(dam);
         assertThat(environmentService.getAllEnvironments()).isEmpty();
     }
@@ -131,7 +172,8 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
     private void addEnvironmentCreationMethodMock() {
         doAnswer(invocationOnMock -> {
             Environment e = invocationOnMock.getArgumentAt(0, Environment.class);
-            if (e == null || e.getName() == null ||  e.getName() == null) {
+            if (e == null || e.getName() == null ||  e.getName().equals("") || e.getDescription() == null
+                    || e.getDescription().equals("")) {
                 throw new IllegalArgumentException("Environment cannot be null");
             }
             return e;
@@ -141,7 +183,8 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
     private void addEnvironmentUpdateMethodMock() {
         doAnswer(invocationOnMock -> {
             Environment e = invocationOnMock.getArgumentAt(0, Environment.class);
-            if (e == null || e.getName() == null ||  e.getName() == "") {
+            if (e == null || e.getName() == null ||  e.getName().equals("") || e.getDescription() == null
+                    || e.getDescription().equals("")) {
                 throw new IllegalArgumentException("Environment cannot be null");
             }
             return e;
