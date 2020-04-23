@@ -11,11 +11,31 @@
 
     <artifactId>service</artifactId>
     <dependencies>
+        <!--MODULES-->
         <dependency>
             <groupId>ds</groupId>
             <artifactId>daolayer</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>ds</groupId>
+            <artifactId>api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <!--MAPPING-->
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>5.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.craftsman</groupId>
+            <artifactId>dozer-jdk8-support</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <!--TEST-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
@@ -39,6 +59,4 @@
             <artifactId>assertj-core</artifactId>
         </dependency>
     </dependencies>
-
-
 </project>
