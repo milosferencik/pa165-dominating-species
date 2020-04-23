@@ -1,6 +1,7 @@
 package cz.muni.fi.services.interfaces;
 
 import dao.entities.Animal;
+import dao.entities.AnimalInFoodChain;
 import dao.entities.FoodChain;
 import org.springframework.dao.DataAccessException;
 
@@ -46,27 +47,27 @@ public interface FoodChainService {
      * @param animal which foodChains contain
      * @return
      */
-    public List<FoodChain> getFoodChainsWithAnimal(Animal animal) throws DataAccessException;;
+    List<FoodChain> getFoodChainsWithAnimal(Animal animal) throws DataAccessException;;
 
     /**
      * Add the animal to the left in the foodChain
      * @param animal to be added
      * @param id of foodChain
      */
-    public void addAnimalToLeft(Animal animal, Long id) throws DataAccessException;;
+    void addAnimalToBeginningOfFoodChain(Animal animal, Long id) throws DataAccessException;;
 
     /**
      * Add the animal to the right in the foodChain
      * @param animal to be added
      * @param id of foodChain
      */
-    public void addAnimalToRight(Animal animal, Long id) throws DataAccessException;;
+    void addAnimalToEndOfFoodChain(Animal animal, Long id) throws DataAccessException;;
+
+
 
     /**
      * Remove the animal from the foodChain
-     * if animal is not on the edge, two foodChains will arise if the conditions are met
-     * @param animal to be removed
-     * @param id of foodChain
+     * @param animalInFoodChain animal in association FoodChain-Animal to be removed
      */
-    public void removeAnimal(Animal animal, Long id) throws DataAccessException;;
+    void removeAnimal(AnimalInFoodChain animalInFoodChain) throws DataAccessException;
 }
