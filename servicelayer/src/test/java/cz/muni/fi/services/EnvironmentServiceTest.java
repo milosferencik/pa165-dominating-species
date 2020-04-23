@@ -22,6 +22,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 
 import static org.assertj.core.api.Assertions.*;
@@ -148,11 +149,23 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
         environmentService.updateEnvironment(dam);
     }
 
+    @Test(expectedExceptions = ServiceDataAccessException.class)
+    public void testUpdateEnvironmentWithEmptyDescription() throws Exception {
+        addEnvironmentManipulationMethodsMock();
+        dam.setDescription("");
+        environmentService.updateEnvironment(dam);
+    }
+
     @Test
     public void DeleteEnvironmentTest() {
 
         environmentService.deleteEnvironment(dam);
         assertThat(environmentService.getAllEnvironments()).isEmpty();
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testDeleteEnvironmentWithNull() throws Exception {
+        environmentService.deleteEnvironment(null);
     }
 
     @Test
