@@ -149,6 +149,7 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
     @Test
     public void DeleteEnvironmentTest() {
         addEnvironmentManipulationMethodsMock();
+        environmentService.createEnvironment(dam);
         environmentService.deleteEnvironment(dam);
         assertThat(environmentService.getAllEnvironments()).isEmpty();
     }
@@ -156,6 +157,7 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = DataAccessException.class)
     public void testDeleteEnvironmentWithNull() throws Exception {
         doThrow(DataAccessException.class).when(environmentDao).deleteEnvironment(null);
+        addEnvironmentManipulationMethodsMock();
         environmentService.deleteEnvironment(null);
     }
 
@@ -170,12 +172,14 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
     }
     @Test
     public void testGetAllEnvironmentOnEmptyDB() {
+        addEnvironmentManipulationMethodsMock();
         assertThat(environmentService.getAllEnvironments()).isEmpty();
     }
 
     @Test
     public void testGetEnvironment() {
         addEnvironmentManipulationMethodsMock();
+        environmentService.createEnvironment(dam);
         assertThat(environmentService.getEnvironment(dam.getId())).isEqualToComparingFieldByField(dam);
     }
 
