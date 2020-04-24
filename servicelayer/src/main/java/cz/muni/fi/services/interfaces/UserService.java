@@ -47,8 +47,8 @@ public interface UserService {
 
     /**
      * Checks whether given user is admin
-     * @param user to be checked
+     * @param id of user who be checked
      * @return true if giver user is admin, false if not
      */
-    boolean isAdmin(User user) throws DataAccessException;
+    boolean isAdmin(Long id) throws DataAccessException;
 }
