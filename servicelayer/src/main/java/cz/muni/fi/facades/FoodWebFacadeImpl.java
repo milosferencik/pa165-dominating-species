@@ -10,12 +10,16 @@ import dao.entities.Animal;
 import dao.entities.Environment;
 import dao.entities.FoodChain;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Transactional
+@Service
 public class FoodWebFacadeImpl implements FoodWebFacade {
 
     @Autowired
