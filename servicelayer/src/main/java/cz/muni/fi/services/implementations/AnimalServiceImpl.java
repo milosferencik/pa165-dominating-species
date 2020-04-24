@@ -21,7 +21,7 @@ public class AnimalServiceImpl implements AnimalService {
     private AnimalDao animalDao;
 
     @Override
-    public void create(Animal animal) throws ServiceDataAccessException {
+    public void createAnimal(Animal animal) throws ServiceDataAccessException {
         try {
             animalDao.createAnimal(animal);
         } catch (Throwable e) {
@@ -30,7 +30,7 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public Animal findById(long id) throws ServiceDataAccessException {
+    public Animal getAnimal(long id) throws ServiceDataAccessException {
         try {
             return animalDao.getAnimal(id);
         } catch (Throwable e) {
@@ -39,7 +39,7 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public List<Animal> findAll() throws ServiceDataAccessException {
+    public List<Animal> getAllAnimals() throws ServiceDataAccessException {
         try {
             return animalDao.getAllAnimals();
         } catch (Throwable e) {
@@ -48,7 +48,7 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public List<Animal> findAnimalsByEnvironment(Environment environment) throws ServiceDataAccessException {
+    public List<Animal> getAnimalsByEnvironment(Environment environment) throws ServiceDataAccessException {
         try {
             return animalDao.getAllAnimalsInEnvironment(environment);
         } catch (Throwable e) {
@@ -57,7 +57,7 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public void update(Animal animal) throws ServiceDataAccessException {
+    public void updateAnimal(Animal animal) throws ServiceDataAccessException {
         try {
             animalDao.updateAnimal(animal);
         } catch (Throwable e) {
@@ -66,7 +66,7 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public void remove(Animal animal) throws ServiceDataAccessException {
+    public void deleteAnimal(Animal animal) throws ServiceDataAccessException {
         try {
             animalDao.deleteAnimal(animal);
         } catch (Throwable e) {

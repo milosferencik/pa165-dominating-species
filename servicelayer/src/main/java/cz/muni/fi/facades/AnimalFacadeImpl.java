@@ -31,37 +31,37 @@ public class AnimalFacadeImpl implements AnimalFacade {
         Animal animal = beanMappingService.mapTo(animalCreateDTO, Animal.class);
         Environment environment = environmentService.getEnvironment(animalCreateDTO.getEnvironmentId());
         animal.setEnvironment(environment);
-        animalService.create(animal);
+        animalService.createAnimal(animal);
         return animal.getId();
     }
 
     @Override
     public void updateAnimal(AnimalDTO animalDTO) {
         Animal newAnimal = beanMappingService.mapTo(animalDTO, Animal.class);
-        animalService.update(newAnimal);
+        animalService.updateAnimal(newAnimal);
     }
 
     @Override
     public void deleteAnimal(Long id) {
         Animal animal = new Animal();
         animal.setId(id);
-        animalService.remove(animal);
+        animalService.deleteAnimal(animal);
     }
 
     @Override
     public List<AnimalDTO> getAllAnimals() {
-        return beanMappingService.mapTo(animalService.findAll(), AnimalDTO.class);
+        return beanMappingService.mapTo(animalService.getAllAnimals(), AnimalDTO.class);
     }
 
     @Override
     public List<AnimalDTO> getAnimalsByEnvironment(Long environmentId) {
         Environment environment = environmentService.getEnvironment(environmentId);
-        return beanMappingService.mapTo(animalService.findAnimalsByEnvironment(environment), AnimalDTO.class);
+        return beanMappingService.mapTo(animalService.getAnimalsByEnvironment(environment), AnimalDTO.class);
     }
 
     @Override
     public AnimalDTO getAnimalById(Long id) {
-        Animal animal = animalService.findById(id);
+        Animal animal = animalService.getAnimal(id);
         return (animal == null) ? null : beanMappingService.mapTo(animal, AnimalDTO.class);
     }
 }
