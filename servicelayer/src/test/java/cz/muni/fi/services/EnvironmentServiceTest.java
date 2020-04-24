@@ -158,7 +158,7 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void DeleteEnvironmentTest() {
-
+        addEnvironmentManipulationMethodsMock();
         environmentService.deleteEnvironment(dam);
         assertThat(environmentService.getAllEnvironments()).isEmpty();
     }
