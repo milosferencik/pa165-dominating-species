@@ -3,28 +3,18 @@ package cz.muni.fi.services;
 import cz.muni.fi.config.ServiceConfiguration;
 import cz.muni.fi.services.exceptions.ServiceDataAccessException;
 import cz.muni.fi.services.interfaces.EnvironmentService;
-import cz.muni.fi.services.interfaces.FoodChainService;
-import dao.entities.Animal;
 import dao.entities.Environment;
-import dao.entities.FoodChain;
 import dao.interfaces.EnvironmentDao;
-import dao.interfaces.FoodChainDao;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import javax.persistence.PersistenceException;
-import javax.validation.ConstraintViolationException;
-
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -165,15 +155,28 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = DataAccessException.class)
     public void testDeleteEnvironmentWithNull() throws Exception {
+        doThrow(DataAccessException.class).when(environmentDao).deleteEnvironment(null);
         environmentService.deleteEnvironment(null);
     }
 
     @Test
     public void testGetAllEnvironment() {
-        environmentService.createEnvironment(dam);
-        environmentService.createEnvironment(forest);
-        environmentService.createEnvironment(marsh);
-        assertThat(environmentDao.getAllEnvironments()).hasSize(3);
+        addEnvironmentManipulationMethodsMock();
+        Mockito.when(environmentDao.getAllEnvironments()).thenReturn(Collections.singletonList(dam));
+
+        List<Environment> found = environmentService.getAllEnvironments();
+        Mockito.verify(environmentDao).getAllEnvironments();
+        assertThat(found).usingRecursiveFieldByFieldElementComparator().containsExactlyInAnyOrder(dam);
+    }
+    @Test
+    public void testGetAllEnvironmentOnEmptyDB() {
+        assertThat(environmentService.getAllEnvironments()).isEmpty();
+    }
+
+    @Test
+    public void testGetEnvironment() {
+        addEnvironmentManipulationMethodsMock();
+        assertThat(environmentService.getEnvironment(dam.getId())).isEqualToComparingFieldByField(dam);
     }
 
     private void addEnvironmentManipulationMethodsMock() {
