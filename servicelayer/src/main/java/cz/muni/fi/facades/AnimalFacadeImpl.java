@@ -2,6 +2,7 @@ package cz.muni.fi.facades;
 
 import cz.muni.fi.dto.AnimalCreateDTO;
 import cz.muni.fi.dto.AnimalDTO;
+import cz.muni.fi.dto.AnimalListDTO;
 import cz.muni.fi.services.interfaces.AnimalService;
 import cz.muni.fi.services.interfaces.BeanMappingService;
 import cz.muni.fi.services.interfaces.EnvironmentService;
@@ -49,14 +50,14 @@ public class AnimalFacadeImpl implements AnimalFacade {
     }
 
     @Override
-    public List<AnimalDTO> getAllAnimals() {
-        return beanMappingService.mapTo(animalService.getAllAnimals(), AnimalDTO.class);
+    public List<AnimalListDTO> getAllAnimals() {
+        return beanMappingService.mapTo(animalService.getAllAnimals(), AnimalListDTO.class);
     }
 
     @Override
-    public List<AnimalDTO> getAnimalsByEnvironment(Long environmentId) {
+    public List<AnimalListDTO> getAnimalsByEnvironment(Long environmentId) {
         Environment environment = environmentService.getEnvironment(environmentId);
-        return beanMappingService.mapTo(animalService.getAnimalsByEnvironment(environment), AnimalDTO.class);
+        return beanMappingService.mapTo(animalService.getAnimalsByEnvironment(environment), AnimalListDTO.class);
     }
 
     @Override
