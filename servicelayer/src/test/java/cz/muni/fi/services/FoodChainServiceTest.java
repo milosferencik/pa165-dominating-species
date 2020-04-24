@@ -284,6 +284,18 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
                 .containsExactly(frog, fox);
     }
 
+    @Test
+    public void removeFoodChain() {
+        foodChainService.deleteFoodChain(standardFoodChain);
+        Mockito.verify(foodChainDao).deleteFoodChain(standardFoodChain);
+    }
+
+    @Test(expectedExceptions = ServiceDataAccessException.class)
+    public void removeNullAnimalTest() {
+        Mockito.doThrow(DataAccessException.class).when(foodChainDao).deleteFoodChain(null);
+        foodChainService.deleteFoodChain(null);
+    }
+
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void removeNullAnimalFromFoodChainTest() {
         foodChainService.removeAnimal(null);
