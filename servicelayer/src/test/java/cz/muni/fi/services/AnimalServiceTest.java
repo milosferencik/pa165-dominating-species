@@ -101,14 +101,14 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void createAnimalTest() {
-        animalService.create(wolf);
+        animalService.createAnimal(wolf);
         Mockito.verify(animalDao).createAnimal(wolf);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void createNullAnimalTest() {
         Mockito.doThrow(DataAccessException.class).when(animalDao).createAnimal(null);
-        animalService.create(null);
+        animalService.createAnimal(null);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -122,7 +122,7 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
         }).when(animalDao).createAnimal(any(Animal.class));
 
         wolf.setEnvironment(null);
-        animalService.create(wolf);
+        animalService.createAnimal(wolf);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -136,7 +136,7 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
         }).when(animalDao).createAnimal(any(Animal.class));
 
         wolf.setName(null);
-        animalService.create(wolf);
+        animalService.createAnimal(wolf);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -150,7 +150,7 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
         }).when(animalDao).createAnimal(any(Animal.class));
 
         wolf.setSpecies(null);
-        animalService.create(wolf);
+        animalService.createAnimal(wolf);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -164,7 +164,7 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
         }).when(animalDao).createAnimal(any(Animal.class));
 
         wolf.setSpecies("");
-        animalService.create(wolf);
+        animalService.createAnimal(wolf);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -178,14 +178,14 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
         }).when(animalDao).createAnimal(any(Animal.class));
 
         wolf.setName("");
-        animalService.create(wolf);
+        animalService.createAnimal(wolf);
     }
 
     @Test
     public void findAnimalByIdTest() {
         Mockito.when(animalDao.getAnimal(wolf.getId())).thenReturn(wolf);
 
-        Animal foundAnimal = animalService.findById(wolf.getId());
+        Animal foundAnimal = animalService.getAnimal(wolf.getId());
         Mockito.verify(animalDao).getAnimal(wolf.getId());
         assertThat(foundAnimal).isEqualToComparingFieldByFieldRecursively(wolf);
     }
@@ -193,14 +193,14 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void findAnimalByNonExistingIdTest() {
         Mockito.doThrow(DataAccessException.class).when(animalDao).getAnimal(4L);
-        animalService.findById(4L);
+        animalService.getAnimal(4L);
     }
 
     @Test
     public void findAnimalsByEnvironmentTest() {
         Mockito.when(animalDao.getAllAnimalsInEnvironment(forest)).thenReturn(forestAnimals);
 
-        List<Animal> foundAnimals = animalService.findAnimalsByEnvironment(wolf.getEnvironment());
+        List<Animal> foundAnimals = animalService.getAnimalsByEnvironment(wolf.getEnvironment());
         Mockito.verify(animalDao).getAllAnimalsInEnvironment(forest);
         for (Animal animal : foundAnimals) {
             assertThat(animal.getEnvironment()).isEqualTo(forest);
@@ -213,7 +213,7 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
     public void findAnimalsByEnvironmentNonExistingTest() {
         Mockito.when(animalDao.getAllAnimalsInEnvironment(sun)).thenReturn(Collections.emptyList());
 
-        List<Animal> foundAnimals = animalService.findAnimalsByEnvironment(sun);
+        List<Animal> foundAnimals = animalService.getAnimalsByEnvironment(sun);
         Mockito.verify(animalDao).getAllAnimalsInEnvironment(sun);
         assertThat(foundAnimals).size().isEqualTo(0);
     }
@@ -221,14 +221,14 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void findAnimalsByNullEnvironmentTest() {
         Mockito.doThrow(DataAccessException.class).when(animalDao).getAllAnimalsInEnvironment(null);
-        animalService.findAnimalsByEnvironment(null);
+        animalService.getAnimalsByEnvironment(null);
     }
 
     @Test
     public void findAllAnimalsWithSingleAnimalStoredTest() {
         Mockito.when(animalDao.getAllAnimals()).thenReturn(Collections.singletonList(wolf));
 
-        List<Animal> foundAnimals = animalService.findAll();
+        List<Animal> foundAnimals = animalService.getAllAnimals();
         Mockito.verify(animalDao).getAllAnimals();
         assertThat(foundAnimals).containsExactlyInAnyOrder(wolf);
     }
@@ -237,7 +237,7 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
     public void findAllAnimalsWithMultipleAnimalsStoredTest() {
         Mockito.when(animalDao.getAllAnimals()).thenReturn(Arrays.asList(wolf,deer,salmon));
 
-        List<Animal> foundAnimals = animalService.findAll();
+        List<Animal> foundAnimals = animalService.getAllAnimals();
         Mockito.verify(animalDao).getAllAnimals();
         assertThat(foundAnimals).containsExactlyInAnyOrder(deer,salmon,wolf);
     }
@@ -245,7 +245,7 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
     @Test
     public void updateTest() {
         wolf.setSpecies("Steppe wolf");
-        animalService.update(wolf);
+        animalService.updateAnimal(wolf);
         Mockito.verify(animalDao).updateAnimal(wolf);
     }
 
@@ -260,7 +260,7 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
         }).when(animalDao).updateAnimal(any(Animal.class));
 
         wolf.setName(null);
-        animalService.update(wolf);
+        animalService.updateAnimal(wolf);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -274,7 +274,7 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
         }).when(animalDao).updateAnimal(any(Animal.class));
 
         wolf.setEnvironment(null);
-        animalService.update(wolf);
+        animalService.updateAnimal(wolf);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -288,7 +288,7 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
         }).when(animalDao).updateAnimal(any(Animal.class));
 
         wolf.setSpecies(null);
-        animalService.update(wolf);
+        animalService.updateAnimal(wolf);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -302,7 +302,7 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
         }).when(animalDao).updateAnimal(any(Animal.class));
 
         wolf.setSpecies("");
-        animalService.update(wolf);
+        animalService.updateAnimal(wolf);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -316,18 +316,18 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
         }).when(animalDao).updateAnimal(any(Animal.class));
 
         wolf.setName("");
-        animalService.update(wolf);
+        animalService.updateAnimal(wolf);
     }
 
     @Test
     public void removeAnimalTest() {
-        animalService.remove(wolf);
+        animalService.deleteAnimal(wolf);
         Mockito.verify(animalDao).deleteAnimal(wolf);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
     public void removeNullAnimalTest() {
         Mockito.doThrow(DataAccessException.class).when(animalDao).deleteAnimal(null);
-        animalService.remove(null);
+        animalService.deleteAnimal(null);
     }
 }
