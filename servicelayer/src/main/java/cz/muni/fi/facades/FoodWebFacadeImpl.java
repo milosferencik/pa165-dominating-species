@@ -34,14 +34,14 @@ public class FoodWebFacadeImpl implements FoodWebFacade {
     @Override
     public FoodWebDTO getFoodWebFromAllFoodChains() {
         FoodWebDTO result = new FoodWebDTO();
-        Map<AnimalListDTO, List<AnimalListDTO>> foodWeb = buildFoodWeb(animalService.findAll());
+        Map<AnimalListDTO, List<AnimalListDTO>> foodWeb = buildFoodWeb(animalService.getAllAnimals());
         result.setFoodWeb(foodWeb);
         return result;
     }
 
     @Override
     public FoodWebDTO getFoodWebByEnvironment(EnvironmentDTO environment) {
-        List<Animal> animals = animalService.findAnimalsByEnvironment(beanMappingService.mapTo(environment, Environment.class));
+        List<Animal> animals = animalService.getAnimalsByEnvironment(beanMappingService.mapTo(environment, Environment.class));
         Map<AnimalListDTO, List<AnimalListDTO>> foodWeb = buildFoodWeb(animals);
         
         FoodWebDTO result = new FoodWebDTO();

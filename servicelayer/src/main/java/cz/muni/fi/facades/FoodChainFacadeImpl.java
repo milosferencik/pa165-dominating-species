@@ -35,7 +35,7 @@ public class FoodChainFacadeImpl implements FoodChainFacade {
 
     @Override
     public List<FoodChainDTO> getFoodChainsWithAnimal(Long animalId) {
-        Animal animal = animalService.findById(animalId);
+        Animal animal = animalService.getAnimal(animalId);
         List<FoodChain> foodChains = foodChainService.getFoodChainsWithAnimal(animal);
         return beanMappingService.mapTo(foodChains, FoodChainDTO.class);
     }
