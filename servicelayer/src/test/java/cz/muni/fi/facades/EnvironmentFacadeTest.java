@@ -1,7 +1,9 @@
 package cz.muni.fi.facades;
 
 import cz.muni.fi.config.ServiceConfiguration;
-import cz.muni.fi.dto.*;
+import cz.muni.fi.dto.EnvironmentCreateDTO;
+import cz.muni.fi.dto.EnvironmentDTO;
+import cz.muni.fi.dto.EnvironmentListDTO;
 import cz.muni.fi.services.interfaces.BeanMappingService;
 import cz.muni.fi.services.interfaces.EnvironmentService;
 import dao.entities.Environment;
@@ -10,6 +12,7 @@ import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.AfterMethod;
@@ -29,7 +32,7 @@ import static org.mockito.Matchers.any;
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @ContextConfiguration(classes = ServiceConfiguration.class)
 @Transactional
-public class EnvironmentFacadeTest {
+public class EnvironmentFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private EnvironmentService environmentService;
@@ -112,9 +115,9 @@ public class EnvironmentFacadeTest {
     }
 
     @Test
-    public void getAllAnimalsTest() {
+    public void getAllEnvironmentsTest() {
         Mockito.when(environmentService.getAllEnvironments()).thenReturn(environmentList);
-        List<EnvironmentListDTO> environmentListDTOS = environmentFacade.getAllEnvironment();
-        assertThat(environmentListDTOS).isEqualTo(beanMappingService.mapTo(environmentList, EnvironmentListDTO.class));
+        List<EnvironmentListDTO> environments = environmentFacade.getAllEnvironment();
+        assertThat(environments).isEqualTo(beanMappingService.mapTo(environmentList, EnvironmentListDTO.class));
     }
 }
