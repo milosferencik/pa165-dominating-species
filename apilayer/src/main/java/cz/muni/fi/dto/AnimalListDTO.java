@@ -2,6 +2,9 @@ package cz.muni.fi.dto;
 
 import java.util.Objects;
 
+/**
+ * @author Milos Ferencik 24/4/2020
+ */
 public class AnimalListDTO {
     private Long id;
     private String name;

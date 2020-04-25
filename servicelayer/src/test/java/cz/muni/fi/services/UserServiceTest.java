@@ -28,7 +28,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 
 /**
- * Created by Milos Ferencik on 23/04/2020.
+ * @author Milos Ferencik on 23/04/2020.
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class UserServiceTest extends AbstractTestNGSpringContextTests {

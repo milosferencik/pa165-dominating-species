@@ -28,6 +28,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 
+/**
+ * @author Milos Ferencik 25/4/2020
+ */
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @ContextConfiguration(classes = ServiceConfiguration.class)
 @Transactional
