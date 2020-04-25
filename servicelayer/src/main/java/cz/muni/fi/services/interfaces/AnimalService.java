@@ -6,6 +6,9 @@ import dao.entities.Environment;
 
 import java.util.List;
 
+/**
+ * @author  Ondrej Slimak on 18/04/2020.
+ */
 public interface AnimalService {
     /**
      * Create new Animal
