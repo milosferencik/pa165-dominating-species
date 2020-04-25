@@ -5,7 +5,7 @@ import dao.entities.Environment;
 import java.util.List;
 
 /**
- * @author by Kostka on 23/03/2020.
+ * @author Kostka on 23/03/2020.
  */
 public interface EnvironmentDao {
     /**
