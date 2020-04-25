@@ -9,6 +9,6 @@ import cz.muni.fi.dto.UserDTO;
 public interface UserFacade {
     Long createUser(UserCreateDTO userCreateDTO);
     void updateUser(UserDTO userDTO);
-    void deleteAnimal(Long id);
-    UserDTO getAnimalById(Long id);
+    void deleteUser(Long id);
+    UserDTO getUserById(Long id);
 }
