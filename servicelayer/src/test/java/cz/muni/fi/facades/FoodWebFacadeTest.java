@@ -160,7 +160,7 @@ public class FoodWebFacadeTest extends AbstractTestNGSpringContextTests {
 
 
     @Test
-    public void getFoodWebByAnimalHavingAllAnimalsTest() {
+    public void getFoodWebByAnimalTest() {
         addBasicFoodChainMethodMocks();
         FoodWebDTO foodWeb = foodWebFacade.getFoodWebByAnimal(beanMappingService.mapTo(fox, AnimalDTO.class));
 
