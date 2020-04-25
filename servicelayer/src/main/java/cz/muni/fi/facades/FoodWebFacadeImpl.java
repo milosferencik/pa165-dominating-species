@@ -1,5 +1,6 @@
 package cz.muni.fi.facades;
 
+import cz.muni.fi.dto.AnimalDTO;
 import cz.muni.fi.dto.AnimalListDTO;
 import cz.muni.fi.dto.EnvironmentDTO;
 import cz.muni.fi.dto.FoodWebDTO;
@@ -47,7 +48,7 @@ public class FoodWebFacadeImpl implements FoodWebFacade {
     }
     
     @Override
-    public FoodWebDTO getFoodWebByAnimal(AnimalListDTO animal){
+    public FoodWebDTO getFoodWebByAnimal(AnimalDTO animal){
         FoodWebDTO result = new FoodWebDTO();
 
         ArrayList<Animal> animals = new ArrayList<>();
@@ -74,7 +75,6 @@ public class FoodWebFacadeImpl implements FoodWebFacade {
                         preys.add(animalsOfFoodChain.get(index - 1));
                     }
                 }
-
             }
             foodWeb.put(beanMappingService.mapTo(animal, AnimalListDTO.class), beanMappingService.mapTo(preys, AnimalListDTO.class));
         }

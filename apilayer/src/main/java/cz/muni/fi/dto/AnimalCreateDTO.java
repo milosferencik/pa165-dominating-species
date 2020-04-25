@@ -1,13 +1,11 @@
 package cz.muni.fi.dto;
 
-import com.sun.istack.internal.NotNull;
+import java.util.Objects;
 
 public class AnimalCreateDTO {
 
-    @NotNull
     private String name;
 
-    @NotNull
     private String species;
 
     private Long environmentId;
@@ -34,5 +32,20 @@ public class AnimalCreateDTO {
 
     public void setEnvironmentId(Long environmentId) {
         this.environmentId = environmentId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AnimalCreateDTO that = (AnimalCreateDTO) o;
+        return Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getSpecies(), that.getSpecies()) &&
+                Objects.equals(getEnvironmentId(), that.getEnvironmentId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getSpecies(), getEnvironmentId());
     }
 }

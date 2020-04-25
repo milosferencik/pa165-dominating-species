@@ -1,7 +1,9 @@
 package cz.muni.fi.facades;
 
 import cz.muni.fi.config.ServiceConfiguration;
+import cz.muni.fi.dto.AnimalDTO;
 import cz.muni.fi.dto.AnimalListDTO;
+import cz.muni.fi.dto.EnvironmentDTO;
 import cz.muni.fi.dto.FoodWebDTO;
 import cz.muni.fi.services.interfaces.AnimalService;
 import cz.muni.fi.services.interfaces.BeanMappingService;
@@ -12,7 +14,6 @@ import dao.entities.FoodChain;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -113,31 +114,99 @@ public class FoodWebFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void getFoodWebFromAllFoodChainsTest() {
+        addBasicFoodChainMethodMocks();
         Mockito.when(animalService.getAllAnimals()).thenReturn(new ArrayList<Animal>(){ {add(vole); add(fox); add(frog);} });
 
-        Mockito.when(foodChainService.getAllFoodChains()).thenReturn(Arrays.asList(standardFoodChain, standardFoodChain2));
-        Mockito.when(foodChainService.getFoodChainsWithAnimal(vole)).thenReturn(Arrays.asList(standardFoodChain, standardFoodChain2));
-        Mockito.when(foodChainService.getFoodChainsWithAnimal(fox)).thenReturn(Arrays.asList(standardFoodChain, standardFoodChain2));
-        Mockito.when(foodChainService.getFoodChainsWithAnimal(frog)).thenReturn(Collections.singletonList(standardFoodChain2));
-
         FoodWebDTO foodWebFromAllFoodChains = foodWebFacade.getFoodWebFromAllFoodChains();
+        assertFullFoodWebReceived(foodWebFromAllFoodChains);
+    }
+
+    @Test
+    public void getFoodWebByEnvironmentHavingAllAnimalsTest() {
+        addBasicFoodChainMethodMocks();
+        Mockito.when(animalService.getAnimalsByEnvironment(field)).thenReturn(new ArrayList<Animal>(){ {add(vole); add(fox); add(frog);} });
+
+        FoodWebDTO foodWeb = foodWebFacade.getFoodWebByEnvironment(beanMappingService.mapTo(field, EnvironmentDTO.class));
+        assertFullFoodWebReceived(foodWeb);
+    }
+
+    @Test
+    public void getFoodWebByEnvironmentNotHavingAllAnimalsTest() {
+        addBasicFoodChainMethodMocks();
+        frog.setEnvironment(new Environment());
+
+        Mockito.when(animalService.getAnimalsByEnvironment(field)).thenReturn(new ArrayList<Animal>(){ {add(vole); add(fox);} });
+
+        FoodWebDTO foodWeb = foodWebFacade.getFoodWebByEnvironment(beanMappingService.mapTo(field, EnvironmentDTO.class));
 
         AnimalListDTO voleDTO = beanMappingService.mapTo(vole, AnimalListDTO.class);
         AnimalListDTO frogDTO = beanMappingService.mapTo(frog, AnimalListDTO.class);
         AnimalListDTO foxDTO = beanMappingService.mapTo(fox, AnimalListDTO.class);
 
-        assertThat(foodWebFromAllFoodChains.getFoodWeb().keySet())
+        assertThat(foodWeb.getFoodWeb().keySet())
+                .usingRecursiveFieldByFieldElementComparator()
+                .containsExactlyInAnyOrder(voleDTO, foxDTO);
+
+        assertThat(foodWeb.getFoodWeb().get(voleDTO))
+                .isEmpty();
+
+        assertThat(foodWeb.getFoodWeb().get(frogDTO))
+                .isNull();
+
+        assertThat(foodWeb.getFoodWeb().get(foxDTO))
+                .usingRecursiveFieldByFieldElementComparator()
+                .containsExactlyInAnyOrder(voleDTO, frogDTO);
+    }
+
+
+    @Test
+    public void getFoodWebByAnimalHavingAllAnimalsTest() {
+        addBasicFoodChainMethodMocks();
+        FoodWebDTO foodWeb = foodWebFacade.getFoodWebByAnimal(beanMappingService.mapTo(fox, AnimalDTO.class));
+
+        AnimalListDTO voleDTO = beanMappingService.mapTo(vole, AnimalListDTO.class);
+        AnimalListDTO frogDTO = beanMappingService.mapTo(frog, AnimalListDTO.class);
+        AnimalListDTO foxDTO = beanMappingService.mapTo(fox, AnimalListDTO.class);
+
+        assertThat(foodWeb.getFoodWeb().keySet())
+                .usingRecursiveFieldByFieldElementComparator()
+                .containsExactly(foxDTO);
+
+        assertThat(foodWeb.getFoodWeb().get(voleDTO))
+                .isNull();
+
+        assertThat(foodWeb.getFoodWeb().get(frogDTO))
+                .isNull();
+
+        assertThat(foodWeb.getFoodWeb().get(foxDTO))
+                .usingRecursiveFieldByFieldElementComparator()
+                .containsExactlyInAnyOrder(voleDTO, frogDTO);
+    }
+
+    private void addBasicFoodChainMethodMocks() {
+        Mockito.when(foodChainService.getAllFoodChains()).thenReturn(Arrays.asList(standardFoodChain, standardFoodChain2));
+        Mockito.when(foodChainService.getFoodChainsWithAnimal(vole)).thenReturn(Arrays.asList(standardFoodChain, standardFoodChain2));
+        Mockito.when(foodChainService.getFoodChainsWithAnimal(fox)).thenReturn(Arrays.asList(standardFoodChain, standardFoodChain2));
+        Mockito.when(foodChainService.getFoodChainsWithAnimal(frog)).thenReturn(Collections.singletonList(standardFoodChain2));
+    }
+
+    private void assertFullFoodWebReceived(FoodWebDTO foodWeb) {
+        AnimalListDTO voleDTO = beanMappingService.mapTo(vole, AnimalListDTO.class);
+        AnimalListDTO frogDTO = beanMappingService.mapTo(frog, AnimalListDTO.class);
+        AnimalListDTO foxDTO = beanMappingService.mapTo(fox, AnimalListDTO.class);
+
+        assertThat(foodWeb.getFoodWeb().keySet())
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyInAnyOrder(voleDTO, frogDTO, foxDTO);
 
-        assertThat(foodWebFromAllFoodChains.getFoodWeb().get(voleDTO))
+        assertThat(foodWeb.getFoodWeb().get(voleDTO))
                 .isEmpty();
 
-        assertThat(foodWebFromAllFoodChains.getFoodWeb().get(frogDTO))
+        assertThat(foodWeb.getFoodWeb().get(frogDTO))
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyInAnyOrder(foxDTO);
 
-        assertThat(foodWebFromAllFoodChains.getFoodWeb().get(foxDTO))
+        assertThat(foodWeb.getFoodWeb().get(foxDTO))
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyInAnyOrder(voleDTO, frogDTO);
     }
