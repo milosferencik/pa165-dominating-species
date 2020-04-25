@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * @author Milos Ferencik 24/4/2020
+ */
+
 @Service
 @Transactional
 public class AnimalFacadeImpl implements AnimalFacade {
