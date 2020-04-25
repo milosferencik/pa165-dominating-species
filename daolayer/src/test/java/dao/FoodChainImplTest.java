@@ -1,7 +1,7 @@
 package dao;
 
 /**
- * Created by Kostka on 28/03/2020.
+ * @author Kostka on 28/03/2020.
  */
 import dao.config.MainConfiguration;
 import dao.entities.Animal;
@@ -251,7 +251,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
     public void testDeleteFoodChainCorrectly() {
         foodChainDao.createFoodChain(foodChain1);
         assertThat(foodChainDao.getAllFoodChains()).isEqualTo(Collections.singletonList(foodChain1));
-        foodChainDao.deleteFoodChain(foodChain1);
+        foodChainDao.deleteFoodChain(foodChain1.getId());
         assertThat(foodChainDao.getAllFoodChains()).isEmpty();
     }
 
@@ -259,7 +259,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
     public void testDeleteNonExistingFoodChain() {
         foodChainDao.createFoodChain(foodChain1);
         assertThat(foodChainDao.getAllFoodChains()).isEqualTo(Collections.singletonList(foodChain1));
-        foodChainDao.deleteFoodChain(foodChain2);
+        foodChainDao.deleteFoodChain(foodChain1.getId() + 1);
         assertThat(foodChainDao.getAllFoodChains()).isEqualTo(Collections.singletonList(foodChain1));
     }
 

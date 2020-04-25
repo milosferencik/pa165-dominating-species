@@ -6,7 +6,7 @@ import dao.entities.Environment;
 import java.util.List;
 
 /**
- * Created by Matusova on 26/03/2020.
+ * @author Matusova on 26/03/2020.
  */
 public interface AnimalDao {
     /**
@@ -38,7 +38,7 @@ public interface AnimalDao {
 
     /**
      * Finds given animal and deletes it from the database.
-     * @param animal already stored animal, which shall be deleted
+     * @param id of already stored animal, which shall be deleted
      */
-    void deleteAnimal(Animal animal);
+    void deleteAnimal(Long id);
 }

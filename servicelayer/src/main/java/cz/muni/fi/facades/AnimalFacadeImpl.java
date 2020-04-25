@@ -48,9 +48,7 @@ public class AnimalFacadeImpl implements AnimalFacade {
 
     @Override
     public void deleteAnimal(Long id) {
-        Animal animal = new Animal();
-        animal.setId(id);
-        animalService.deleteAnimal(animal);
+        animalService.deleteAnimal(id);
     }
 
     @Override

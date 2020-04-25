@@ -261,7 +261,7 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
     public void testDeleteAnimalCorrectly() {
         animalDao.createAnimal(lion);
         assertThat(animalDao.getAllAnimals()).isEqualTo(Collections.singletonList(lion));
-        animalDao.deleteAnimal(lion);
+        animalDao.deleteAnimal(lion.getId());
         assertThat(animalDao.getAllAnimals()).isEmpty();
     }
 
@@ -269,7 +269,7 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
     public void testDeleteNonExistingAnimal() {
         animalDao.createAnimal(lion);
         assertThat(animalDao.getAllAnimals()).isEqualTo(Collections.singletonList(lion));
-        animalDao.deleteAnimal(hamster);
+        animalDao.deleteAnimal(lion.getId() + 1);
         assertThat(animalDao.getAllAnimals()).isEqualTo(Collections.singletonList(lion));
     }
 

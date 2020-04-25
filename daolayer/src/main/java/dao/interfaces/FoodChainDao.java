@@ -6,7 +6,7 @@ import dao.entities.FoodChain;
 import java.util.List;
 
 /**
- * Created by Ondrej Slimak on 25/03/2020.
+ * @author Ondrej Slimak on 25/03/2020.
  */
 public interface FoodChainDao {
 
@@ -37,9 +37,9 @@ public interface FoodChainDao {
 
     /**
      * Removes FoodChain
-     * @param foodChain to be deleted
+     * @param id of foodChain to be deleted
      */
-    void deleteFoodChain(FoodChain foodChain);
+    void deleteFoodChain(Long id);
 
     /**
      * Finds foodChains with animal

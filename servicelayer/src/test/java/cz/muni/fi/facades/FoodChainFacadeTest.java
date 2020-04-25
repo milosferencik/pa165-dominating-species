@@ -136,10 +136,10 @@ public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void delete() {
-        ArgumentCaptor<FoodChain> argument = ArgumentCaptor.forClass(FoodChain.class);
+        ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(Long.class);
         foodChainFacade.deleteFoodChain(standardFoodChain.getId());
         verify(foodChainService).deleteFoodChain(argument.capture());
-        assertThat(argument.getValue().getId()).isEqualTo(standardFoodChain.getId());
+        assertThat(argument.getValue()).isEqualTo(standardFoodChain.getId());
     }
 
     @Test

@@ -66,11 +66,11 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public void deleteAnimal(Animal animal) throws ServiceDataAccessException {
+    public void deleteAnimal(Long id) throws ServiceDataAccessException {
         try {
-            animalDao.deleteAnimal(animal);
+            animalDao.deleteAnimal(id);
         } catch (Throwable e) {
-            throw new ServiceDataAccessException("Could not remove animal '" + ( animal == null ? "null" : animal.getName() + "' with id " + animal.getId()), e);
+            throw new ServiceDataAccessException("Could not remove animal with id " + id, e);
         }
     }
 }

@@ -322,8 +322,8 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void removeAnimalTest() {
-        animalService.deleteAnimal(wolf);
-        Mockito.verify(animalDao).deleteAnimal(wolf);
+        animalService.deleteAnimal(wolf.getId());
+        Mockito.verify(animalDao).deleteAnimal(wolf.getId());
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)

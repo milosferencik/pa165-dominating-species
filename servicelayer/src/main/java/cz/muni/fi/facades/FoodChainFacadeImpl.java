@@ -59,9 +59,7 @@ public class FoodChainFacadeImpl implements FoodChainFacade {
 
     @Override
     public void deleteFoodChain(Long id) {
-        FoodChain foodChain = new FoodChain();
-        foodChain.setId(id);
-        foodChainService.deleteFoodChain(foodChain);
+        foodChainService.deleteFoodChain(id);
     }
 
     @Override

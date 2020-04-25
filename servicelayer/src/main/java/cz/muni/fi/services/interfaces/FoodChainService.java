@@ -40,7 +40,7 @@ public interface FoodChainService {
      * Delete entity from the database
      * @param foodChain to be deleted
      */
-    void deleteFoodChain(FoodChain foodChain) throws DataAccessException;
+    void deleteFoodChain(Long id) throws DataAccessException;
 
     /**
      * Finds foodChains entities with animal

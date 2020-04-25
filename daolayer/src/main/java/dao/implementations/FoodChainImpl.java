@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
- * Created by Ondrej Slimak on 25/03/2020.
+ * @author Ondrej Slimak on 25/03/2020.
  */
 @Repository
 public class FoodChainImpl implements FoodChainDao {
@@ -35,8 +35,11 @@ public class FoodChainImpl implements FoodChainDao {
 
     }
 
-    public void deleteFoodChain(FoodChain foodChain) {
-        entityManager.remove(foodChain);
+    public void deleteFoodChain(Long id) {
+        FoodChain foodChain = getFoodChain(id);
+        if (foodChain != null) {
+            entityManager.remove(foodChain);
+        }
     }
 
     @Override
