@@ -3,6 +3,10 @@ package cz.muni.fi.dto;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * DTO for FoodChain - create
+ * @author Katarina Matusova
+ */
 public class FoodChainCreateDTO {
 
     private List<AnimalInFoodChainDTO> animalsInFoodChain;
@@ -15,7 +19,7 @@ public class FoodChainCreateDTO {
         this.animalsInFoodChain = animalsInFoodChain;
     }
 
-   /* @Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof FoodChainCreateDTO)) return false;
@@ -37,15 +41,6 @@ public class FoodChainCreateDTO {
             }
         }
         return true;
-    }
-*/
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof FoodChainCreateDTO)) return false;
-        FoodChainCreateDTO that = (FoodChainCreateDTO) o;
-        return Objects.equals(getAnimalsInFoodChain(), that.getAnimalsInFoodChain());
     }
 
     @Override

@@ -2,6 +2,10 @@ package cz.muni.fi.dto;
 
 import java.util.Objects;
 
+/**
+ * DTO for AnimalInFoodChain
+ * @author Katarina Matusova
+ */
 public class AnimalInFoodChainDTO {
 
     private Long id;

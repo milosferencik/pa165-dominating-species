@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * DTO for FoodChain
  * @author Katarina Matusova
  */
 public class FoodChainDTO {

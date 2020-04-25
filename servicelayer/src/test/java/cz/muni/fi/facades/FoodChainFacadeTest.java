@@ -34,6 +34,10 @@ import static org.mockito.Mockito.when;
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @ContextConfiguration(classes = ServiceConfiguration.class)
 @Transactional
+/**
+ * Test class for FoodChainFacade.
+ * @author Katarina Matusova
+ */
 public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Mock
