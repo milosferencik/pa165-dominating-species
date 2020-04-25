@@ -179,10 +179,10 @@ public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void getFoodChainsWithAnimalTest() {
-        //Mockito.when(animalService.getAnimal(vole.getId())).thenReturn(vole);
+        Mockito.when(animalService.getAnimal(vole.getId())).thenReturn(vole);
         Mockito.when(foodChainService.getFoodChainsWithAnimal(vole)).thenReturn(Collections.singletonList(standardFoodChain));
-        List<FoodChainDTO> animals = foodChainFacade.getFoodChainsWithAnimal(vole.getId());
-        assertThat(animals).containsExactly(beanMappingService.mapTo(standardFoodChain, FoodChainDTO.class));
+        List<FoodChain> foodChains = beanMappingService.mapTo(foodChainFacade.getFoodChainsWithAnimal(vole.getId()), FoodChain.class);
+        assertThat(foodChains).containsOnly(standardFoodChain);
     }
 
     @Test
