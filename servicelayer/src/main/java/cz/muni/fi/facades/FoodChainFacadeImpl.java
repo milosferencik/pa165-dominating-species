@@ -9,7 +9,6 @@ import cz.muni.fi.services.interfaces.BeanMappingService;
 import cz.muni.fi.services.interfaces.FoodChainService;
 import dao.entities.Animal;
 import dao.entities.AnimalInFoodChain;
-import dao.entities.Environment;
 import dao.entities.FoodChain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
