@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Transactional
 @Service
@@ -67,17 +64,31 @@ public class FoodWebFacadeImpl implements FoodWebFacade {
         for (Animal animal : animals) {
             List<FoodChain> foodChainsOfAnimal = foodChainService.getFoodChainsWithAnimal(animal);
 
-            List<Animal> preys = new ArrayList<>();
+            HashSet<Animal> preys = new HashSet<>();
             for (FoodChain fd : foodChainsOfAnimal) {
                 List<Animal> animalsOfFoodChain = fd.getAnimals();
-                int indexOfAnimal = animalsOfFoodChain.indexOf(animal);
-                if (indexOfAnimal > 0){
-                    preys.add(animalsOfFoodChain.get(indexOfAnimal));
+                List<Integer> indexesOfAnimal = indexOfAllAnimalOccurrencesInList(animal, animalsOfFoodChain);
+
+                for (Integer index : indexesOfAnimal) {
+                    if (index > 0){
+                        preys.add(animalsOfFoodChain.get(index - 1));
+                    }
                 }
+
             }
             foodWeb.put(beanMappingService.mapTo(animal, AnimalListDTO.class), beanMappingService.mapTo(preys, AnimalListDTO.class));
         }
         return foodWeb;
+    }
+
+    private List<Integer> indexOfAllAnimalOccurrencesInList(Animal animal, List<Animal> list) {
+        final List<Integer> indexList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (animal.equals(list.get(i))) {
+                indexList.add(i);
+            }
+        }
+        return indexList;
     }
 
 }

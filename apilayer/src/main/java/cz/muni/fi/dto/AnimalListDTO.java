@@ -1,5 +1,7 @@
 package cz.muni.fi.dto;
 
+import java.util.Objects;
+
 public class AnimalListDTO {
     private Long id;
     private String name;
@@ -18,5 +20,19 @@ public class AnimalListDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AnimalListDTO)) return false;
+        AnimalListDTO that = (AnimalListDTO) o;
+        return getId().equals(that.getId()) &&
+                getName().equals(that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
     }
 }

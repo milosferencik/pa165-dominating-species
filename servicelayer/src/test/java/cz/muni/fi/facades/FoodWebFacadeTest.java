@@ -1,34 +1,35 @@
 package cz.muni.fi.facades;
 
 import cz.muni.fi.config.ServiceConfiguration;
+import cz.muni.fi.dto.AnimalListDTO;
+import cz.muni.fi.dto.FoodWebDTO;
 import cz.muni.fi.services.interfaces.AnimalService;
+import cz.muni.fi.services.interfaces.BeanMappingService;
 import cz.muni.fi.services.interfaces.FoodChainService;
 import dao.entities.Animal;
 import dao.entities.Environment;
 import dao.entities.FoodChain;
 import org.hibernate.service.spi.ServiceException;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DirtiesContext
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
 @ContextConfiguration(classes = ServiceConfiguration.class)
+@Transactional
 public class FoodWebFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Mock
@@ -37,9 +38,13 @@ public class FoodWebFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private AnimalService animalService;
 
+    @Spy
     @Autowired
+    private BeanMappingService beanMappingService;
+
+
     @InjectMocks
-    private FoodWebFacade foodWebFacade;
+    private FoodWebFacade foodWebFacade = new FoodWebFacadeImpl();
 
     @BeforeClass
     public void init() throws ServiceException {
@@ -96,6 +101,7 @@ public class FoodWebFacadeTest extends AbstractTestNGSpringContextTests {
         standardFoodChain.setAnimals(foodChainAnimalList);
 
         foodChainAnimalList.add(frog);
+        foodChainAnimalList.add(fox);
         standardFoodChain2.setAnimals(foodChainAnimalList);
     }
 
@@ -107,15 +113,32 @@ public class FoodWebFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void getFoodWebFromAllFoodChainsTest() {
-        Mockito.when(animalService.getAllAnimals())
-                .thenReturn(new ArrayList<Animal>(){ {add(vole); add(fox); add(frog);} });
+        Mockito.when(animalService.getAllAnimals()).thenReturn(new ArrayList<Animal>(){ {add(vole); add(fox); add(frog);} });
+
         Mockito.when(foodChainService.getAllFoodChains()).thenReturn(Arrays.asList(standardFoodChain, standardFoodChain2));
         Mockito.when(foodChainService.getFoodChainsWithAnimal(vole)).thenReturn(Arrays.asList(standardFoodChain, standardFoodChain2));
         Mockito.when(foodChainService.getFoodChainsWithAnimal(fox)).thenReturn(Arrays.asList(standardFoodChain, standardFoodChain2));
         Mockito.when(foodChainService.getFoodChainsWithAnimal(frog)).thenReturn(Collections.singletonList(standardFoodChain2));
 
+        FoodWebDTO foodWebFromAllFoodChains = foodWebFacade.getFoodWebFromAllFoodChains();
 
+        AnimalListDTO voleDTO = beanMappingService.mapTo(vole, AnimalListDTO.class);
+        AnimalListDTO frogDTO = beanMappingService.mapTo(frog, AnimalListDTO.class);
+        AnimalListDTO foxDTO = beanMappingService.mapTo(fox, AnimalListDTO.class);
 
-        assertThat(foodWebFacade.getFoodWebFromAllFoodChains()).isNotNull();
+        assertThat(foodWebFromAllFoodChains.getFoodWeb().keySet())
+                .usingRecursiveFieldByFieldElementComparator()
+                .containsExactlyInAnyOrder(voleDTO, frogDTO, foxDTO);
+
+        assertThat(foodWebFromAllFoodChains.getFoodWeb().get(voleDTO))
+                .isEmpty();
+
+        assertThat(foodWebFromAllFoodChains.getFoodWeb().get(frogDTO))
+                .usingRecursiveFieldByFieldElementComparator()
+                .containsExactlyInAnyOrder(foxDTO);
+
+        assertThat(foodWebFromAllFoodChains.getFoodWeb().get(foxDTO))
+                .usingRecursiveFieldByFieldElementComparator()
+                .containsExactlyInAnyOrder(voleDTO, frogDTO);
     }
 }
