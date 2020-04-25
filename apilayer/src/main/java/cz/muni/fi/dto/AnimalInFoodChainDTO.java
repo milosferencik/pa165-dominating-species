@@ -48,8 +48,8 @@ public class AnimalInFoodChainDTO {
         if (!(o instanceof AnimalInFoodChainDTO)) return false;
         AnimalInFoodChainDTO that = (AnimalInFoodChainDTO) o;
         return getIndexInFoodChain() == that.getIndexInFoodChain() &&
-                Objects.equals(getAnimal(), that.getAnimal()) &&
-                Objects.equals(getFoodChain(), that.getFoodChain());
+                getFoodChain().getId().equals(that.getFoodChain().getId()) &&
+                getAnimal().equals(that.getAnimal());
     }
 
     @Override

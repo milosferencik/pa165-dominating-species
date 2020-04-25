@@ -2,10 +2,7 @@ package cz.muni.fi.facades;
 
 
 import cz.muni.fi.config.ServiceConfiguration;
-import cz.muni.fi.dto.AnimalDTO;
-import cz.muni.fi.dto.AnimalInFoodChainDTO;
-import cz.muni.fi.dto.FoodChainCreateDTO;
-import cz.muni.fi.dto.FoodChainDTO;
+import cz.muni.fi.dto.*;
 import cz.muni.fi.services.interfaces.AnimalService;
 import cz.muni.fi.services.interfaces.BeanMappingService;
 import cz.muni.fi.services.interfaces.FoodChainService;
@@ -132,9 +129,17 @@ public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void createFoodChainTest() {
-        FoodChainCreateDTO foodChainCreateDTO = beanMappingService.mapTo(standardFoodChain, FoodChainCreateDTO.class);
-        Long id = foodChainFacade.createFoodChain(foodChainCreateDTO);
-        verify(foodChainService).createFoodChain(standardFoodChain);
+        Mockito.doAnswer(invocationOnMock -> {
+            FoodChain foodChain = invocationOnMock.getArgumentAt(0, FoodChain.class);
+            foodChain.setId(3L);
+            return foodChain;
+        }).when(foodChainService).createFoodChain(any(FoodChain.class));
+
+        FoodChainCreateDTO standardCreateDTO = new FoodChainCreateDTO();
+        List<AnimalInFoodChainDTO> list = beanMappingService.mapTo(foodChainAnimalList, AnimalInFoodChainDTO.class);
+        standardCreateDTO.setAnimalsInFoodChain(list);
+        Long id = foodChainFacade.createFoodChain(standardCreateDTO);
+        assertThat(id).isEqualTo(3L);
     }
 
     @Test
@@ -148,14 +153,10 @@ public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void delete() {
-        /*foodChainFacade.deleteFoodChain(standardFoodChain.getId());
-        verify(foodChainService).deleteFoodChain(standardFoodChain);*/
-
         ArgumentCaptor<FoodChain> argument = ArgumentCaptor.forClass(FoodChain.class);
         foodChainFacade.deleteFoodChain(standardFoodChain.getId());
         verify(foodChainService).deleteFoodChain(argument.capture());
         assertThat(argument.getValue().getId()).isEqualTo(standardFoodChain.getId());
-
     }
 
     @Test
@@ -206,7 +207,4 @@ public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
         foodChainFacade.addAnimalToEnd(animalDTO,standardFoodChain.getId());
         verify(foodChainService).addAnimalToEndOfFoodChain(beanMappingService.mapTo(animalDTO,Animal.class),standardFoodChain.getId());
     }
-
 }
-
-
