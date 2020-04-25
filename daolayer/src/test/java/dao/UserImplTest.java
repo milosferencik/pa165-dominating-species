@@ -228,7 +228,7 @@ public class UserImplTest extends AbstractTestNGSpringContextTests{
     public void testDeleteUser() {
         userDao.createUser(u1);
         assertThat(userDao.getAllUsers()).isEqualTo(Collections.singletonList(u1));
-        userDao.deleteUser(u1);
+        userDao.deleteUser(u1.getId());
         assertThat(userDao.getAllUsers()).isEmpty();
     }
 

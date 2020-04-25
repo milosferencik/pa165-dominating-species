@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
- * Created by Kostka on 23/03/2020.
+ * @author Kostka on 23/03/2020.
  */
 @Repository
 public class EnvironmentImpl implements EnvironmentDao {
@@ -33,7 +33,10 @@ public class EnvironmentImpl implements EnvironmentDao {
         entityManager.merge(environment);
     }
 
-    public void deleteEnvironment(Environment environment) {
-        entityManager.remove(environment);
+    public void deleteEnvironment(Long id) {
+        Environment env = getEnvironment(id);
+        if (env != null) {
+            entityManager.remove(env);
+        }
     }
 }

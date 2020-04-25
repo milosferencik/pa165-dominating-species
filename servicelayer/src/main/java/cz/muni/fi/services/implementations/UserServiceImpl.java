@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author Kostka on 25/04/2020.
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -54,9 +57,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(User user) throws DataAccessException {
+    public void deleteUser(Long id) throws DataAccessException {
         try {
-            userDao.deleteUser(user);
+            userDao.deleteUser(id);
         } catch (Throwable ex) {
             throw new ServiceDataAccessException("Could not delete user.", ex);
         }

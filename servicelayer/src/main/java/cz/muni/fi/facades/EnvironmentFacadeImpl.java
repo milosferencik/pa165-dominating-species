@@ -1,6 +1,5 @@
 package cz.muni.fi.facades;
 
-import cz.muni.fi.dto.AnimalListDTO;
 import cz.muni.fi.dto.EnvironmentCreateDTO;
 import cz.muni.fi.dto.EnvironmentDTO;
 import cz.muni.fi.dto.EnvironmentListDTO;
@@ -12,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 /**
- * Created by Kostka on 25/04/2020.
+ * @author Kostka on 25/04/2020.
  */
 public class EnvironmentFacadeImpl implements EnvironmentFacade {
 
@@ -37,9 +36,7 @@ public class EnvironmentFacadeImpl implements EnvironmentFacade {
 
     @Override
     public void deleteEnvironment(Long id) {
-        Environment environment = new Environment();
-        environment.setId(id);
-        environmentService.deleteEnvironment(environment);
+        environmentService.deleteEnvironment(id);
     }
 
     @Override

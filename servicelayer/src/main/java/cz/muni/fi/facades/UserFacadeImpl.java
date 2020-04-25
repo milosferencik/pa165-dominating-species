@@ -8,7 +8,7 @@ import dao.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Created by Kostka on 25/04/2020.
+ * @author Kostka on 25/04/2020.
  */
 public class UserFacadeImpl implements UserFacade {
     @Autowired
@@ -32,9 +32,7 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public void deleteUser(Long id) {
-        User user = new User();
-        user.setId(id);
-        userService.deleteUser(user);
+        userService.deleteUser(id);
     }
 
     @Override

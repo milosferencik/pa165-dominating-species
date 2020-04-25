@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 
 /**
- * Created by Kostka on 25/04/2020.
+ * @author Kostka on 25/04/2020.
  */
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @ContextConfiguration(classes = ServiceConfiguration.class)
@@ -100,10 +100,10 @@ public class EnvironmentFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void deleteEnvironmentTest() {
-        ArgumentCaptor<Environment> argument = ArgumentCaptor.forClass(Environment.class);
+        ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(Long.class);
         environmentFacade.deleteEnvironment(dam.getId());
         Mockito.verify(environmentService).deleteEnvironment(argument.capture());
-        assertThat(argument.getValue().getId()).isEqualTo(dam.getId());
+        assertThat(argument.getValue()).isEqualTo(dam.getId());
 
     }
 

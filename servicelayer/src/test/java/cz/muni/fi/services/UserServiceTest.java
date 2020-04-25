@@ -359,8 +359,8 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void removeUserTest() {
-        userService.deleteUser(u1);
-        Mockito.verify(userDao).deleteUser(u1);
+        userService.deleteUser(u1.getId());
+        Mockito.verify(userDao).deleteUser(u1.getId());
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)

@@ -5,6 +5,9 @@ import org.springframework.dao.DataAccessException;
 
 import java.util.List;
 
+/**
+ * @author Kostka on 25/04/2020.
+ */
 public interface UserService {
 
     /**
@@ -34,9 +37,9 @@ public interface UserService {
 
     /**
      * Deletes user from the database
-     * @param user user to be deleted
+     * @param id of user to be deleted
      */
-    void deleteUser(User user) throws DataAccessException;
+    void deleteUser(Long id) throws DataAccessException;
 
     /**
      * Finds a user by email in the database

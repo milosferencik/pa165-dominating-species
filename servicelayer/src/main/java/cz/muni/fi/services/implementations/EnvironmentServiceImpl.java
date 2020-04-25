@@ -55,9 +55,9 @@ public class EnvironmentServiceImpl implements EnvironmentService {
     }
 
     @Override
-    public void deleteEnvironment(Environment environment) throws DataAccessException {
+    public void deleteEnvironment(Long id) throws DataAccessException {
         try {
-            environmentDao.deleteEnvironment(environment);
+            environmentDao.deleteEnvironment(id);
         } catch (Throwable ex) {
             throw new ServiceDataAccessException("Could not delete environment.", ex);
         }

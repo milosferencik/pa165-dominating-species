@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
- * Created by Ferencik on 25/03/2020.
+ * @author Ferencik on 25/03/2020.
  */
 @Repository
 public class UserImpl implements UserDao {
@@ -34,8 +34,11 @@ public class UserImpl implements UserDao {
         entityManager.merge(user);
     }
 
-    public void deleteUser(User user) {
-        entityManager.remove(user);
+    public void deleteUser(Long id) {
+        User user = getUser(id);
+        if (user != null) {
+            entityManager.remove(user);
+        }
     }
 
     @Override

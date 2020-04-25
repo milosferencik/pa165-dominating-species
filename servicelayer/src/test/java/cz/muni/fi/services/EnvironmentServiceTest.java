@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 import java.util.*;
 
 /**
- * Created by Kostka on 22/04/2020.
+ * @author Kostka on 22/04/2020.
  */
 
 @ContextConfiguration(classes = ServiceConfiguration.class)
@@ -150,7 +150,7 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
     public void DeleteEnvironmentTest() {
         addEnvironmentManipulationMethodsMock();
         environmentService.createEnvironment(dam);
-        environmentService.deleteEnvironment(dam);
+        environmentService.deleteEnvironment(dam.getId());
         assertThat(environmentService.getAllEnvironments()).isEmpty();
     }
 
