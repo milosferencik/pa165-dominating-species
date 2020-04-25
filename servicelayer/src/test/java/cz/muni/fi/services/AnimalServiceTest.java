@@ -29,6 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 
 /**
+ * Tests for AnimalService
  * @author Katarina Matusova
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)

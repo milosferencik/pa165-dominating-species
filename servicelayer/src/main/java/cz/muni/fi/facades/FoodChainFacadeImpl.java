@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
+ * Facade for FoodChain
  * @author Katarina Matusova
  */
 @Service
@@ -58,7 +59,9 @@ public class FoodChainFacadeImpl implements FoodChainFacade {
 
     @Override
     public void deleteFoodChain(Long id) {
-        foodChainService.deleteFoodChain(foodChainService.getFoodChain(id));
+        FoodChain foodChain = new FoodChain();
+        foodChain.setId(id);
+        foodChainService.deleteFoodChain(foodChain);
     }
 
     @Override
