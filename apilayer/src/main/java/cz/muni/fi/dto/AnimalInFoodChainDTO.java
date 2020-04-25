@@ -1,10 +1,21 @@
 package cz.muni.fi.dto;
 
+import java.util.Objects;
+
 public class AnimalInFoodChainDTO {
 
     private Long id;
     private int indexInFoodChain;
-    private AnimalListDTO animal;
+    private AnimalDTO animal;
+    private FoodChainDTO foodChain;
+
+    public FoodChainDTO getFoodChain() {
+        return foodChain;
+    }
+
+    public void setFoodChain(FoodChainDTO foodChain) {
+        this.foodChain = foodChain;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -14,7 +25,7 @@ public class AnimalInFoodChainDTO {
         this.indexInFoodChain = indexInFoodChain;
     }
 
-    public void setAnimal(AnimalListDTO animal) {
+    public void setAnimal(AnimalDTO animal) {
         this.animal = animal;
     }
 
@@ -27,8 +38,22 @@ public class AnimalInFoodChainDTO {
         return indexInFoodChain;
     }
 
-    public AnimalListDTO getAnimal() {
+    public AnimalDTO getAnimal() {
         return animal;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AnimalInFoodChainDTO)) return false;
+        AnimalInFoodChainDTO that = (AnimalInFoodChainDTO) o;
+        return getIndexInFoodChain() == that.getIndexInFoodChain() &&
+                Objects.equals(getAnimal(), that.getAnimal()) &&
+                Objects.equals(getFoodChain(), that.getFoodChain());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFoodChain().getId(), getAnimal(), getIndexInFoodChain());
+    }
 }
