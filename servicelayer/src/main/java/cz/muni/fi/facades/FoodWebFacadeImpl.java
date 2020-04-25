@@ -16,6 +16,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
 
+/**
+ * @author  Ondrej Slimak on 24/04/2020.
+ */
+
 @Transactional
 @Service
 public class FoodWebFacadeImpl implements FoodWebFacade {

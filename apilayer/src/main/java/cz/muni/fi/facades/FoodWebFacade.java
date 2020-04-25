@@ -4,6 +4,9 @@ import cz.muni.fi.dto.AnimalDTO;
 import cz.muni.fi.dto.EnvironmentDTO;
 import cz.muni.fi.dto.FoodWebDTO;
 
+/**
+ * @author  Ondrej Slimak on 24/04/2020.
+ */
 public interface FoodWebFacade {
 
     /**

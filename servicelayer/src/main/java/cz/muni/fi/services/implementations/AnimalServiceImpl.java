@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Created by Ondrej Slimak on 18/04/2020.
+ * @author  Ondrej Slimak on 18/04/2020.
  */
 
 @Service

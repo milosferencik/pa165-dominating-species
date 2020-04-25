@@ -27,6 +27,9 @@ import org.testng.annotations.Test;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+/**
+ * @author  Ondrej Slimak on 25/04/2020.
+ */
 
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @ContextConfiguration(classes = ServiceConfiguration.class)

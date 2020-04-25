@@ -2,6 +2,9 @@ package cz.muni.fi.dto;
 
 import java.util.*;
 
+/**
+ * @author On
+ */
 public class FoodWebDTO {
     public Map<AnimalListDTO, List<AnimalListDTO>> foodWeb = new HashMap<>();
 
