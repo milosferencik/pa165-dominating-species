@@ -1,8 +1,8 @@
 package cz.muni.fi.config;
 
-import cz.muni.fi.dto.UserDTO;
+import cz.muni.fi.dto.*;
 import dao.config.MainConfiguration;
-import dao.entities.User;
+import dao.entities.*;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.dozer.loader.api.BeanMappingBuilder;
@@ -27,6 +27,19 @@ public class ServiceConfiguration {
         @Override
         protected void configure() {
             mapping(User.class, UserDTO.class);
+            mapping(User.class, UserCreateDTO.class);
+
+            mapping(Animal.class, AnimalCreateDTO.class);
+            mapping(Animal.class, AnimalListDTO.class);
+
+            mapping(AnimalInFoodChain.class, AnimalInFoodChainDTO.class);
+
+            mapping(Environment.class, EnvironmentDTO.class);
+            mapping(Environment.class, EnvironmentCreateDTO.class);
+            mapping(Environment.class, EnvironmentListDTO.class);
+
+            mapping(FoodChain.class, FoodChainCreateDTO.class);
+            mapping(FoodChain.class, FoodChainDTO.class);
         }
     }
 }

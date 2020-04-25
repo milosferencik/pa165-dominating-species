@@ -1,9 +1,12 @@
 package cz.muni.fi.facades;
 
-import cz.muni.fi.dto.AnimalListDTO;
+import cz.muni.fi.dto.AnimalDTO;
 import cz.muni.fi.dto.EnvironmentDTO;
 import cz.muni.fi.dto.FoodWebDTO;
 
+/**
+ * @author  Ondrej Slimak on 24/04/2020.
+ */
 public interface FoodWebFacade {
 
     /**
@@ -24,5 +27,5 @@ public interface FoodWebFacade {
      * @param animal targeted animal
      * @return food web with targeted animal
      */
-    FoodWebDTO getFoodWebByAnimal(AnimalListDTO animal);
+    FoodWebDTO getFoodWebByAnimal(AnimalDTO animal);
 }

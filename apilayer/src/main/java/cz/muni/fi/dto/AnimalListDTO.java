@@ -28,10 +28,10 @@ public class AnimalListDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof AnimalListDTO)) return false;
         AnimalListDTO that = (AnimalListDTO) o;
-        return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getName(), that.getName());
+        return getId().equals(that.getId()) &&
+                getName().equals(that.getName());
     }
 
     @Override

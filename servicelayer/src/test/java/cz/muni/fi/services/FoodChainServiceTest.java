@@ -26,7 +26,7 @@ import static org.mockito.Mockito.*;
 import java.util.*;
 
 /**
- * Created by Ondrej Slimak on 20/04/2020.
+ * @author Ondrej Slimak on 20/04/2020.
  */
 
 @ContextConfiguration(classes = ServiceConfiguration.class)
