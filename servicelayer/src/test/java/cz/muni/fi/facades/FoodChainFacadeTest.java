@@ -1,6 +1,5 @@
 package cz.muni.fi.facades;
 
-
 import cz.muni.fi.config.ServiceConfiguration;
 import cz.muni.fi.dto.*;
 import cz.muni.fi.services.interfaces.AnimalService;
@@ -13,7 +12,6 @@ import dao.entities.FoodChain;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -23,30 +21,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-
-import org.hibernate.service.spi.ServiceException;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import java.time.LocalDate;
-import java.util.List;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -78,6 +56,7 @@ public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
     private Animal fox;
     private Animal frog;
     List<Animal> foodChainAnimalList;
+
 
     @BeforeClass
     public void init() throws ServiceException {
@@ -145,10 +124,10 @@ public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
     @Test
     public void updateFoodChainTest() {
         FoodChainDTO foodChainDTO = beanMappingService.mapTo(standardFoodChain, FoodChainDTO.class);
-        foodChainAnimalList.add(frog);
-        standardFoodChain.setAnimals(foodChainAnimalList);
+        ArgumentCaptor<FoodChain> argument = ArgumentCaptor.forClass(FoodChain.class);
         foodChainFacade.updateFoodChain(foodChainDTO);
-        verify(foodChainService).updateFoodChain(beanMappingService.mapTo(foodChainDTO, FoodChain.class));
+        verify(foodChainService).updateFoodChain(argument.capture());
+        assertThat(argument.getValue()).isEqualToComparingFieldByField(standardFoodChain);
     }
 
     @Test
@@ -164,7 +143,8 @@ public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
         when(foodChainService.getFoodChain(standardFoodChain.getId())).thenReturn(standardFoodChain);
         FoodChainDTO foodChainDTO = foodChainFacade.getFoodChainById(standardFoodChain.getId());
         verify(foodChainService).getFoodChain(standardFoodChain.getId());
-        assertThat(beanMappingService.mapTo(foodChainDTO, FoodChain.class)).isEqualTo(standardFoodChain);
+        assertThat(beanMappingService.mapTo(foodChainDTO, FoodChain.class))
+                .isEqualToComparingFieldByField(standardFoodChain);
     }
 
     @Test
@@ -175,7 +155,7 @@ public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
         List<FoodChainDTO> foodChainDTOs = foodChainFacade.getAllFoodChains();
         verify(foodChainService).getAllFoodChains();
         List<FoodChain> foodChains = beanMappingService.mapTo(foodChainDTOs, FoodChain.class);
-        assertThat(foodChains).containsOnly(standardFoodChain, emptyFoodChain);
+        assertThat(foodChains).containsExactly(standardFoodChain, emptyFoodChain);
     }
 
     @Test
@@ -183,7 +163,7 @@ public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
         Mockito.when(animalService.getAnimal(vole.getId())).thenReturn(vole);
         Mockito.when(foodChainService.getFoodChainsWithAnimal(vole)).thenReturn(Collections.singletonList(standardFoodChain));
         List<FoodChain> foodChains = beanMappingService.mapTo(foodChainFacade.getFoodChainsWithAnimal(vole.getId()), FoodChain.class);
-        assertThat(foodChains).containsOnly(standardFoodChain);
+        assertThat(foodChains).containsExactly(standardFoodChain);
     }
 
     @Test
@@ -194,17 +174,19 @@ public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void removeAnimalTest() {
-        AnimalInFoodChain animalInFoodChain = standardFoodChain.getAnimalsInFoodChain().get(0);
-        AnimalInFoodChainDTO animalDTO = beanMappingService.mapTo(animalInFoodChain, AnimalInFoodChainDTO.class);
-        foodChainFacade.removeAnimal(animalDTO);
-        verify(foodChainService).removeAnimal(beanMappingService.mapTo(animalDTO,AnimalInFoodChain.class));
-    }
-
-    @Test
     public void addAnimalToEndTest() {
         AnimalDTO animalDTO = beanMappingService.mapTo(frog, AnimalDTO.class);
         foodChainFacade.addAnimalToEnd(animalDTO,standardFoodChain.getId());
         verify(foodChainService).addAnimalToEndOfFoodChain(beanMappingService.mapTo(animalDTO,Animal.class),standardFoodChain.getId());
+    }
+
+    @Test
+    public void removeAnimalTest() {
+        AnimalInFoodChain animalInFoodChain = standardFoodChain.getAnimalsInFoodChain().get(0);
+        AnimalInFoodChainDTO animalDTO = beanMappingService.mapTo(animalInFoodChain, AnimalInFoodChainDTO.class);
+        ArgumentCaptor<AnimalInFoodChain> argument = ArgumentCaptor.forClass(AnimalInFoodChain.class);
+        foodChainFacade.removeAnimal(animalDTO);
+        verify(foodChainService).removeAnimal(argument.capture());
+        assertThat(argument.getValue()).isEqualToComparingFieldByField(animalInFoodChain);
     }
 }
