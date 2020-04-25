@@ -25,13 +25,14 @@ public class AnimalListDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AnimalListDTO)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         AnimalListDTO that = (AnimalListDTO) o;
-        return Objects.equals(getName(), that.getName());
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getName(), that.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName());
+        return Objects.hash(getId(), getName());
     }
 }

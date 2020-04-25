@@ -43,15 +43,16 @@ public class AnimalDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AnimalDTO)) return false;
-        AnimalDTO animal = (AnimalDTO) o;
-        return getName().equals(animal.getName()) &&
-                getSpecies().equals(animal.getSpecies()) &&
-                getEnvironment().equals(animal.getEnvironment());
+        if (o == null || getClass() != o.getClass()) return false;
+        AnimalDTO animalDTO = (AnimalDTO) o;
+        return Objects.equals(getId(), animalDTO.getId()) &&
+                Objects.equals(getName(), animalDTO.getName()) &&
+                Objects.equals(getSpecies(), animalDTO.getSpecies()) &&
+                Objects.equals(getEnvironment(), animalDTO.getEnvironment());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getSpecies(), getEnvironment());
+        return Objects.hash(getId(), getName(), getSpecies(), getEnvironment());
     }
 }

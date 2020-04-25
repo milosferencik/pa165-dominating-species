@@ -34,14 +34,15 @@ public class EnvironmentDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EnvironmentCreateDTO)) return false;
-        EnvironmentCreateDTO that = (EnvironmentCreateDTO) o;
-        return Objects.equals(getName(), that.getName()) &&
+        if (o == null || getClass() != o.getClass()) return false;
+        EnvironmentDTO that = (EnvironmentDTO) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getName(), that.getName()) &&
                 Objects.equals(getDescription(), that.getDescription());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getDescription());
+        return Objects.hash(getId(), getName(), getDescription());
     }
 }
