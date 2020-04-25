@@ -1,9 +1,10 @@
 package cz.muni.fi.dto;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+/**
+ * @author On
+ */
 public class FoodWebDTO {
     public Map<AnimalListDTO, List<AnimalListDTO>> foodWeb = new HashMap<>();
 
@@ -16,4 +17,16 @@ public class FoodWebDTO {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FoodWebDTO)) return false;
+        FoodWebDTO that = (FoodWebDTO) o;
+        return getFoodWeb().equals(that.getFoodWeb());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFoodWeb());
+    }
 }

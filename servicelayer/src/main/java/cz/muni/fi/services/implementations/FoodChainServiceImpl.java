@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Created by Milos Ferencik on 18/04/2020.
+ * @autor Milos Ferencik on 18/04/2020.
  */
 @Service
 public class FoodChainServiceImpl implements FoodChainService {

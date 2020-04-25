@@ -2,6 +2,9 @@ package cz.muni.fi.dto;
 
 import java.util.Objects;
 
+/**
+ * @author Milos Ferencik 24/4/2020
+ */
 public class AnimalListDTO {
     private Long id;
     private String name;
@@ -25,10 +28,10 @@ public class AnimalListDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof AnimalListDTO)) return false;
         AnimalListDTO that = (AnimalListDTO) o;
-        return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getName(), that.getName());
+        return getId().equals(that.getId()) &&
+                getName().equals(that.getName());
     }
 
     @Override

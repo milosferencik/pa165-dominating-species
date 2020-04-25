@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @author Milos Ferencik 23/4/2020
+ */
 @Service
 public class BeanMappingServiceImpl implements BeanMappingService {
 

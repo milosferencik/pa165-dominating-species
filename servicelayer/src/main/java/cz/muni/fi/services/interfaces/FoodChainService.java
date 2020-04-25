@@ -8,7 +8,7 @@ import org.springframework.dao.DataAccessException;
 import java.util.List;
 
 /**
- * Created by Milos Ferencik on 17/04/2020.
+ * @author Milos Ferencik on 17/04/2020.
  */
 public interface FoodChainService {
     /**

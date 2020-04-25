@@ -12,6 +12,10 @@ import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * @author Milos Ferencik 24/4/2020
+ */
+
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
 
