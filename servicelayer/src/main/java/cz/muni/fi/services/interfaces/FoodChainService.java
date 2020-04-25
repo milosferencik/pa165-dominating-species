@@ -38,7 +38,7 @@ public interface FoodChainService {
 
     /**
      * Delete entity from the database
-     * @param foodChain to be deleted
+     * @param id of foodChain to be deleted
      */
     void deleteFoodChain(Long id) throws DataAccessException;
 
