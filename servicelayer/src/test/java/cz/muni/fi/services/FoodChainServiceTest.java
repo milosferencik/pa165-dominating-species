@@ -286,8 +286,8 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void removeFoodChain() {
-        foodChainService.deleteFoodChain(standardFoodChain);
-        Mockito.verify(foodChainDao).deleteFoodChain(standardFoodChain);
+        foodChainService.deleteFoodChain(standardFoodChain.getId());
+        Mockito.verify(foodChainDao).deleteFoodChain(standardFoodChain.getId());
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -318,10 +318,10 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
     @Test
     public void removeAnimalFromFoodChainMakingItTooSmallTest() {
         addFoodChainManipulationMethodsMock();
-        doAnswer(invoke -> null).when(foodChainDao).deleteFoodChain(any(FoodChain.class));
+        doAnswer(invoke -> null).when(foodChainDao).deleteFoodChain(any(Long.class));
 
         foodChainService.removeAnimal(standardFoodChain.getAnimalsInFoodChain().get(0));
-        Mockito.verify(foodChainDao).deleteFoodChain(standardFoodChain);
+        Mockito.verify(foodChainDao).deleteFoodChain(standardFoodChain.getId());
     }
 
     private void addFoodChainManipulationMethodsMock() {

@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
- * Created by Matusova on 26/03/2020.
+ * @author Matusova on 26/03/2020.
  */
 
 @Repository
@@ -45,7 +45,11 @@ public class AnimalImpl implements AnimalDao {
         entityManager.merge(animal);
     }
 
-    public void deleteAnimal(Animal animal) {
-        entityManager.remove(animal);
+    public void deleteAnimal(Long id)
+    {
+        Animal animal = getAnimal(id);
+        if (animal != null) {
+            entityManager.remove(animal);
+        }
     }
 }

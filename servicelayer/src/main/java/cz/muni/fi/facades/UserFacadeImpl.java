@@ -6,11 +6,18 @@ import cz.muni.fi.services.interfaces.BeanMappingService;
 import cz.muni.fi.services.interfaces.UserService;
 import dao.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 /**
- * Created by Kostka on 25/04/2020.
+ * @author Kostka on 25/04/2020.
  */
+
+@Service
+@Transactional
 public class UserFacadeImpl implements UserFacade {
+
     @Autowired
     private BeanMappingService beanMappingService;
 
@@ -32,9 +39,7 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public void deleteUser(Long id) {
-        User user = new User();
-        user.setId(id);
-        userService.deleteUser(user);
+        userService.deleteUser(id);
     }
 
     @Override

@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 
 /**
- * Created by Kostka on 25/04/2020.
+ * @author Kostka on 25/04/2020.
  */
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @ContextConfiguration(classes = ServiceConfiguration.class)
@@ -95,11 +95,10 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void deleteEnvironmentTest() {
-        ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
+        ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(Long.class);
         userFacade.deleteUser(u1.getId());
         Mockito.verify(userService).deleteUser(argument.capture());
-        assertThat(argument.getValue().getId()).isEqualTo(u1.getId());
-
+        assertThat(argument.getValue()).isEqualTo(u1.getId());
     }
 
     @Test

@@ -15,14 +15,13 @@ import javax.sql.DataSource;
 import java.util.Objects;
 
 /**
- * Created by Kostka on 25/03/2020.
+ * @autor on 25/03/2020.
  */
 @ComponentScan("dao")
 @EnableTransactionManagement
 @EnableJpaRepositories
 @Configuration
 public class MainConfiguration {
-
 
     @Bean
     public DataSource db(){

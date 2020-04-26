@@ -49,8 +49,8 @@ public interface AnimalService {
 
     /**
      * Remove animal
-     * @param animal to be removed
+     * @param id of animal to be removed
      * @throws ServiceDataAccessException when db access fails
      */
-     void deleteAnimal(Animal animal) throws ServiceDataAccessException;
+     void deleteAnimal(Long id) throws ServiceDataAccessException;
 }

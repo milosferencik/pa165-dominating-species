@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Created by Ondrej Slimak on 18/04/2020.
+ * @author Ondrej Slimak on 18/04/2020.
  */
 @Entity
 @Table(name = "FoodChain_Animals")

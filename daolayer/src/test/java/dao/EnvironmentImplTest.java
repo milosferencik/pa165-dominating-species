@@ -23,7 +23,7 @@ import java.util.Collections;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- *  Created by Ferencik on 27/03/2020.
+ *  @author Ferencik on 27/03/2020.
  */
 
 @ContextConfiguration(classes = MainConfiguration.class)
@@ -69,7 +69,6 @@ public class EnvironmentImplTest extends AbstractTestNGSpringContextTests {
     public void testCreateNullEnvironment() throws Exception {
         environmentDao.createEnvironment(null);
     }
-
 
     @Test(expectedExceptions = JpaSystemException.class)
     public void testCreateEnvironmentWithId() throws Exception {
@@ -159,7 +158,7 @@ public class EnvironmentImplTest extends AbstractTestNGSpringContextTests {
     public void testDeleteEnvironment() {
         environmentDao.createEnvironment(dam);
         assertThat(environmentDao.getAllEnvironments()).isEqualTo(Collections.singletonList(dam));
-        environmentDao.deleteEnvironment(dam);
+        environmentDao.deleteEnvironment(dam.getId());
         assertThat(environmentDao.getAllEnvironments()).isEmpty();
     }
 

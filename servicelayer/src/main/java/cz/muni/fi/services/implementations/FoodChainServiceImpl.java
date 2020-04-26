@@ -57,9 +57,9 @@ public class FoodChainServiceImpl implements FoodChainService {
     }
 
     @Override
-    public void deleteFoodChain(FoodChain foodChain) throws DataAccessException {
+    public void deleteFoodChain(Long id) throws DataAccessException {
         try {
-            foodChainDao.deleteFoodChain(foodChain);
+            foodChainDao.deleteFoodChain(id);
         } catch (Throwable e) {
             throw new ServiceDataAccessException("Could not delete foodChain.", e);
         }
@@ -115,7 +115,7 @@ public class FoodChainServiceImpl implements FoodChainService {
         animalsInFoodChain.remove(animalInFoodChain);
 
         if (animalsInFoodChain.size() < 2) {
-            deleteFoodChain(foodChain);
+            deleteFoodChain(foodChain.getId());
         } else {
             foodChain.setAnimalsInFoodChain(animalsInFoodChain);
             updateFoodChain(foodChain);

@@ -1,7 +1,9 @@
 package cz.muni.fi.dto;
 
+import java.util.Objects;
+
 /**
- * Created by Kostka on 25/04/2020.
+ * @author Kostka on 25/04/2020.
  */
 public class UserCreateDTO {
     private String name;
@@ -52,5 +54,22 @@ public class UserCreateDTO {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserCreateDTO that = (UserCreateDTO) o;
+        return isAdmin() == that.isAdmin() &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getSurname(), that.getSurname()) &&
+                Objects.equals(getEmail(), that.getEmail()) &&
+                Objects.equals(getPasswordHash(), that.getPasswordHash());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getSurname(), getEmail(), getPasswordHash(), isAdmin());
     }
 }

@@ -83,7 +83,6 @@ public class AnimalFacadeTest extends AbstractTestNGSpringContextTests {
         animalList = new ArrayList<>();
         animalList.add(vole);
         animalList.add(fox);
-
     }
 
     @AfterMethod
@@ -121,11 +120,10 @@ public class AnimalFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void deleteAnimalTest() {
-        ArgumentCaptor<Animal> argument = ArgumentCaptor.forClass(Animal.class);
+        ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(Long.class);
         animalFacade.deleteAnimal(fox.getId());
         Mockito.verify(animalService).deleteAnimal(argument.capture());
-        assertThat(argument.getValue().getId()).isEqualTo(fox.getId());
-
+        assertThat(argument.getValue()).isEqualTo(fox.getId());
     }
 
     @Test

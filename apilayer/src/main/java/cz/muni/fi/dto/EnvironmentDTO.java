@@ -2,6 +2,9 @@ package cz.muni.fi.dto;
 
 import java.util.Objects;
 
+/**
+ * @author Kostka on 25/04/2020.
+ */
 public class EnvironmentDTO {
     private Long id;
     private String name;

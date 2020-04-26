@@ -74,7 +74,6 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
         hamster.setEnvironment(anywhereElse);
     }
 
-
     @Test
     public void testCreateCorrectAnimalSingle() {
         assertThat(animalDao.getAllAnimals()).hasSize(0);
@@ -183,7 +182,6 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
         assertThat(animalDao.getAnimal(666L)).isNull();
     }
 
-
     @Test(expectedExceptions = DataAccessException.class)
     public void testGetAnimalByNullId() {
         animalDao.getAnimal(null);
@@ -261,7 +259,7 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
     public void testDeleteAnimalCorrectly() {
         animalDao.createAnimal(lion);
         assertThat(animalDao.getAllAnimals()).isEqualTo(Collections.singletonList(lion));
-        animalDao.deleteAnimal(lion);
+        animalDao.deleteAnimal(lion.getId());
         assertThat(animalDao.getAllAnimals()).isEmpty();
     }
 
@@ -269,7 +267,7 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
     public void testDeleteNonExistingAnimal() {
         animalDao.createAnimal(lion);
         assertThat(animalDao.getAllAnimals()).isEqualTo(Collections.singletonList(lion));
-        animalDao.deleteAnimal(hamster);
+        animalDao.deleteAnimal(lion.getId() + 1);
         assertThat(animalDao.getAllAnimals()).isEqualTo(Collections.singletonList(lion));
     }
 

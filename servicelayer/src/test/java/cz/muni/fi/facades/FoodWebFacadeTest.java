@@ -46,7 +46,6 @@ public class FoodWebFacadeTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private BeanMappingService beanMappingService;
 
-
     @InjectMocks
     private FoodWebFacade foodWebFacade = new FoodWebFacadeImpl();
 
@@ -160,7 +159,6 @@ public class FoodWebFacadeTest extends AbstractTestNGSpringContextTests {
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactlyInAnyOrder(voleDTO, frogDTO);
     }
-
 
     @Test
     public void getFoodWebByAnimalTest() {

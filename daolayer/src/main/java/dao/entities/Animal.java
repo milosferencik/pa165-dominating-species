@@ -18,7 +18,7 @@ import java.io.Serializable;
 
 
 /**
- * Created by Matusova on 26/03/2020.
+ * @author Matusova on 26/03/2020.
  */
 @Entity
 @Table(name = "Animal")
