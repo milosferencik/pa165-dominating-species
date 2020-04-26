@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Created by Kostka on 23/03/2020.
+ * @author Kostka on 23/03/2020.
  */
 @Entity
 public class Environment implements Serializable {

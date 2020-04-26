@@ -70,7 +70,6 @@ public class EnvironmentImplTest extends AbstractTestNGSpringContextTests {
         environmentDao.createEnvironment(null);
     }
 
-
     @Test(expectedExceptions = JpaSystemException.class)
     public void testCreateEnvironmentWithId() throws Exception {
         dam.setId(1L);

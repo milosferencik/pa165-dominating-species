@@ -74,7 +74,6 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
         hamster.setEnvironment(anywhereElse);
     }
 
-
     @Test
     public void testCreateCorrectAnimalSingle() {
         assertThat(animalDao.getAllAnimals()).hasSize(0);
@@ -182,7 +181,6 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
     public void testGetAnimalByNonExistingId() {
         assertThat(animalDao.getAnimal(666L)).isNull();
     }
-
 
     @Test(expectedExceptions = DataAccessException.class)
     public void testGetAnimalByNullId() {

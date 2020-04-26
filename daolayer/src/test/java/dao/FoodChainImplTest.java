@@ -30,7 +30,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-
 @ContextConfiguration(classes = MainConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by Ondrej Slimak on 25/03/2020.
+ * @author Ondrej Slimak on 25/03/2020.
  */
 
 @Entity()

@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Created by Ferencik on 25/03/2020.
+ * @author Ferencik on 25/03/2020.
  */
 @Entity
 @Table(name = "Users", uniqueConstraints = {@UniqueConstraint(columnNames = "ID")})
