@@ -3,7 +3,7 @@ package cz.muni.fi.dto;
 import java.util.Objects;
 
 /**
- * Created by Kostka on 25/04/2020.
+ * @author Kostka on 25/04/2020.
  */
 public class EnvironmentCreateDTO {
     private String name;

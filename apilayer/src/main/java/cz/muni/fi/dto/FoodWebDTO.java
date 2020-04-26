@@ -3,7 +3,7 @@ package cz.muni.fi.dto;
 import java.util.*;
 
 /**
- * @author On
+ * @author  Ondrej Slimak on 24/04/2020.
  */
 public class FoodWebDTO {
     public Map<AnimalListDTO, List<AnimalListDTO>> foodWeb = new HashMap<>();
