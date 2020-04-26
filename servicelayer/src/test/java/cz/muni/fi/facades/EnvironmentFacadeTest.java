@@ -104,7 +104,6 @@ public class EnvironmentFacadeTest extends AbstractTestNGSpringContextTests {
         environmentFacade.deleteEnvironment(dam.getId());
         Mockito.verify(environmentService).deleteEnvironment(argument.capture());
         assertThat(argument.getValue()).isEqualTo(dam.getId());
-
     }
 
     @Test

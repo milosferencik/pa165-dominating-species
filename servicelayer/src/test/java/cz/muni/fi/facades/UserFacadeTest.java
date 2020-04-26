@@ -99,7 +99,6 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
         userFacade.deleteUser(u1.getId());
         Mockito.verify(userService).deleteUser(argument.capture());
         assertThat(argument.getValue()).isEqualTo(u1.getId());
-
     }
 
     @Test

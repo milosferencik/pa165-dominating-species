@@ -6,11 +6,18 @@ import cz.muni.fi.services.interfaces.BeanMappingService;
 import cz.muni.fi.services.interfaces.UserService;
 import dao.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 /**
  * @author Kostka on 25/04/2020.
  */
+
+@Service
+@Transactional
 public class UserFacadeImpl implements UserFacade {
+
     @Autowired
     private BeanMappingService beanMappingService;
 

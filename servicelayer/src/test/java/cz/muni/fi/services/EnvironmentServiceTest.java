@@ -170,6 +170,7 @@ public class EnvironmentServiceTest extends AbstractTestNGSpringContextTests {
         Mockito.verify(environmentDao).getAllEnvironments();
         assertThat(found).usingRecursiveFieldByFieldElementComparator().containsExactlyInAnyOrder(dam);
     }
+
     @Test
     public void testGetAllEnvironmentOnEmptyDB() {
         addEnvironmentManipulationMethodsMock();

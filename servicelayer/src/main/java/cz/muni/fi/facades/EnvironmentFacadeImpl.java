@@ -7,12 +7,17 @@ import cz.muni.fi.services.interfaces.BeanMappingService;
 import cz.muni.fi.services.interfaces.EnvironmentService;
 import dao.entities.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * @author Kostka on 25/04/2020.
  */
+
+@Service
+@Transactional
 public class EnvironmentFacadeImpl implements EnvironmentFacade {
 
     @Autowired

@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
         } catch (Throwable ex) {
             throw new ServiceDataAccessException("Could not create user.", ex);
         }
-
     }
 
     @Override

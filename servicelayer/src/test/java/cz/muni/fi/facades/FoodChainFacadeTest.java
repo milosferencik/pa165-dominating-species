@@ -31,13 +31,14 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@TestExecutionListeners(TransactionalTestExecutionListener.class)
-@ContextConfiguration(classes = ServiceConfiguration.class)
-@Transactional
 /**
  * Test class for FoodChainFacade.
  * @author Katarina Matusova
  */
+
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@ContextConfiguration(classes = ServiceConfiguration.class)
+@Transactional
 public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Mock
@@ -60,7 +61,6 @@ public class FoodChainFacadeTest extends AbstractTestNGSpringContextTests {
     private Animal fox;
     private Animal frog;
     List<Animal> foodChainAnimalList;
-
 
     @BeforeClass
     public void init() throws ServiceException {

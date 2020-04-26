@@ -20,6 +20,7 @@ import java.util.List;
  * Facade for FoodChain
  * @author Katarina Matusova
  */
+
 @Service
 @Transactional
 public class FoodChainFacadeImpl implements FoodChainFacade {
@@ -32,7 +33,6 @@ public class FoodChainFacadeImpl implements FoodChainFacade {
 
     @Autowired
     private AnimalService animalService;
-
 
     @Override
     public List<FoodChainDTO> getFoodChainsWithAnimal(Long animalId) {

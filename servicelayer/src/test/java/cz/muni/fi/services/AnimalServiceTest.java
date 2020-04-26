@@ -97,7 +97,6 @@ public class AnimalServiceTest extends AbstractTestNGSpringContextTests {
         forestAnimals = new ArrayList<>();
         forestAnimals.add(deer);
         forestAnimals.add(wolf);
-
     }
 
     @Test
