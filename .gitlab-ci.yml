@@ -1,0 +1,13 @@
+image: maven:3-jdk-11
+
+stages:
+  - build
+
+build:
+  stage: build
+  tags:
+    - shared-fi
+  script:
+    - mvn clean install
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'master'
