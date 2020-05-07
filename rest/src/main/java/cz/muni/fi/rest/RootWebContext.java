@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by Kostka on 05/05/2020.
+ * @Author Kostka on 05/05/2020.
  */
 @EnableWebMvc
 @Configuration

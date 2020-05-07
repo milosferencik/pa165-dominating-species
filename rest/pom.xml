@@ -41,10 +41,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-        </dependency>
 
         <!-- libraries needed for unit tests -->
         <dependency>
