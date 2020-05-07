@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import cz.muni.fi.config.ServiceConfiguration;
 import org.springframework.context.annotation.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -22,7 +21,6 @@ import java.util.Locale;
  */
 @EnableWebMvc
 @Configuration
-@Import({ServiceConfiguration.class})
 @ComponentScan(basePackages = {"cz.muni.fi.rest.controllers"})
 public class RootWebContext implements WebMvcConfigurer {
 
