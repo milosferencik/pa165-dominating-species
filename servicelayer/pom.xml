@@ -13,7 +13,7 @@
     <dependencies>
         <!--MODULES-->
         <dependency>
-            <groupId>ds</groupId>
+        <groupId>ds</groupId>
             <artifactId>daolayer</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

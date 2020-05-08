@@ -13,6 +13,7 @@
         <module>servicelayer</module>
         <module>apilayer</module>
         <module>daolayer</module>
+        <module>rest</module>
         <module>sample-data</module>
         <module>spring-mvc</module>
     </modules>
@@ -20,7 +21,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>8</java.version>
+        <java.version>11</java.version>
     </properties>
 
     <build>
@@ -51,6 +52,11 @@
                         </container>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+
             </plugins>
         </pluginManagement>
     </build>
@@ -144,6 +150,16 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-slf4j-impl</artifactId>
                 <version>2.11.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>1.10.19</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>2.0.1.Final</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
