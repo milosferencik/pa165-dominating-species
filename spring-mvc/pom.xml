@@ -23,7 +23,7 @@
     <!--MODULES-->
     <dependency>
       <groupId>ds</groupId>
-      <artifactId>service</artifactId>
+      <artifactId>sample-data</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
 
@@ -78,6 +78,10 @@
     <!-- name of the produced war -->
     <finalName>ds</finalName>
     <plugins>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.3</version>
+      </plugin>
       <!--  embedded Tomcat -->
       <plugin>
         <groupId>org.codehaus.cargo</groupId>

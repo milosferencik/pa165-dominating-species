@@ -1,6 +1,6 @@
 package cz.muni.fi.mvc.config;
 
-import cz.muni.fi.config.ServiceConfiguration;
+import cz.muni.fi.sampledata.SampleDataConfiguration;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,7 +19,7 @@ import javax.validation.Validator;
 
 @EnableWebMvc
 @Configuration
-@Import(ServiceConfiguration.class)
+@Import(SampleDataConfiguration.class)
 @ComponentScan("cz.muni.fi.mvc")
 public class SpringMvcConfiguration implements WebMvcConfigurer {
 
