@@ -12,7 +12,7 @@ public interface UserFacade {
      * @param userCreateDTO
      * @return
      */
-    Long createUser(UserCreateDTO userCreateDTO);
+    Long createUser(UserCreateDTO userCreateDTO, String password);
 
     /**
      * Update user

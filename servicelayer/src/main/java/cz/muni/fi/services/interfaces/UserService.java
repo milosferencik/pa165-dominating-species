@@ -14,7 +14,7 @@ public interface UserService {
      * Creates new user in the database
      * @param user to be created
      */
-    void createUser(User user) throws DataAccessException;
+    void createUser(User user, String password) throws DataAccessException;
 
     /**
      * Gets all users from the database

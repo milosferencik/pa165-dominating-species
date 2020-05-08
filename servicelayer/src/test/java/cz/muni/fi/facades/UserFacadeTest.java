@@ -57,7 +57,6 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
         u1.setName("Jane");
         u1.setSurname("Doe");
         u1.setEmail("janedoe@muni.cz");
-        u1.setPasswordHash("955db0b81ef1989b4a4dfeae8061a9a6");
         u1.setAdmin(false);
     }
 
@@ -72,7 +71,7 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
             User user = invocationOnMock.getArgumentAt(0, User.class);
             user.setId(2L);
             return user;
-        }).when(userService).createUser(any(User.class));
+        }).when(userService).createUser(any(User.class), any(String.class));
 
         UserCreateDTO userCreateDTO = new UserCreateDTO();
         userCreateDTO.setName(u1.getName());
@@ -80,7 +79,7 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
         userCreateDTO.setEmail(u1.getEmail());
         userCreateDTO.setSurname(u1.getSurname());
         userCreateDTO.setPasswordHash(u1.getPasswordHash());
-        Long id = userFacade.createUser(userCreateDTO);
+        Long id = userFacade.createUser(userCreateDTO, "password");
         assertThat(id).isEqualTo(2L);
     }
 

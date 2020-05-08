@@ -24,9 +24,9 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public void createUser(User user) throws DataAccessException {
+    public void createUser(User user, String password) throws DataAccessException {
         try {
-            String passwordHash = createHash(user.getPasswordHash());
+            String passwordHash = createHash(password);
             user.setPasswordHash(passwordHash);
             userDao.createUser(user);
         } catch (Throwable ex) {
