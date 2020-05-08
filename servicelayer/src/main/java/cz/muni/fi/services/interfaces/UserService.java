@@ -54,4 +54,12 @@ public interface UserService {
      * @return true if giver user is admin, false if not
      */
     boolean isAdmin(Long id) throws DataAccessException;
+
+    /**
+     * Try to authenticate a user
+     * @param user a given user
+     * @param password a given password
+     * @return true if password for given user was correct, false otherwise
+     */
+    boolean authenticate(User user, String password) throws DataAccessException;
 }

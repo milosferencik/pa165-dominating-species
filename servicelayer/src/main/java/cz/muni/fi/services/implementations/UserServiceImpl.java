@@ -80,4 +80,11 @@ public class UserServiceImpl implements UserService {
             throw new ServiceDataAccessException("User with the id doesn't exist.");
         return user.isAdmin();
     }
+
+    @Override
+    public boolean authenticate(User user, String password) throws DataAccessException {
+        return false;
+    }
+
+
 }
