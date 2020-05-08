@@ -14,6 +14,7 @@
         <module>apilayer</module>
         <module>daolayer</module>
         <module>rest</module>
+        <module>sample-data</module>
     </modules>
 
     <properties>
