@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @Configuration
 @Import(ServiceConfiguration.class)
-@ComponentScan("cz.muni.fi.sampledata")
+@ComponentScan(basePackageClasses = {SampleDataLoadingFacadeImpl.class})
 public class SampleDataConfiguration {
 
     final static Logger log = LoggerFactory.getLogger(SampleDataConfiguration.class);
