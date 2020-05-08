@@ -87,7 +87,7 @@
 
     <build>
         <defaultGoal>cargo:run</defaultGoal>
-        <finalName>pa165</finalName>
+        <finalName>pa165/rest</finalName>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
