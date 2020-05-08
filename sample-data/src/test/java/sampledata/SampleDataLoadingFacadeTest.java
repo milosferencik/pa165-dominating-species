@@ -19,6 +19,10 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * @author Milos Ferencik
+ */
+
 @ContextConfiguration(classes = {SampleDataConfiguration.class})
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
