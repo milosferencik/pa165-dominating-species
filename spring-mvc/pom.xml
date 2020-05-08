@@ -70,7 +70,7 @@
   </dependencies>
 
   <!--
-      Start tomcat with "mvn cargo:run" and visit http://localhost:8080/ds/
+      Start tomcat with "mvn cargo:run" and visit http://localhost:8080/pa165/
     -->
   <build>
     <!-- what to do when only "mvn" is run -->

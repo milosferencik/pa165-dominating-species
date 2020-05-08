@@ -4,6 +4,10 @@ import cz.muni.fi.dto.EnvironmentCreateDTO;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+/**
+ * @author Ondrej Slimak
+ */
+
 public class EnvironmentCreateDtoValidator implements Validator {
 
     @Override

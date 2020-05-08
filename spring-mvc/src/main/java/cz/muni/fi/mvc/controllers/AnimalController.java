@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author Milos Ferencik
+ */
+
 @Controller
 @RequestMapping("/animal")
 public class AnimalController {

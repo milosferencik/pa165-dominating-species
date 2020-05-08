@@ -43,7 +43,7 @@
     <jsp:invoke fragment="body"/>
 
     <footer class="panel-footer panel-primary">
-        <p><f:message key="footer"> </f:message></p></p>
+        <p><f:message key="footer"/> </p>
         <p>&copy;&nbsp;<%=java.time.Year.now().toString()%>&nbsp;Peter Kostka, Katarína Matúšová, Miloš Ferenčík, Ondřej Slimák</p>
     </footer>
 </div>

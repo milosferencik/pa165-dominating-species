@@ -17,13 +17,17 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.validation.Validator;
 
+/**
+ * @author Milos Ferencik
+ */
+
 @EnableWebMvc
 @Configuration
 @Import(SampleDataConfiguration.class)
 @ComponentScan("cz.muni.fi.mvc")
 public class SpringMvcConfiguration implements WebMvcConfigurer {
 
-    private static final String TEXTS = "Texts";
+    private static final String TEXTS = "Text";
 
     /**
      * Maps the main page to a specific view.

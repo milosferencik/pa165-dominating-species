@@ -18,6 +18,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * @author Ondrej Slimak
+ */
+
 @Controller
 @RequestMapping("/environment")
 public class EnvironmentController {
