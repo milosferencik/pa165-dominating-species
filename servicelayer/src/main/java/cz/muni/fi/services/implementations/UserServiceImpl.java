@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
      * @return true if password hash matches correct hash, false otherwise
      */
     private static boolean passwordCheck(String password, String correctHash) {
-        if (password == null) {
+        if (password == null || password.isEmpty()) {
             return false;
         }
         if (correctHash == null) {
@@ -190,6 +190,9 @@ public class UserServiceImpl implements UserService {
      * @return hash of a password
      */
     private static String createHash(String password) {
+        if (password.isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be empty.");
+        }
         final int SALT_BYTE_SIZE = 24;
         final int HASH_BYTE_SIZE = 24;
         final int PBKDF2_ITERATIONS = 1000;
