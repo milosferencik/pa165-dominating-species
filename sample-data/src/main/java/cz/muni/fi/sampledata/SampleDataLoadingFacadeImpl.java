@@ -58,8 +58,8 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         foodChain(List.of(deer, wolf));
         log.info("Loaded food chains.");
 
-        user("Jane", "Doe", "janedoe@muni.cz", "955db0b81ef1989b4a4dfeae8061a9a6", false);
-        user("John","Doe", "johndoe@muni.cz", "955db0b81ef1989b4a4dfeae8061a9b7", true);
+        user("Jane", "Doe", "janedoe@muni.cz", false, "MyPassword");
+        user("John","Doe", "johndoe@muni.cz", true, "123abc");
         log.info("Loaded users.");
     }
 
@@ -87,14 +87,13 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         return fch;
     }
 
-    private User user(String name, String surname, String email, String passwordHash, boolean isAdmin) {
+    private User user(String name, String surname, String email, boolean isAdmin, String password) {
         User usr = new User();
         usr.setName(name);
         usr.setSurname(surname);
         usr.setEmail(email);
-        usr.setPasswordHash(passwordHash);
         usr.setAdmin(isAdmin);
-        userService.createUser(usr);
+        userService.createUser(usr, password);
         return usr;
     }
 }
