@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>ds</groupId>
-            <artifactId>api</artifactId>
+            <artifactId>sample-data</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 

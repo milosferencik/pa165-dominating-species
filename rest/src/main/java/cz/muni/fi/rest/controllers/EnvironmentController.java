@@ -46,20 +46,6 @@ public class EnvironmentController {
         return env;
     }
 
-    //TODO: only testing environment
-    @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final long createTestEnv() {
-        try {
-            EnvironmentCreateDTO tmp = new EnvironmentCreateDTO();
-            tmp.setName("TEST");
-            tmp.setDescription("This environment is generated for testing purposes of our REST API.");
-            return environmentFacade.createEnvironment(tmp);
-        } catch (Exception ex) {
-            throw new DataAccessResourceFailureException("Failed to create testing environment");
-        }
-    }
-
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final void deleteEnvironment(@PathVariable("id") long id) {
         try {
