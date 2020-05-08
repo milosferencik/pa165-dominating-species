@@ -13,6 +13,7 @@
         <module>servicelayer</module>
         <module>apilayer</module>
         <module>daolayer</module>
+        <module>sample-data</module>
         <module>spring-mvc</module>
     </modules>
 
