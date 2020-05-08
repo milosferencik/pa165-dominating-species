@@ -14,9 +14,9 @@
         <!--MODULES-->
         <dependency>
         <groupId>ds</groupId>
-        <artifactId>daolayer</artifactId>
-        <version>${project.parent.version}</version>
-    </dependency>
+            <artifactId>daolayer</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <dependency>
             <groupId>ds</groupId>
             <artifactId>api</artifactId>

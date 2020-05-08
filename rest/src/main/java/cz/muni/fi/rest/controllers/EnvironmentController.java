@@ -22,12 +22,8 @@ import java.util.List;
 @RequestMapping("/environments")
 public class EnvironmentController {
 
-    private EnvironmentFacade environmentFacade;
-
     @Autowired
-    public EnvironmentController(EnvironmentFacade environmentFacade) {
-        this.environmentFacade = environmentFacade;
-    }
+    private EnvironmentFacade environmentFacade;
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

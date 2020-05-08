@@ -1,9 +1,10 @@
 package cz.muni.fi.rest.controllers;
 
 
-import cz.muni.fi.dto.*;
+import cz.muni.fi.dto.AnimalCreateDTO;
+import cz.muni.fi.dto.AnimalDTO;
+import cz.muni.fi.dto.AnimalListDTO;
 import cz.muni.fi.facades.AnimalFacade;
-import cz.muni.fi.facades.EnvironmentFacade;
 import cz.muni.fi.rest.exceptions.RequestedResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -14,21 +15,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- *
  * @author Ondrej Slimak
  */
+
 @RestController
 @RequestMapping("/animals")
 public class AnimalController {
 
-    private EnvironmentFacade environmentFacade;
-    private AnimalFacade animalFacade;
-
     @Autowired
-    public AnimalController(EnvironmentFacade environmentFacade, AnimalFacade animalFacade) {
-        this.environmentFacade = environmentFacade;
-        this.animalFacade = animalFacade;
-    }
+    private AnimalFacade animalFacade;
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
