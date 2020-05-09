@@ -27,11 +27,7 @@ import java.util.List;
 public class EnvironmentController {
 
     @Autowired
-    private final EnvironmentFacade environmentFacade;
-
-    public EnvironmentController(EnvironmentFacade environmentFacade) {
-        this.environmentFacade = environmentFacade;
-    }
+    private EnvironmentFacade environmentFacade;
 
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)

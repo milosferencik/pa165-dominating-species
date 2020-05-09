@@ -21,6 +21,7 @@ public class AnimalController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model, HttpServletRequest request) {
+        System.out.println(request.getSession().getId());
         model.addAttribute("animals", animalFacade.getAllAnimals());
         return "animal/list";
     }

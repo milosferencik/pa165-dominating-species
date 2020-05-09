@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 /**
- * @author Kostka on 25/04/2020.
+ * @Author Kostka on 25/04/2020.
  */
 
 @Service
@@ -46,5 +46,16 @@ public class UserFacadeImpl implements UserFacade {
     public UserDTO getUserById(Long id) {
         User user = userService.getUser(id);
         return (user == null) ? null : beanMappingService.mapTo(user, UserDTO.class);
+    }
+
+    @Override
+    public UserDTO getUserByEmail(String email) {
+        User user = userService.getUserByEmail(email);
+        return (user == null) ? null : beanMappingService.mapTo(user, UserDTO.class);
+    }
+
+    @Override
+    public boolean isUserAdmin(Long id) {
+        return userService.isAdmin(id);
     }
 }

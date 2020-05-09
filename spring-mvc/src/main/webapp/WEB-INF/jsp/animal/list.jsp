@@ -5,9 +5,15 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Animals">
+<my:masterpage title="Animals">
 <jsp:attribute name="body">
 
+    <h1>${authenticatedUser}</h1>
+    <h1>${sessionScope['authenticatedUser']}</h1>
+    <h1>${authenticatedUser.name}</h1>
+    <h1>${sessionScope.authenticatedUser}</h1>
+    <h1>${requestScope.authenticatedUser}</h1>
+    <h1>${applicationScope.authenticatedUser}</h1>
     <my:a href="/animal/new" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         New animal
@@ -32,4 +38,4 @@
 
 
 </jsp:attribute>
-</my:pagetemplate>
+</my:masterpage>

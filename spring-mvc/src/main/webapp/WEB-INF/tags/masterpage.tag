@@ -2,6 +2,8 @@
 <%@ attribute name="title" required="false" %>
 <%@ attribute name="head" fragment="true" %>
 <%@ attribute name="body" fragment="true" required="true" %>
+<%@ attribute name="authenticatedUser" %>
+
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -31,15 +33,51 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+
+            <c:if test="${not empty authenticatedUser && authenticatedUser.isAdmin}">
+                <a class="navbar-brand" href="${pageContext.request.contextPath}"><f:message key="navigation.adminTitle"/></a>
+            </c:if>
+            <c:if test="${empty authenticatedUser || !authenticatedUser.isAdmin}">
+                <a class="navbar-brand" href="${pageContext.request.contextPath}"><f:message key="navigation.title"/></a>
+            </c:if>
+
+        </div>
+
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><my:a href="/foodchain/list/"><f:message key="navigation.foodchains"/></my:a></li>
+                <li><my:a href="/animal/list/"><f:message key="navigation.animals"/></my:a></li>
+                <li><my:a href="/environment/list/"><f:message key="navigation.environments"/></my:a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><c:out value="${authenticatedUser.name}"/></li>
+                <c:if test="${empty authenticatedUser}">
+                    <li><my:a href="/auth/login"><f:message key="navigation.login"/></my:a></li>
+                </c:if>
+                <c:if test="${not empty authenticatedUser}">
+                    <li><my:a href="/auth/logout"><f:message key="navigation.logout"/></my:a></li>
+                </c:if>
+            </ul>
         </div>
     </div>
 </nav>
+
+
 <div class="container">
+
+    <h1>${authenticatedUser}</h1>
+    <h1>${sessionScope['authenticatedUser']}</h1>
+    <h1>${authenticatedUser.name}</h1>
+    <h1>${sessionScope.authenticatedUser}</h1>
+    <h1>${requestScope.authenticatedUser}</h1>
+    <h1>${applicationScope.authenticatedUser}</h1>
     <c:if test="${not empty title}">
         <div class="page-header">
             <h1><c:out value="${title}"/></h1>
         </div>
     </c:if>
+
     <jsp:invoke fragment="body"/>
 
     <footer class="panel-footer panel-primary">
@@ -47,7 +85,10 @@
         <p>&copy;&nbsp;<%=java.time.Year.now().toString()%>&nbsp;Peter Kostka, Katarína Matúšová, Miloš Ferenčík, Ondřej Slimák</p>
     </footer>
 </div>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 </body>
 </html>
