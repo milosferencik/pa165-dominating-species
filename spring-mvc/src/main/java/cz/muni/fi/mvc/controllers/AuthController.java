@@ -74,12 +74,7 @@ public class AuthController {
             return "redirect:" + uriBuilder.path("/auth/login").toUriString();
         }
 
-        System.out.println("\n\nSet found user to session " + found.getId() + " "  + found.getName() + " " + found.getEmail()); // TODO: debug print to terminal
-
         request.getSession().setAttribute("authenticatedUser", found);
-        System.out.println(request.getSession().getId());
-        System.out.println(request.getSession().getAttribute("authenticatedUser"));
-
         redirectAttributes.addFlashAttribute("alert_success", "Logged in successfully");
 
         return "redirect:" + uriBuilder.path("/").toUriString();

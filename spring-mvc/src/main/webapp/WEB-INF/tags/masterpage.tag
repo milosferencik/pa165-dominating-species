@@ -45,17 +45,17 @@
 
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><my:a href="/foodchain/list/"><f:message key="navigation.foodchains"/></my:a></li>
-                <li><my:a href="/animal/list/"><f:message key="navigation.animals"/></my:a></li>
-                <li><my:a href="/environment/list/"><f:message key="navigation.environments"/></my:a></li>
+                <li><my:a href="/foodchain/list/"><f:message key="navigation.foodChains"/></my:a></li>
+                <li><my:a href="/animal/"><f:message key="navigation.animals"/></my:a></li>
+                <li><my:a href="/environment/"><f:message key="navigation.environments"/></my:a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><c:out value="${authenticatedUser.name}"/></li>
                 <c:if test="${empty authenticatedUser}">
                     <li><my:a href="/auth/login"><f:message key="navigation.login"/></my:a></li>
                 </c:if>
                 <c:if test="${not empty authenticatedUser}">
+                    <li>${authenticatedUser.name}</li>
                     <li><my:a href="/auth/logout"><f:message key="navigation.logout"/></my:a></li>
                 </c:if>
             </ul>
@@ -65,13 +65,6 @@
 
 
 <div class="container">
-
-    <h1>${authenticatedUser}</h1>
-    <h1>${sessionScope['authenticatedUser']}</h1>
-    <h1>${authenticatedUser.name}</h1>
-    <h1>${sessionScope.authenticatedUser}</h1>
-    <h1>${requestScope.authenticatedUser}</h1>
-    <h1>${applicationScope.authenticatedUser}</h1>
     <c:if test="${not empty title}">
         <div class="page-header">
             <h1><c:out value="${title}"/></h1>
