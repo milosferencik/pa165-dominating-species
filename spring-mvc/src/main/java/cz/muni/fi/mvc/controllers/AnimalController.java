@@ -16,12 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/animal")
 public class AnimalController {
+
     @Autowired
     private AnimalFacade animalFacade;
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String list(Model model, HttpServletRequest request) {
         model.addAttribute("animals", animalFacade.getAllAnimals());
         return "animal/list";
     }
+
 }

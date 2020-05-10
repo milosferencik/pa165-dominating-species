@@ -2,6 +2,7 @@ package cz.muni.fi.facades;
 
 import cz.muni.fi.dto.UserCreateDTO;
 import cz.muni.fi.dto.UserDTO;
+import org.graalvm.compiler.lir.LIRInstruction;
 
 /**
  * @autor on 25/04/2020.
@@ -29,7 +30,21 @@ public interface UserFacade {
     /**
      * Find user with the id
      * @param id id of user to be found
-     * @return
+     * @return user found
      */
     UserDTO getUserById(Long id);
+
+    /**
+     * Find user by given email
+     * @param email email by which to find the user
+     * @return user foun
+     */
+    UserDTO getUserByEmail(String email);
+
+    /**
+     * Checks whether user of given id has admin rights
+     * @param id id of user to check whether he is an admin
+     * @return true if user is admin, false otherwise
+     */
+    boolean isUserAdmin(Long id);
 }
