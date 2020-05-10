@@ -67,7 +67,6 @@ public class AuthController {
         }
 
         UserDTO found = userFacade.getUserByEmail(userLogin.getEmail());
-
         if (found == null) { // TODO: add ' || !userFacade.authenticate(userLogin)'
             redirectAttributes.addFlashAttribute("alert_warning", "Login with email " + userLogin.getEmail()
                     + " has failed. Wrong password?");

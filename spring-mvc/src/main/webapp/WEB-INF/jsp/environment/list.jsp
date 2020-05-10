@@ -9,8 +9,8 @@
 
 <my:masterpage title="Environments">
     <jsp:attribute name="body">
-        <c:if test="${not empty authenticatedUser && authenticatedUser.isAdmin}">
-            <td><my:a href="/environtments/create" class="btn btn-success"><f:message key="environments.create"/></my:a></td>
+        <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
+            <td><my:a href="/environment/create" class="btn btn-success"><f:message key="environments.create"/></my:a></td>
         </c:if>
         <table class="table table-striped">
             <thead>
@@ -23,9 +23,9 @@
                 <tr>
                     <td>${environment.name}</td>
                     <td><my:a href="/environment/detail/${environment.id}" class="btn btn-primary"><f:message key="detail"/></my:a></td>
-                    <c:if test="${not empty authenticatedUser && authenticatedUser.isAdmin}">
+                    <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
                         <td>
-                            <form method="post" action="${pageContext.request.contextPath}/environments/delete/${environment.id}">
+                            <form method="post" action="${pageContext.request.contextPath}/environment/delete/${environment.id}">
                                 <button type="submit" class="btn btn-danger">
                                     <f:message key="delete" />
                                 </button>

@@ -34,10 +34,10 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <c:if test="${not empty authenticatedUser && authenticatedUser.isAdmin}">
+            <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}"><f:message key="navigation.adminTitle"/></a>
             </c:if>
-            <c:if test="${empty authenticatedUser || !authenticatedUser.isAdmin}">
+            <c:if test="${empty authenticatedUser || !authenticatedUser.admin}">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}"><f:message key="navigation.title"/></a>
             </c:if>
 

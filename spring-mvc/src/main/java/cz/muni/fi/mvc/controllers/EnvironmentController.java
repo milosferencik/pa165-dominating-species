@@ -59,6 +59,12 @@ public class EnvironmentController {
         }
     }
 
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String create(Model model) {
+        model.addAttribute("createEnvironment", new EnvironmentCreateDTO());
+        return "environment/create";
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("createEnvironment") EnvironmentCreateDTO env,
                          BindingResult bindingResult,
