@@ -9,11 +9,11 @@
 <jsp:attribute name="body">
     <script src="https://unpkg.com/gojs/release/go-debug.js"></script>
 
-    <div class="jumbotron" onload="init()">
+    <div class="jumbotron">
         <h1>The Food Web!</h1>
     </div>
 
-    <div id="foodWebDiagram" style="background-color: whitesmoke; border: solid 1px black; width: 100%; height: 700px"></div>
+    <div id="foodWebDiagram" style="width: 100%; height: 700px"></div>
     <script>
         function init() {
             let $ = go.GraphObject.make;  // for conciseness in defining templates
@@ -30,29 +30,37 @@
             foodWebDiagram.nodeTemplate =
                 $(go.Node, "Auto",
                     $(go.Shape,
-                        { figure: "Circle",
-                            fill: "white" },
+                        {
+                            figure: "Ellipse",
+                            fill: "white",
+                            minSize: new go.Size(60, 60)
+                        },
                         new go.Binding("fill", "color"),
-                        new go.Binding("desiredSize", "size", go.Size.parse)
+                        new go.Binding("desiredSize", "size")
                     ),
 
                     $(go.TextBlock,
-                        { margin: 5 },
-                        new go.Binding("text", "text"))  // binding to get TextBlock.text from nodedata.key
+                        {
+                            margin: 5,
+                            wrap: go.TextBlock.WrapFit,
+                            textAlign: "center"
+                        },
+                        new go.Binding("text", "text"))
                 );
 
             // create the model for the concept map
             let nodeDataArray = [
-                {key: 1, text: "Grass", color: "green", size: "5 5" },
-                {key: 2, text: "Rabbit", color: "lightblue", size: "7 7" },
-                {key: 3, text: "Insect", color: "lightblue", size: "7 7" },
-                {key: 4, text: "Snail", color: "lightblue", size: "7 7" },
-                {key: 5, text: "Frog", color: "lightblue", size: "5 5" },
-                {key: 6, text: "Vole", color: "lightblue", size: "9 9" },
-                {key: 7, text: "Thrush", color: "orange", size: "9 9" },
-                {key: 8, text: "Hawk", color: "red", size: "9 9" },
-                {key: 9, text: "Fox", color: "red", size: "12 12" },
+                {key: 1, text: "Grass", color: "green", size: new go.Size(60, 60) },
+                {key: 2, text: "Rabbit", color: "lightblue", size: new go.Size(60, 60) },
+                {key: 3, text: "Insect", color: "lightblue", size: new go.Size(60, 60) },
+                {key: 4, text: "Snail", color: "lightblue", size: new go.Size(60, 60) },
+                {key: 5, text: "Frog", color: "lightblue", size: new go.Size(65, 65) },
+                {key: 6, text: "Vole", color: "lightblue", size: new go.Size(65, 65) },
+                {key: 7, text: "Thrush", color: "orange", size: new go.Size(70, 70) },
+                {key: 8, text: "Hawk", color: "red", size: new go.Size(75, 75) },
+                {key: 9, text: "Fox", color: "red", size: new go.Size(80, 80) },
             ];
+
             let linkDataArray = [
                 {from: 1, to: 2},
                 {from: 1, to: 3},
@@ -73,6 +81,7 @@
             foodWebDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
         }
 
+        init();
     </script>
 
 
