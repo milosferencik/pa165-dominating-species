@@ -59,7 +59,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         log.info("Loaded food chains.");
 
         user("Jane", "Doe", "janedoe@muni.cz", false, "MyPassword");
-        user("John","Doe", "johndoe@muni.cz", true, "123abc");
+        user("John","Doe", "johndoe@muni.cz", true, "admin");
         log.info("Loaded users.");
     }
 
