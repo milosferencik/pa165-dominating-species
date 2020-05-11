@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"  crossorigin="anonymous">
     <jsp:invoke fragment="head"/>
 </head>
-<body onload="init()">
+<body>
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
         <div class="navbar-header">
@@ -45,6 +45,7 @@
 
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
+                <li><my:a href="/foodWeb/"><f:message key="navigation.foodWeb"/></my:a></li>
                 <li><my:a href="/foodchain/list/"><f:message key="navigation.foodChains"/></my:a></li>
                 <li><my:a href="/animal/"><f:message key="navigation.animals"/></my:a></li>
                 <li><my:a href="/environment/"><f:message key="navigation.environments"/></my:a></li>

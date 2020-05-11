@@ -10,13 +10,14 @@
     <script src="https://unpkg.com/gojs/release/go-debug.js"></script>
 
     <div class="jumbotron">
-        <h1>The Food Web!</h1>
+        <h1>The Food Web</h1>
     </div>
 
     <div id="foodWebDiagram" style="width: 100%; height: 700px"></div>
     <script>
+        // Creates static food web diagram
         function init() {
-            let $ = go.GraphObject.make;  // for conciseness in defining templates
+            let $ = go.GraphObject.make;
 
             let foodWebDiagram =
                 $(go.Diagram, "foodWebDiagram", // must be the ID or reference to div
@@ -83,7 +84,6 @@
 
         init();
     </script>
-
-
+    
 </jsp:attribute>
 </my:masterpage>
