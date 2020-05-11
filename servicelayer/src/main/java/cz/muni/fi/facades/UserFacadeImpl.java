@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * @Author Kostka on 25/04/2020.
@@ -58,4 +59,11 @@ public class UserFacadeImpl implements UserFacade {
     public boolean isUserAdmin(Long id) {
         return userService.isAdmin(id);
     }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return beanMappingService.mapTo(users, UserDTO.class);
+    }
+
 }

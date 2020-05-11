@@ -4,6 +4,8 @@ import cz.muni.fi.dto.UserCreateDTO;
 import cz.muni.fi.dto.UserDTO;
 import org.graalvm.compiler.lir.LIRInstruction;
 
+import java.util.List;
+
 /**
  * @autor on 25/04/2020.
  */
@@ -47,4 +49,12 @@ public interface UserFacade {
      * @return true if user is admin, false otherwise
      */
     boolean isUserAdmin(Long id);
+
+    /**
+     * Returns information about all users
+     *
+     * @return list of all users
+     */
+    public List<UserDTO> getAllUsers();
+
 }
