@@ -48,6 +48,9 @@
                 <li><my:a href="/foodchain/list/"><f:message key="navigation.foodChains"/></my:a></li>
                 <li><my:a href="/animal/"><f:message key="navigation.animals"/></my:a></li>
                 <li><my:a href="/environment/"><f:message key="navigation.environments"/></my:a></li>
+                <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
+                    <li><my:a href="/user/"><f:message key="navigation.users"/></my:a></li>
+                </c:if>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
