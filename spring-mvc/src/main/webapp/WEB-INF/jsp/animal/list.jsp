@@ -9,9 +9,10 @@
 
 <my:masterpage title="Animals">
     <jsp:attribute name="body">
-        <c:if test="${not empty authenticatedUser && authenticatedUser.isAdmin}">
+        <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
             <td><my:a href="/animal/create" class="btn btn-success"><f:message key="animals.create"/></my:a></td>
         </c:if>
+
         <table class="table table-striped">
             <thead>
             <tr>
@@ -23,7 +24,7 @@
                 <tr>
                     <td>${animal.name}</td>
                     <td><my:a href="/animal/detail/${animal.id}" class="btn btn-primary"><f:message key="detail"/></my:a></td>
-                    <c:if test="${not empty authenticatedUser && authenticatedUser.isAdmin}">
+                    <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
                         <td>
                             <form method="post" action="${pageContext.request.contextPath}/animal/delete/${animal.id}">
                                 <button type="submit" class="btn btn-danger">
