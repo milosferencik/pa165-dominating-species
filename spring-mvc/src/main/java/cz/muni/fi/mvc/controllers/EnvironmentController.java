@@ -2,7 +2,6 @@ package cz.muni.fi.mvc.controllers;
 
 import cz.muni.fi.dto.EnvironmentCreateDTO;
 import cz.muni.fi.dto.EnvironmentDTO;
-import cz.muni.fi.dto.EnvironmentListDTO;
 import cz.muni.fi.facades.EnvironmentFacade;
 import cz.muni.fi.mvc.validators.EnvironmentCreateDtoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * @author Ondrej Slimak
@@ -27,14 +25,10 @@ import java.util.List;
 public class EnvironmentController {
 
     @Autowired
-    private final EnvironmentFacade environmentFacade;
-
-    public EnvironmentController(EnvironmentFacade environmentFacade) {
-        this.environmentFacade = environmentFacade;
-    }
+    private EnvironmentFacade environmentFacade;
 
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("environments", environmentFacade.getAllEnvironment());
         return "environment/list";
@@ -58,12 +52,6 @@ public class EnvironmentController {
         return "redirect:" + uriBuilder.path("/environment/list").toUriString();
     }
 
-
-    @ModelAttribute("environments")
-    public List<EnvironmentListDTO> environments() {
-        return environmentFacade.getAllEnvironment();
-    }
-
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         if (binder.getTarget() instanceof EnvironmentCreateDTO) {
@@ -71,8 +59,14 @@ public class EnvironmentController {
         }
     }
 
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String create(Model model) {
+        model.addAttribute("createEnvironment", new EnvironmentCreateDTO());
+        return "environment/create";
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@Valid @ModelAttribute("createPlayer") EnvironmentCreateDTO env,
+    public String create(@Valid @ModelAttribute("createEnvironment") EnvironmentCreateDTO env,
                          BindingResult bindingResult,
                          Model model,
                          RedirectAttributes redirectAttributes,
