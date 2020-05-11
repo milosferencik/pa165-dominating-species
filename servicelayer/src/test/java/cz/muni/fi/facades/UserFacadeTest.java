@@ -21,6 +21,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -84,7 +85,7 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void updateEnvironmentTest() {
+    public void updateUserTest() {
         UserDTO userDTO = beanMappingService.mapTo(u1, UserDTO.class);
         ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
         userFacade.updateUser(userDTO);
@@ -93,7 +94,7 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void deleteEnvironmentTest() {
+    public void deleteUserTest() {
         ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(Long.class);
         userFacade.deleteUser(u1.getId());
         Mockito.verify(userService).deleteUser(argument.capture());
@@ -101,9 +102,23 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void getEnvironmentByIdTest() {
+    public void getUserByIdTest() {
         Mockito.when(userService.getUser(u1.getId())).thenReturn(u1);
         UserDTO userDTO = userFacade.getUserById(u1.getId());
         assertThat(userDTO).isEqualToComparingFieldByField(beanMappingService.mapTo(u1, UserDTO.class));
+    }
+
+    @Test
+    public void getUserByEmailTest() {
+        Mockito.when(userService.getUserByEmail(u1.getEmail())).thenReturn(u1);
+        UserDTO userDTO = userFacade.getUserByEmail(u1.getEmail());
+        assertThat(userDTO).isEqualToComparingFieldByField(beanMappingService.mapTo(u1, UserDTO.class));
+    }
+
+    @Test
+    public void getAllUsersTest() {
+        Mockito.when(userService.getAllUsers()).thenReturn(Collections.singletonList(u1));
+        List<UserDTO> users = userFacade.getAllUsers();
+        assertThat(users).isEqualTo(beanMappingService.mapTo(Collections.singletonList(u1), UserDTO.class));
     }
 }
