@@ -7,6 +7,7 @@ import cz.muni.fi.dto.EnvironmentListDTO;
 import cz.muni.fi.facades.AnimalFacade;
 import cz.muni.fi.facades.EnvironmentFacade;
 import cz.muni.fi.mvc.validators.AnimalCreateDtoValidator;
+import cz.muni.fi.mvc.validators.AnimalUpdateDtoValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,10 +97,19 @@ public class AnimalController {
         return environmentFacade.getAllEnvironment();
     }
 
+    @ModelAttribute("environment/{id}")
+    public EnvironmentDTO environment(Long id) {
+        log.debug("environment()");
+        return environmentFacade.getEnvironmentById(id);
+    }
+
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         if (binder.getTarget() instanceof AnimalCreateDTO) {
             binder.addValidators(new AnimalCreateDtoValidator());
+        }
+        if (binder.getTarget() instanceof AnimalDTO) {
+            binder.addValidators(new AnimalUpdateDtoValidator());
         }
     }
 
@@ -133,4 +143,37 @@ public class AnimalController {
         redirectAttributes.addFlashAttribute("alert_success", "Animal " + animal.getName() + " was created");
         return "redirect:" + uriBuilder.path("/animal/detail/{id}").buildAndExpand(id).encode().toUriString();
     }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String update(@PathVariable long id, Model model) {
+        log.debug("update()");
+        AnimalDTO animalDTO = animalFacade.getAnimalById(id);
+        model.addAttribute("animalUpdate", animalDTO);
+        return "animal/update";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(@Valid @ModelAttribute("animalUpdate") AnimalDTO animal,
+                         BindingResult bindingResult,
+                         Model model,
+                         RedirectAttributes redirectAttributes,
+                         UriComponentsBuilder uriBuilder) {
+        log.debug("update(animalUpdate={})", animal);
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                log.trace("ObjectError: {}", ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+                log.trace("FieldError: {}", fe);
+            }
+            return "animal/update";
+        }
+
+        animalFacade.updateAnimal(animal);
+
+        redirectAttributes.addFlashAttribute("alert_success", "Animal " + animal.getName() + " was updated");
+        return "redirect:" + uriBuilder.path("/animal/detail/{id}").buildAndExpand(animal.getId()).encode().toUriString();
+    }
+
 }
