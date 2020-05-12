@@ -79,7 +79,7 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
         userCreateDTO.setAdmin(u1.isAdmin());
         userCreateDTO.setEmail(u1.getEmail());
         userCreateDTO.setSurname(u1.getSurname());
-        userCreateDTO.setPasswordHash(u1.getPasswordHash());
+        userCreateDTO.setPassword(u1.getPasswordHash());
         Long id = userFacade.createUser(userCreateDTO, "password");
         assertThat(id).isEqualTo(2L);
     }

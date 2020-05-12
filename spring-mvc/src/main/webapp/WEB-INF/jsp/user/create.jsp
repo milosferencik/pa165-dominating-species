@@ -32,11 +32,11 @@
                     <form:errors path="email" cssClass="help-block"/>
                 </div>
             </div>
-            <div class="form-group ${passwordHash_error?'has-error':''}">
-                <form:label path="passwordHash" cssClass="col-sm-2 control-label"><f:message key="login.password"/></form:label>
+            <div class="form-group ${password_error?'has-error':''}">
+                <form:label path="password" cssClass="col-sm-2 control-label"><f:message key="login.password"/></form:label>
                 <div class="col-sm-10">
-                    <form:input path="passwordHash" cssClass="form-control"/>
-                    <form:errors path="passwordHash" cssClass="help-block"/>
+                    <form:input path="password" cssClass="form-control"/>
+                    <form:errors path="password" cssClass="help-block"/>
                 </div>
             </div>
             <div class="form-group ${admin_error?'has-error':''}">
@@ -44,7 +44,7 @@
                     <div class="form-check">
                         <form:label path="admin"> Is admin
                         <form:checkbox path="admin" cssClass="form-check-input"/> </form:label>
-                        <form:errors path="passwordHash" cssClass="help-block"/>
+                        <form:errors path="admin" cssClass="help-block"/>
                     </div>
                 </div>
             </div>

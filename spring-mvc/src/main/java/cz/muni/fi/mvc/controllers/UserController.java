@@ -79,7 +79,7 @@ public class UserController {
             return "user/create";
         }
 
-        Long id = userFacade.createUser(user,user.getPasswordHash());
+        Long id = userFacade.createUser(user,user.getPassword());
 
         redirectAttributes.addFlashAttribute("alert_success", "User " + user.getEmail() + " was created successfully");
         return "redirect:" + urisBuilder.path("/user/detail/{id}").buildAndExpand(id).encode().toUriString();
