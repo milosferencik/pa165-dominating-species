@@ -1,14 +1,24 @@
 package cz.muni.fi.mvc.controllers;
 
+import cz.muni.fi.dto.EnvironmentCreateDTO;
+import cz.muni.fi.dto.EnvironmentDTO;
+import cz.muni.fi.dto.UserCreateDTO;
+import cz.muni.fi.dto.UserDTO;
 import cz.muni.fi.facades.UserFacade;
+import cz.muni.fi.mvc.validators.EnvironmentCreateDtoValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.validation.Valid;
 
 /**
  * @Katarina Matusova
@@ -34,5 +44,45 @@ public class UserController {
         return "user/detail";
     }
 
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public String delete(@PathVariable long id,
+                         Model model,
+                         UriComponentsBuilder uriBuilder,
+                         RedirectAttributes redirectAttributes) {
+        UserDTO user = userFacade.getUserById(id);
+        try {
+            userFacade.deleteUser(id);
+            redirectAttributes.addFlashAttribute("alert_success", "User \"" + user.getEmail() + "\" was successfully deleted.");
+        } catch (Exception ex){
+            redirectAttributes.addFlashAttribute("alert_danger", "User \"" + user.getEmail() + "\" cannot be deleted.");
+        }
+        return "redirect:" + uriBuilder.path("/user/list").toUriString();
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String create(Model model) {
+        model.addAttribute("createUser", new UserCreateDTO());
+        return "user/create";
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String create(@Valid @ModelAttribute("createUser") UserCreateDTO user,
+                         BindingResult bindingResult,
+                         Model model,
+                         RedirectAttributes redirectAttributes,
+                         UriComponentsBuilder urisBuilder) {
+
+        if (bindingResult.hasErrors()) {
+            for (FieldError error: bindingResult.getFieldErrors()) {
+                model.addAttribute(error.getField() + "_error", true);
+            }
+            return "user/create";
+        }
+
+        Long id = userFacade.createUser(user,user.getPasswordHash());
+
+        redirectAttributes.addFlashAttribute("alert_success", "User " + user.getEmail() + " was created successfully");
+        return "redirect:" + urisBuilder.path("/user/detail/{id}").buildAndExpand(id).encode().toUriString();
+    }
 
 }
