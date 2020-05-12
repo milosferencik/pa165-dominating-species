@@ -12,6 +12,27 @@
     <div class="jumbotron">
         <h1>The Food Web</h1>
     </div>
+<%--    <form:form method="post" action="${pageContext.request.contextPath}/foodWeb/create"--%>
+<%--               modelAttribute="createPlayer" cssClass="form-horizontal">--%>
+<%--        <div class="form-group ${name_error?'has-error':''}">--%>
+<%--            <form:label path="name" cssClass="col-sm-2 control-label"><f:message key="name"/></form:label>--%>
+<%--            <div class="col-sm-10">--%>
+<%--                <form:input path="name" cssClass="form-control"/>--%>
+<%--                <form:errors path="name" cssClass="help-block"/>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="form-group">--%>
+<%--            <form:label path="nationality" cssClass="col-sm-2 control-label"><f:message key="nationality"/></form:label>--%>
+<%--            <div class="col-sm-10">--%>
+<%--                <form:select path="nationality" cssClass="form-control">--%>
+<%--                    <c:forEach items="${countries}" var="c">--%>
+<%--                        <form:option value="${c}">${c}</form:option>--%>
+<%--                    </c:forEach>--%>
+<%--                </form:select>--%>
+<%--                <form:errors path="nationality" cssClass="error"/>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </form:form>--%>
 
     <div id="foodWebDiagram" style="width: 100%; height: 700px"></div>
     <script>

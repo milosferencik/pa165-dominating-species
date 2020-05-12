@@ -73,17 +73,7 @@
                 // setup nodes
                 foodWeb.forEach(animal => {
                     var predatorLevel = predatorLevelDict[animal.id];
-
-                    var color = "white";        // default color, color judged by predator level
-                    if (predatorLevel > 3) {
-                       color = "red";
-                    } else if (predatorLevel > 0) {
-                        color = "orange";
-                    } else if (predatorLevel <= 0) {
-                        color = "lightblue";
-                    } else if (predatorLevel < -3) {
-                        color = "green";
-                    }
+                    var color = getColorByPredatorLevel(predatorLevel);
 
                     var size = 50 + 10 * animal.preyIds.length;    // default size = 50, judged by count of prey
                     if (size > 120) {
@@ -92,7 +82,7 @@
                     nodeDataArray.push({key: animal.id, text: animal.name, color: color, size: new go.Size(size, size)});
                 });
 
-                // build graf
+                // build graph
                 foodWebDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
             }
 
@@ -111,6 +101,30 @@
                     },
                 </c:forEach>
                 ];
+            }
+
+            // default color, color judged by predator level, higher level -> more red
+            function getColorByPredatorLevel(predatorLevel) {
+                var color = "white";
+                if (predatorLevel === undefined) {
+                    return color;
+                }
+
+                if (predatorLevel > 3) {
+                    color = "indianred";
+                } else if (predatorLevel > 1) {
+                    color = "salmon";
+                } else if(predatorLevel > 0) {
+                    color = "lightsalmon";
+                } else if (predatorLevel <= 0) {
+                    color = "lightblue";
+                } else if (predatorLevel < -1) {
+                    color = "turquoise";
+                } else if (predatorLevel < -3) {
+                    color = "green";
+                }
+
+                return color;
             }
 
             init();
