@@ -1,5 +1,6 @@
 package cz.muni.fi.facades;
 
+import cz.muni.fi.dto.AuthenticateUserDTO;
 import cz.muni.fi.dto.UserCreateDTO;
 import cz.muni.fi.dto.UserDTO;
 import cz.muni.fi.services.interfaces.BeanMappingService;
@@ -64,6 +65,11 @@ public class UserFacadeImpl implements UserFacade {
     public List<UserDTO> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return beanMappingService.mapTo(users, UserDTO.class);
+    }
+
+    @Override
+    public boolean authenticate(AuthenticateUserDTO user) {
+        return userService.authenticate(userService.getUserByEmail(user.getEmail()), user.getPassword());
     }
 
 }

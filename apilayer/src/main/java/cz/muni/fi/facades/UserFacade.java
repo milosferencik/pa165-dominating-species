@@ -1,5 +1,6 @@
 package cz.muni.fi.facades;
 
+import cz.muni.fi.dto.AuthenticateUserDTO;
 import cz.muni.fi.dto.UserCreateDTO;
 import cz.muni.fi.dto.UserDTO;
 import org.graalvm.compiler.lir.LIRInstruction;
@@ -55,6 +56,8 @@ public interface UserFacade {
      *
      * @return list of all users
      */
-    public List<UserDTO> getAllUsers();
+    List<UserDTO> getAllUsers();
+
+    boolean authenticate(AuthenticateUserDTO user);
 
 }
