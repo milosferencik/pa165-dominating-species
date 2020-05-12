@@ -49,16 +49,15 @@ public class AnimalController {
 
     @RequestMapping(value = "/environment", method = RequestMethod.POST)
     public String getAnimalsByEnvironmentFormHandler(@RequestParam("environmentId") Long id, UriComponentsBuilder uriBuilder) {
-
         if (id == 0) {
             return "redirect:" + uriBuilder.path("/animal/").encode().toUriString();
         }
         return "redirect:" + uriBuilder.path("/animal/environment/{id}").buildAndExpand(id).encode().toUriString();
-
     }
 
     @RequestMapping(value = "/environment/{id}", method = RequestMethod.GET)
     public String getAnimalsByEnvironment(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
+        log.debug("getAnimalsByEnvironment({})", id);
         model.addAttribute("selectedEnvironmentId", id);
         EnvironmentDTO env = environmentFacade.getEnvironmentById(id);
         if (env == null) {
@@ -86,22 +85,9 @@ public class AnimalController {
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable long id, Model model) {
-        log.debug("view({})", id);
+        log.debug("detail({})", id);
         model.addAttribute("animal", animalFacade.getAnimalById(id));
         return "animal/detail";
-    }
-
-    /**
-     * Prepares an empty form.
-     *
-     * @param model data to be displayed
-     * @return JSP page
-     */
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(Model model) {
-        log.debug("create()");
-        model.addAttribute("animalCreate", new AnimalCreateDTO());
-        return "animal/create";
     }
 
     @ModelAttribute("environments")
@@ -110,11 +96,6 @@ public class AnimalController {
         return environmentFacade.getAllEnvironment();
     }
 
-    /**
-     * Spring Validator added to JSR-303 Validator for this @Controller only.
-     * It is useful  for custom validations that are not defined on the form bean by annotations.
-     * http://docs.spring.io/spring/docs/current/spring-framework-reference/html/validation.html#validation-mvc-configuring
-     */
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         if (binder.getTarget() instanceof AnimalCreateDTO) {
@@ -122,11 +103,20 @@ public class AnimalController {
         }
     }
 
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String create(Model model) {
+        log.debug("create()");
+        model.addAttribute("animalCreate", new AnimalCreateDTO());
+        return "animal/create";
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@Valid @ModelAttribute("animalCreate") AnimalCreateDTO animal, BindingResult bindingResult,
-                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    public String create(@Valid @ModelAttribute("animalCreate") AnimalCreateDTO animal,
+                         BindingResult bindingResult,
+                         Model model,
+                         RedirectAttributes redirectAttributes,
+                         UriComponentsBuilder uriBuilder) {
         log.debug("create(animalCreate={})", animal);
-        //in case of validation error forward back to the the form
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
                 log.trace("ObjectError: {}", ge);
@@ -137,9 +127,9 @@ public class AnimalController {
             }
             return "animal/create";
         }
-        //create animal
+
         Long id = animalFacade.createAnimal(animal);
-        //report success
+
         redirectAttributes.addFlashAttribute("alert_success", "Animal " + animal.getName() + " was created");
         return "redirect:" + uriBuilder.path("/animal/detail/{id}").buildAndExpand(id).encode().toUriString();
     }
