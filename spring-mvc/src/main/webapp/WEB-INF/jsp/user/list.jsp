@@ -21,7 +21,11 @@
             <tbody>
             <c:forEach items="${users}" var="user">
                 <tr>
-                    <td>${user.name}</td>
+                    <td>${user.name}
+                        <c:if test="${user.admin}">
+                            <span class="badge badge-dark"> Admin </span>
+                        </c:if>
+                    </td>
                     <td><my:a href="/user/detail/${user.id}" class="btn btn-primary"><f:message key="detail"/></my:a></td>
                     <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
                         <td>
