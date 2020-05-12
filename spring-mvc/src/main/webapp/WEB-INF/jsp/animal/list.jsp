@@ -9,14 +9,34 @@
 
 <my:masterpage title="Animals">
     <jsp:attribute name="body">
-        <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
-            <td><my:a href="/animal/create" class="btn btn-success"><f:message key="animals.create"/></my:a></td>
-        </c:if>
-
+        <div>
+            <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
+                <td><my:a href="/animal/create" class="btn btn-success"><f:message key="animals.create"/></my:a></td>
+            </c:if>
+        </div>
+        <div>
+            <form:form method="post" action="${pageContext.request.contextPath}/animal/environment"
+                       modelAttribute="environments" cssClass="form-inline">
+            <label class="control-label" for="environmentId"><f:message key="environment"/>:
+                <select name="environmentId" class="form-control" id="environmentId">
+                    <option value="0" <c:if test="${selectedEnvironmentId == 0}">selected="selected"</c:if>>
+                        -
+                    </option>
+                    <c:forEach items="${environments}" var="env">
+                        <option value="${env.id}"
+                                <c:if test="${selectedEnvironmentId == env.id}">selected="selected"</c:if>>
+                                ${env.name}
+                        </option>
+                    </c:forEach>
+                </select>
+            </label>
+            <button type="submit" class="btn btn-default"><f:message key="button.filter_by_environment"/></button>
+            </form:form>
+        </div>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th><f:message key="name"/></th>
+                <th><f:message key="label.name"/></th>
             </tr>
             </thead>
             <tbody>

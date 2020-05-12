@@ -49,7 +49,7 @@ public class EnvironmentController {
         environmentFacade.deleteEnvironment(id);
 
         redirectAttributes.addFlashAttribute("alert_success", "Environment " + env.getName() + " was successfully deleted");
-        return "redirect:" + uriBuilder.path("/environment/list").toUriString();
+        return "redirect:" + uriBuilder.path("/environment/").toUriString();
     }
 
     @InitBinder
@@ -61,12 +61,12 @@ public class EnvironmentController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(Model model) {
-        model.addAttribute("createEnvironment", new EnvironmentCreateDTO());
+        model.addAttribute("environmentCreate", new EnvironmentCreateDTO());
         return "environment/create";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@Valid @ModelAttribute("createEnvironment") EnvironmentCreateDTO env,
+    public String create(@Valid @ModelAttribute("environmentCreate") EnvironmentCreateDTO env,
                          BindingResult bindingResult,
                          Model model,
                          RedirectAttributes redirectAttributes,

@@ -12,7 +12,7 @@
         <table class="table">
             <tbody>
             <tr>
-                <td><b><f:message key="name"/>:</b> ${environment.name}</td>
+                <td><b><f:message key="label.name"/>:</b> ${environment.name}</td>
             </tr>
             <tr>
                 <td><b><f:message key="description"/>:</b> ${environment.description}</td>

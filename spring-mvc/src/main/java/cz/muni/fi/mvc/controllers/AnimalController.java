@@ -2,6 +2,7 @@ package cz.muni.fi.mvc.controllers;
 
 import cz.muni.fi.dto.AnimalCreateDTO;
 import cz.muni.fi.dto.AnimalDTO;
+import cz.muni.fi.dto.EnvironmentDTO;
 import cz.muni.fi.dto.EnvironmentListDTO;
 import cz.muni.fi.facades.AnimalFacade;
 import cz.muni.fi.facades.EnvironmentFacade;
@@ -46,6 +47,28 @@ public class AnimalController {
         return "animal/list";
     }
 
+    @RequestMapping(value = "/environment", method = RequestMethod.POST)
+    public String getAnimalsByEnvironmentFormHandler(@RequestParam("environmentId") Long id, UriComponentsBuilder uriBuilder) {
+
+        if (id == 0) {
+            return "redirect:" + uriBuilder.path("/animal/").encode().toUriString();
+        }
+        return "redirect:" + uriBuilder.path("/animal/environment/{id}").buildAndExpand(id).encode().toUriString();
+
+    }
+
+    @RequestMapping(value = "/environment/{id}", method = RequestMethod.GET)
+    public String getAnimalsByEnvironment(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
+        model.addAttribute("selectedEnvironmentId", id);
+        EnvironmentDTO env = environmentFacade.getEnvironmentById(id);
+        if (env == null) {
+            return "redirect:" + uriBuilder.path("/animal/").encode().toUriString();
+        }
+
+        model.addAttribute("animals", animalFacade.getAnimalsByEnvironment(env.getId()));
+        return "animal/list";
+    }
+
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         AnimalDTO animal = animalFacade.getAnimalById(id);
@@ -77,7 +100,7 @@ public class AnimalController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(Model model) {
         log.debug("create()");
-        model.addAttribute("createAnimal", new AnimalCreateDTO());
+        model.addAttribute("animalCreate", new AnimalCreateDTO());
         return "animal/create";
     }
 
@@ -100,9 +123,9 @@ public class AnimalController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@Valid @ModelAttribute("animalCreate") AnimalCreateDTO formBean, BindingResult bindingResult,
+    public String create(@Valid @ModelAttribute("animalCreate") AnimalCreateDTO animal, BindingResult bindingResult,
                          Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
-        log.debug("create(animalCreate={})", formBean);
+        log.debug("create(animalCreate={})", animal);
         //in case of validation error forward back to the the form
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
@@ -115,9 +138,9 @@ public class AnimalController {
             return "animal/create";
         }
         //create animal
-        Long id = animalFacade.createAnimal(formBean);
+        Long id = animalFacade.createAnimal(animal);
         //report success
-        redirectAttributes.addFlashAttribute("alert_success", "Animal " + id + " was created");
+        redirectAttributes.addFlashAttribute("alert_success", "Animal " + animal.getName() + " was created");
         return "redirect:" + uriBuilder.path("/animal/detail/{id}").buildAndExpand(id).encode().toUriString();
     }
 }

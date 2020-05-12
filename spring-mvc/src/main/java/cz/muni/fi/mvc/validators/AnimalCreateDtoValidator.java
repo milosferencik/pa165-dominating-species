@@ -14,13 +14,12 @@ public class AnimalCreateDtoValidator implements Validator {
     public void validate(Object target, Errors errors) {
         AnimalCreateDTO animalCreateDTO = (AnimalCreateDTO) target;
 
+        if (animalCreateDTO.getEnvironmentId() == null) return;
+
         if (animalCreateDTO.getName() == null || animalCreateDTO.getName().isEmpty())
-            errors.rejectValue("name", "nameNull");
+            errors.rejectValue("name", "animal.name.error");
 
         if (animalCreateDTO.getSpecies() == null || animalCreateDTO.getSpecies().isEmpty())
-            errors.rejectValue("species", "speciesNull");
-
-        if (animalCreateDTO.getEnvironmentId() == null)
-            errors.rejectValue("environmentId", "environmentIdNull");
+            errors.rejectValue("species", "animal.species.error");
     }
 }

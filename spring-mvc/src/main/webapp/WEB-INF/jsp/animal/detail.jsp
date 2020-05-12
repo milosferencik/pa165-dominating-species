@@ -12,10 +12,10 @@
         <table class="table">
             <tbody>
             <tr>
-                <td><b><f:message key="name"/>:</b> ${animal.name}</td>
+                <td><b><f:message key="label.name"/>:</b> ${animal.name}</td>
             </tr>
             <tr>
-                <td><b><f:message key="species"/>:</b> ${animal.species}</td>
+                <td><b><f:message key="animal.species"/>:</b> ${animal.species}</td>
             </tr>
             <tr>
                 <td><b><f:message key="environment"/>:</b> ${animal.environment.name}</td>

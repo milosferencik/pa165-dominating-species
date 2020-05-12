@@ -6,20 +6,20 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<my:masterpage title="New environment">
+<my:masterpage title="New animal">
 
     <jsp:attribute name="body">
         <form:form method="post" action="${pageContext.request.contextPath}/animal/create"
-                   modelAttribute="createAnimal" cssClass="form-horizontal">
+                   modelAttribute="animalCreate" cssClass="form-horizontal">
             <div class="form-group ${name_error?'has-error':''}">
-                <form:label path="name" cssClass="col-sm-2 control-label"><f:message key="name"/></form:label>
+                <form:label path="name" cssClass="col-sm-2 control-label"><f:message key="label.name"/></form:label>
                 <div class="col-sm-10">
                     <form:input path="name" cssClass="form-control"/>
                     <form:errors path="name" cssClass="help-block"/>
                 </div>
             </div>
             <div class="form-group ${species_error?'has-error':''}">
-                <form:label path="species" cssClass="col-sm-2 control-label"><f:message key="species"/></form:label>
+                <form:label path="species" cssClass="col-sm-2 control-label"><f:message key="animal.species"/></form:label>
                 <div class="col-sm-10">
                     <form:input path="species" cssClass="form-control"/>
                     <form:errors path="species" cssClass="help-block"/>

@@ -15,7 +15,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th><f:message key="name"/></th>
+                <th><f:message key="label.name"/></th>
             </tr>
             </thead>
             <tbody>

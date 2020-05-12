@@ -71,8 +71,26 @@
         </div>
     </c:if>
 
+    <!-- alerts -->
+    <c:if test="${not empty alert_danger}">
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <c:out value="${alert_danger}"/></div>
+    </c:if>
+    <c:if test="${not empty alert_info}">
+        <div class="alert alert-info" role="alert"><c:out value="${alert_info}"/></div>
+    </c:if>
+    <c:if test="${not empty alert_success}">
+        <div class="alert alert-success" role="alert"><c:out value="${alert_success}"/></div>
+    </c:if>
+    <c:if test="${not empty alert_warning}">
+        <div class="alert alert-warning" role="alert"><c:out value="${alert_warning}"/></div>
+    </c:if>
+
+    <!-- page body -->
     <jsp:invoke fragment="body"/>
 
+    <!-- footer -->
     <footer class="panel-footer panel-primary">
         <p><f:message key="footer"/> </p>
         <p>&copy;&nbsp;<%=java.time.Year.now().toString()%>&nbsp;Peter Kostka, Katarína Matúšová, Miloš Ferenčík, Ondřej Slimák</p>
