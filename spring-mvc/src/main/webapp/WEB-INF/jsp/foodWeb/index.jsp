@@ -15,23 +15,52 @@
             <h1>Food Web of All Data</h1>
         </div>
 
-        <form:form method="post" action="${pageContext.request.contextPath}/foodWeb/"
-                   modelAttribute="environments" cssClass="form-horizontal">
-            <label class="col-sm-2 control-label"><f:message key="environment"/>:
-                <select name="environment" class="col-sm-10" id="environmentId">
-                <c:forEach items="${environments}" var="env">
-                    <option value="${env.id}"
-                            <c:if test="${selectedEnvironment == env.id}">selected="selected"</c:if>>
-                            ${env.name}
-                    </option>
-                </c:forEach>
-                </select>
-            </label>
-        </form:form>
+        <div class="row">
+            <div class="col-sm-6">
+                <form:form method="post" action="${pageContext.request.contextPath}/foodWeb/environment"
+                           modelAttribute="environments" cssClass="form-inline">
+                    <label class="control-label" for="environmentId"><f:message key="environment"/>:
+                        <select name="environmentId" class="form-control" id="environmentId">
+                            <option value="0" <c:if test="${selectedEnvironmentId == 0}">selected="selected"</c:if>>
+                                -
+                            </option>
+                        <c:forEach items="${environments}" var="env">
+                            <option value="${env.id}"
+                                    <c:if test="${selectedEnvironmentId == env.id}">selected="selected"</c:if>>
+                                    ${env.name}
+                            </option>
+                        </c:forEach>
+                        </select>
+                    </label>
+                    <button type="submit" class="btn btn-default"><f:message key="foodweb.filter_by_environment"/></button>
+                </form:form>
+            </div>
 
+            <div class="col-sm-6">
+                <form:form method="post" action="${pageContext.request.contextPath}/foodWeb/animal"
+                           modelAttribute="animals" cssClass="form-inline">
+                    <label class="control-label" for="animalId"><f:message key="animal"/>:
+                        <select name="animalId" class="form-control" id="animalId">
+                            <option value="0" <c:if test="${selectedAnimalId == 0}">selected="selected"</c:if>>
+                                -
+                            </option>
+                            <c:forEach items="${animals}" var="animal">
+                            <option value="${animal.id}"
+                                    <c:if test="${selectedAnimalId == animal.id}">selected="selected"</c:if>>
+                                    ${animal.name}
+                            </option>
+                        </c:forEach>
+                        </select>
+                    </label>
 
+                    <button type="submit" class="btn btn-default"><f:message key="foodweb.filter_by_animal"/></button>
+                </form:form>
+            </div>
+        </div>
 
-        <div id="foodWebDiagram" style="width: 100%; height: 700px"></div>
+        <div class="row flex-column justify-content-center bg-red text-white px-2 flex-grow-1 overflow-auto">
+            <div id="foodWebDiagram" style="width: 100%; height: 700px"></div>
+        </div>
 
         <script>
             // Sorry, first time writing some JavaScript
