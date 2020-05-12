@@ -40,30 +40,31 @@ public class FoodWebController {
         return animalFacade.getAllAnimals();
     }
 
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getFoodWebFromAllFoodChains(Model model) {
+        model.addAttribute("foodWebTitle", "Food Web");
         model.addAttribute("foodWeb", foodWebFacade.getFoodWebFromAllFoodChains());
         return "foodWeb/index";
     }
 
     @RequestMapping(value = "/environment", method = RequestMethod.POST)
     public String getFoodWebByEnvironmentFormHandler (@RequestParam("environmentId") Long id, UriComponentsBuilder uriBuilder) {
-
         if (id == 0) {
             return "redirect:" + uriBuilder.path("/foodWeb/").encode().toUriString();
         }
         return "redirect:" + uriBuilder.path("/foodWeb/environment/{id}").buildAndExpand(id).encode().toUriString();
-
     }
 
     @RequestMapping(value = "/environment/{id}", method = RequestMethod.GET)
     public String getFoodWebByEnvironment(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
-        model.addAttribute("selectedEnvironmentId", id);
         EnvironmentDTO env = environmentFacade.getEnvironmentById(id);
         if (env == null) {
             return "redirect:" + uriBuilder.path("/foodWeb/").encode().toUriString();
         }
 
+        model.addAttribute("foodWebTitle", "Food Web of environment " + env.getName());
+        model.addAttribute("selectedEnvironmentId", id);
         model.addAttribute("foodWeb", foodWebFacade.getFoodWebByEnvironment(env));
         return "foodWeb/index";
     }
@@ -79,7 +80,6 @@ public class FoodWebController {
 
     @RequestMapping(value = "/animal/{id}", method = RequestMethod.GET)
     public String getFoodWebByAnimal(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
-        model.addAttribute("selectedAnimalId", id);
         AnimalDTO animal = animalFacade.getAnimalById(id);
         if (animal == null) {
             return "redirect:" + uriBuilder.path("/foodWeb/").encode().toUriString();
@@ -88,6 +88,8 @@ public class FoodWebController {
         FoodWebDTO foodWeb = foodWebFacade.getFoodWebByAnimal(animal);
         expandFoodWeb(foodWeb);
 
+        model.addAttribute("foodWebTitle", "Food Web of animal " + animal.getName());
+        model.addAttribute("selectedAnimalId", id);
         model.addAttribute("foodWeb", foodWeb);
         return "foodWeb/index";
     }

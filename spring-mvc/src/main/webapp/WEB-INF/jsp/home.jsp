@@ -52,14 +52,14 @@
             // create the model for the concept map
             let nodeDataArray = [
                 {key: 1, text: "Grass", color: "green", size: new go.Size(60, 60) },
-                {key: 2, text: "Rabbit", color: "lightblue", size: new go.Size(60, 60) },
-                {key: 3, text: "Insect", color: "lightblue", size: new go.Size(60, 60) },
-                {key: 4, text: "Snail", color: "lightblue", size: new go.Size(60, 60) },
+                {key: 2, text: "Rabbit", color: "turquoise", size: new go.Size(60, 60) },
+                {key: 3, text: "Insect", color: "turquoise", size: new go.Size(60, 60) },
+                {key: 4, text: "Snail", color: "turquoise", size: new go.Size(60, 60) },
                 {key: 5, text: "Frog", color: "lightblue", size: new go.Size(65, 65) },
-                {key: 6, text: "Vole", color: "lightblue", size: new go.Size(65, 65) },
-                {key: 7, text: "Thrush", color: "orange", size: new go.Size(70, 70) },
-                {key: 8, text: "Hawk", color: "red", size: new go.Size(75, 75) },
-                {key: 9, text: "Fox", color: "red", size: new go.Size(80, 80) },
+                {key: 6, text: "Vole", color: "lightsalmon", size: new go.Size(65, 65) },
+                {key: 7, text: "Thrush", color: "salmon", size: new go.Size(70, 70) },
+                {key: 8, text: "Hawk", color: "indianred", size: new go.Size(75, 75) },
+                {key: 9, text: "Fox", color: "indianred", size: new go.Size(80, 80) },
             ];
 
             let linkDataArray = [

@@ -7,12 +7,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<my:masterpage title="Food Web">
+<my:masterpage>
     <jsp:attribute name="body">
         <script src="https://unpkg.com/gojs/release/go-debug.js" ></script>
 
         <div class="jumbotron">
-            <h1>Food Web of All Data</h1>
+            <h1>${foodWebTitle}</h1>
         </div>
 
         <div class="row">
@@ -63,7 +63,7 @@
         </div>
 
         <script>
-            // Sorry, first time writing some JavaScript
+            // Sorry, first time writing some JavaScript, Ondrej
             function init() {
                 let $ = go.GraphObject.make;  // prepare diagram
 
@@ -148,7 +148,7 @@
                 ];
             }
 
-            // default color, color judged by predator level, higher level -> more red
+            // default color, color judged by predator level, higher level -> green to blue to orange to red
             function getColorByPredatorLevel(predatorLevel) {
                 var color = "white";
                 if (predatorLevel === undefined) {
