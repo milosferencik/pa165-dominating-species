@@ -15,6 +15,22 @@
             <h1>Food Web of All Data</h1>
         </div>
 
+        <form:form method="post" action="${pageContext.request.contextPath}/foodWeb/"
+                   modelAttribute="environments" cssClass="form-horizontal">
+            <label class="col-sm-2 control-label"><f:message key="environment"/>:
+                <select name="environment" class="col-sm-10" id="environmentId">
+                <c:forEach items="${environments}" var="env">
+                    <option value="${env.id}"
+                            <c:if test="${selectedEnvironment == env.id}">selected="selected"</c:if>>
+                            ${env.name}
+                    </option>
+                </c:forEach>
+                </select>
+            </label>
+        </form:form>
+
+
+
         <div id="foodWebDiagram" style="width: 100%; height: 700px"></div>
 
         <script>
