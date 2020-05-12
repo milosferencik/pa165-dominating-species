@@ -49,6 +49,13 @@
                         new go.Binding("text", "text"))
                 );
 
+            foodWebDiagram.linkTemplate =
+                $(go.Link,
+                    { curve: go.Link.Bezier },  // Bezier curve
+                    $(go.Shape),
+                    $(go.Shape, { toArrow: "Standard" })
+                );
+
             // create the model for the concept map
             let nodeDataArray = [
                 {key: 1, text: "Grass", color: "green", size: new go.Size(60, 60) },

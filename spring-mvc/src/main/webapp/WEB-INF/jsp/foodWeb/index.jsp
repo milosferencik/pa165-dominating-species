@@ -100,6 +100,13 @@
                         )
                     );
 
+                foodWebDiagram.linkTemplate =
+                    $(go.Link,
+                        { curve: go.Link.Bezier },  // Bezier curve
+                        $(go.Shape),
+                        $(go.Shape, { toArrow: "Standard" })
+                    );
+
                 var foodWeb = getFoodWeb();
                 var predatorLevelDict = {}; // predator level, eats vs. eaten
 
