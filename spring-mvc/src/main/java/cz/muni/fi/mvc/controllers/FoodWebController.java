@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Ondrej Slimak
+ */
 
 @Controller
 @RequestMapping("/foodWeb")
@@ -29,7 +32,6 @@ public class FoodWebController {
     @Autowired
     private FoodWebFacade foodWebFacade;
 
-
     @ModelAttribute("environments")
     public List<EnvironmentListDTO> environments() {
         return environmentFacade.getAllEnvironment();
@@ -39,7 +41,6 @@ public class FoodWebController {
     public List<AnimalListDTO> positions() {
         return animalFacade.getAllAnimals();
     }
-
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getFoodWebFromAllFoodChains(Model model) {
@@ -68,7 +69,6 @@ public class FoodWebController {
         model.addAttribute("foodWeb", foodWebFacade.getFoodWebByEnvironment(env));
         return "foodWeb/index";
     }
-
 
     @RequestMapping(value = "/animal", method = RequestMethod.POST)
     public String getFoodWebByAnimalFormHandler (@RequestParam("animalId") Long id, UriComponentsBuilder uriBuilder) {
