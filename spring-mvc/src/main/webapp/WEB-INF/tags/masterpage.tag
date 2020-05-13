@@ -18,6 +18,7 @@
     <link rel="icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"  crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <jsp:invoke fragment="head"/>
 </head>
 <body>
@@ -45,11 +46,11 @@
 
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><my:a href="/foodchain/list/"><f:message key="navigation.foodChains"/></my:a></li>
-                <li><my:a href="/animal/"><f:message key="navigation.animals"/></my:a></li>
-                <li><my:a href="/environment/"><f:message key="navigation.environments"/></my:a></li>
+                <li><my:a href="/foodchain/list/"><i class="fa fa-chain"></i> <f:message key="navigation.foodChains"/></my:a></li>
+                <li><my:a href="/animal/"><i class="fa fa-paw"></i> <f:message key="navigation.animals"/></my:a></li>
+                <li><my:a href="/environment/"><i class="fa fa-tree"></i> <f:message key="navigation.environments"/></my:a></li>
                 <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
-                    <li><my:a href="/user/"><f:message key="navigation.users"/></my:a></li>
+                    <li><my:a href="/user/"><i class="fa fa-users"></i> <f:message key="navigation.users"/></my:a></li>
                 </c:if>
             </ul>
 
@@ -58,8 +59,16 @@
                     <li><my:a href="/auth/login"><f:message key="navigation.login"/></my:a></li>
                 </c:if>
                 <c:if test="${not empty authenticatedUser}">
-                    <li>${authenticatedUser.name}</li>
-                    <li><my:a href="/auth/logout"><f:message key="navigation.logout"/></my:a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">${authenticatedUser.name}_${authenticatedUser.surname}
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><my:a href="/user/detail/${authenticatedUser.id}"><f:message key="user.view"/></my:a></li>
+                            <li><a href="#"><f:message key="user.update"/></a></li>
+                            <li class="divider"></li>
+                            <li><my:a href="/auth/logout"><f:message key="navigation.logout"/></my:a></li>
+                        </ul>
+                    </li>
                 </c:if>
             </ul>
         </div>
