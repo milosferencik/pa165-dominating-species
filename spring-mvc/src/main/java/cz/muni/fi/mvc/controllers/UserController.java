@@ -1,11 +1,9 @@
 package cz.muni.fi.mvc.controllers;
 
-import cz.muni.fi.dto.EnvironmentCreateDTO;
-import cz.muni.fi.dto.EnvironmentDTO;
 import cz.muni.fi.dto.UserCreateDTO;
 import cz.muni.fi.dto.UserDTO;
 import cz.muni.fi.facades.UserFacade;
-import cz.muni.fi.mvc.validators.EnvironmentCreateDtoValidator;
+import cz.muni.fi.mvc.validators.UserCreateDtoValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +50,18 @@ public class UserController {
         UserDTO user = userFacade.getUserById(id);
         try {
             userFacade.deleteUser(id);
-            redirectAttributes.addFlashAttribute("alert_success", "User \"" + user.getEmail() + "\" was successfully deleted.");
-        } catch (Exception ex){
-            redirectAttributes.addFlashAttribute("alert_danger", "User \"" + user.getEmail() + "\" cannot be deleted.");
+            redirectAttributes.addFlashAttribute("alert_success", "User " + user.getEmail() + " was successfully deleted");
+        } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute("alert_danger", "User " + user.getEmail() + " cannot be deleted");
         }
-        return "redirect:" + uriBuilder.path("/user/list").toUriString();
+        return "redirect:" + uriBuilder.path("/user/").toUriString();
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        if (binder.getTarget() instanceof UserCreateDTO) {
+            binder.addValidators(new UserCreateDtoValidator());
+        }
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -84,5 +89,4 @@ public class UserController {
         redirectAttributes.addFlashAttribute("alert_success", "User " + user.getEmail() + " was created successfully");
         return "redirect:" + urisBuilder.path("/user/detail/{id}").buildAndExpand(id).encode().toUriString();
     }
-
 }
