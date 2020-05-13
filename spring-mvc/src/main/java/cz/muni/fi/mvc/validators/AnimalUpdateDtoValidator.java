@@ -1,25 +1,26 @@
 package cz.muni.fi.mvc.validators;
 
-import cz.muni.fi.dto.AnimalDTO;
+import cz.muni.fi.dto.AnimalUpdateDTO;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 public class AnimalUpdateDtoValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-        return AnimalDTO.class.isAssignableFrom(clazz);
+        return AnimalUpdateDTO.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        AnimalDTO animalDTO = (AnimalDTO) target;
+        AnimalUpdateDTO animalUpdateDTO = (AnimalUpdateDTO) target;
 
-        if (animalDTO.getEnvironment() == null) return;
+        if (animalUpdateDTO.getId() == null) return;
+        if (animalUpdateDTO.getEnvironmentId() == null) return;
 
-        if (animalDTO.getName() == null || animalDTO.getName().isEmpty())
+        if (animalUpdateDTO.getName() == null || animalUpdateDTO.getName().isEmpty())
             errors.rejectValue("name", "animal.name.error");
 
-        if (animalDTO.getSpecies() == null || animalDTO.getSpecies().isEmpty())
+        if (animalUpdateDTO.getSpecies() == null || animalUpdateDTO.getSpecies().isEmpty())
             errors.rejectValue("species", "animal.species.error");
     }
 }

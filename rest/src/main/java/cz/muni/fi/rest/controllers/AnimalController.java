@@ -4,6 +4,7 @@ package cz.muni.fi.rest.controllers;
 import cz.muni.fi.dto.AnimalCreateDTO;
 import cz.muni.fi.dto.AnimalDTO;
 import cz.muni.fi.dto.AnimalListDTO;
+import cz.muni.fi.dto.AnimalUpdateDTO;
 import cz.muni.fi.facades.AnimalFacade;
 import cz.muni.fi.rest.exceptions.RequestedResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,7 @@ public class AnimalController {
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final AnimalDTO updateAnimal(@PathVariable("id") Long id, @RequestBody AnimalDTO animal) {
+    public final AnimalDTO updateAnimal(@PathVariable("id") Long id, @RequestBody AnimalUpdateDTO animal) {
         animal.setId(id);;
         try {
             animalFacade.updateAnimal(animal);

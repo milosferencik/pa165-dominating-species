@@ -1,9 +1,6 @@
 package cz.muni.fi.mvc.controllers;
 
-import cz.muni.fi.dto.AnimalCreateDTO;
-import cz.muni.fi.dto.AnimalDTO;
-import cz.muni.fi.dto.EnvironmentDTO;
-import cz.muni.fi.dto.EnvironmentListDTO;
+import cz.muni.fi.dto.*;
 import cz.muni.fi.facades.AnimalFacade;
 import cz.muni.fi.facades.EnvironmentFacade;
 import cz.muni.fi.mvc.validators.AnimalCreateDtoValidator;
@@ -97,18 +94,12 @@ public class AnimalController {
         return environmentFacade.getAllEnvironment();
     }
 
-    @ModelAttribute("environment/{id}")
-    public EnvironmentDTO environment(Long id) {
-        log.debug("environment()");
-        return environmentFacade.getEnvironmentById(id);
-    }
-
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         if (binder.getTarget() instanceof AnimalCreateDTO) {
             binder.addValidators(new AnimalCreateDtoValidator());
         }
-        if (binder.getTarget() instanceof AnimalDTO) {
+        if (binder.getTarget() instanceof AnimalUpdateDTO) {
             binder.addValidators(new AnimalUpdateDtoValidator());
         }
     }
@@ -147,13 +138,13 @@ public class AnimalController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable long id, Model model) {
         log.debug("update()");
-        AnimalDTO animalDTO = animalFacade.getAnimalById(id);
-        model.addAttribute("animalUpdate", animalDTO);
+        AnimalUpdateDTO animalUpdateDto = animalFacade.getAnimalUpdateById(id);
+        model.addAttribute("animalUpdate", animalUpdateDto);
         return "animal/update";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(@Valid @ModelAttribute("animalUpdate") AnimalDTO animal,
+    public String update(@Valid @ModelAttribute("animalUpdate") AnimalUpdateDTO animal,
                          BindingResult bindingResult,
                          Model model,
                          RedirectAttributes redirectAttributes,
@@ -170,6 +161,7 @@ public class AnimalController {
             return "animal/update";
         }
 
+        System.out.println(animal);
         animalFacade.updateAnimal(animal);
 
         redirectAttributes.addFlashAttribute("alert_success", "Animal " + animal.getName() + " was updated");

@@ -3,6 +3,7 @@ package cz.muni.fi.facades;
 import cz.muni.fi.dto.AnimalCreateDTO;
 import cz.muni.fi.dto.AnimalDTO;
 import cz.muni.fi.dto.AnimalListDTO;
+import cz.muni.fi.dto.AnimalUpdateDTO;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ public interface AnimalFacade {
 
     /**
      * Update animal data
-     * @param animalDTO animal to be updated
+     * @param animalUpdateDto animal to be updated
      */
-    void updateAnimal(AnimalDTO animalDTO);
+    void updateAnimal(AnimalUpdateDTO animalUpdateDto);
 
     /**
      * Delete animal
@@ -45,7 +46,14 @@ public interface AnimalFacade {
     /**
      * Find animal with the id
      * @param id id of animal to be found
-     * @return Animal
+     * @return AnimalDTO
      */
     AnimalDTO getAnimalById(Long id);
+
+    /**
+     * Find animal with the id
+     * @param id id of animal to be found
+     * @return AnimalUpdateDTO
+     */
+    AnimalUpdateDTO getAnimalUpdateById(Long id);
 }

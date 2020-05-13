@@ -4,6 +4,7 @@ import cz.muni.fi.config.ServiceConfiguration;
 import cz.muni.fi.dto.AnimalCreateDTO;
 import cz.muni.fi.dto.AnimalDTO;
 import cz.muni.fi.dto.AnimalListDTO;
+import cz.muni.fi.dto.AnimalUpdateDTO;
 import cz.muni.fi.services.interfaces.AnimalService;
 import cz.muni.fi.services.interfaces.BeanMappingService;
 import cz.muni.fi.services.interfaces.EnvironmentService;
@@ -111,7 +112,10 @@ public class AnimalFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void updateAnimalTest() {
-        AnimalDTO foxDTO = beanMappingService.mapTo(fox, AnimalDTO.class);
+        Mockito.when(environmentService.getEnvironment(field.getId())).thenReturn(field);
+        Mockito.when(animalService.getAnimal(fox.getId())).thenReturn(fox);
+
+        AnimalUpdateDTO foxDTO = animalFacade.getAnimalUpdateById(fox.getId());
         ArgumentCaptor<Animal> argument = ArgumentCaptor.forClass(Animal.class);
         animalFacade.updateAnimal(foxDTO);
         Mockito.verify(animalService).updateAnimal(argument.capture());
