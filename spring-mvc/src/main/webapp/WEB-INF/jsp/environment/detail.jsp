@@ -15,7 +15,7 @@
                 <td><b><f:message key="label.name"/>:</b> ${environment.name}</td>
             </tr>
             <tr>
-                <td><b><f:message key="description"/>:</b> ${environment.description}</td>
+                <td><b><f:message key="environment.description"/>:</b> ${environment.description}</td>
             </tr>
             </tbody>
         </table>

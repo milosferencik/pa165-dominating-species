@@ -23,6 +23,6 @@ public class EnvironmentCreateDtoValidator implements Validator {
             errors.rejectValue("name", "environment.name.error");
 
         if (environmentCreateDTO.getDescription() == null || environmentCreateDTO.getDescription().isEmpty())
-            errors.rejectValue("description", "environment.description.error");
+            errors.rejectValue("environment.description", "environment.description.error");
     }
 }

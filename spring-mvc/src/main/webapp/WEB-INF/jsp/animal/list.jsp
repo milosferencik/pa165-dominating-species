@@ -43,12 +43,12 @@
             <c:forEach items="${animals}" var="animal">
                 <tr>
                     <td>${animal.name}</td>
-                    <td><my:a href="/animal/detail/${animal.id}" class="btn btn-primary"><f:message key="detail"/></my:a></td>
+                    <td><my:a href="/animal/detail/${animal.id}" class="btn btn-primary"><f:message key="button.detail"/></my:a></td>
                     <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
                         <td>
                             <form method="post" action="${pageContext.request.contextPath}/animal/delete/${animal.id}">
                                 <button type="submit" class="btn btn-danger">
-                                    <f:message key="delete" />
+                                    <f:message key="button.delete" />
                                 </button>
                             </form>
                         </td>
