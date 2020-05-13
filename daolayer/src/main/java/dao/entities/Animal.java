@@ -31,7 +31,7 @@ public class Animal implements Serializable {
 
 
     @NotNull(message = "FoodChain cannot be null")
-    @OneToMany(cascade = {CascadeType.ALL},
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
                 mappedBy = "animal")
     private List<AnimalInFoodChain> foodChains = new ArrayList<>();
 
