@@ -31,6 +31,7 @@
                                 </button>
                             </form>
                         </td>
+                        <td><my:a href="/environment/update/${environment.id}" class="btn btn-success"><f:message key="button.update"/></my:a></td>
                     </c:if>
                 </tr>
             </c:forEach>

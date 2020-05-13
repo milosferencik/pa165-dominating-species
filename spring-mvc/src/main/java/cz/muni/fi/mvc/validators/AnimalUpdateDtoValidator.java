@@ -4,6 +4,9 @@ import cz.muni.fi.dto.AnimalUpdateDTO;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+/**
+ * @author Milos Ferencik
+ */
 public class AnimalUpdateDtoValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {

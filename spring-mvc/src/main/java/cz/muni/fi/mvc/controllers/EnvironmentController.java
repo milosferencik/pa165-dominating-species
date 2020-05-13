@@ -4,6 +4,7 @@ import cz.muni.fi.dto.EnvironmentCreateDTO;
 import cz.muni.fi.dto.EnvironmentDTO;
 import cz.muni.fi.facades.EnvironmentFacade;
 import cz.muni.fi.mvc.validators.EnvironmentCreateDtoValidator;
+import cz.muni.fi.mvc.validators.EnvironmentUpdateDtoValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,9 @@ public class EnvironmentController {
         if (binder.getTarget() instanceof EnvironmentCreateDTO) {
             binder.addValidators(new EnvironmentCreateDtoValidator());
         }
+        if (binder.getTarget() instanceof EnvironmentDTO) {
+            binder.addValidators(new EnvironmentUpdateDtoValidator());
+        }
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -101,6 +105,37 @@ public class EnvironmentController {
 
         redirectAttributes.addFlashAttribute("alert_success", "Environment " + env.getName() + " was created successfully");
         return "redirect:" + urisBuilder.path("/environment/detail/{id}").buildAndExpand(id).encode().toUriString();
+    }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String update(@PathVariable Long id, Model model) {
+        log.debug("update()");
+        model.addAttribute("environmentUpdate", environmentFacade.getEnvironmentById(id));
+        return "environment/update";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(@Valid @ModelAttribute("environmentUpdate") EnvironmentDTO env,
+                         BindingResult bindingResult,
+                         Model model,
+                         RedirectAttributes redirectAttributes,
+                         UriComponentsBuilder urisBuilder) {
+        log.debug("update(environmentUpdate={})", env);
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                log.trace("ObjectError: {}", ge);
+            }
+            for (FieldError fe: bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+                log.trace("FieldError: {}", fe);
+            }
+            return "environment/update";
+        }
+
+        environmentFacade.updateEnvironment(env);
+
+        redirectAttributes.addFlashAttribute("alert_success", "Environment " + env.getName() + " was updated successfully");
+        return "redirect:" + urisBuilder.path("/environment/detail/{id}").buildAndExpand(env.getId()).encode().toUriString();
     }
 
 }
