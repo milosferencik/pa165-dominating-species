@@ -11,32 +11,49 @@
     <jsp:attribute name="body">
         <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
             <td><my:a href="/user/create" class="btn btn-success"><f:message key="users.create"/></my:a></td>
-        </c:if>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th><f:message key="name"/></th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${users}" var="user">
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <td>${user.name}
-                        <c:if test="${user.admin}">
-                            <span class="badge badge-dark"> Admin </span>
-                        </c:if>
-                    </td>
-                    <td><my:a href="/user/detail/${user.id}" class="btn btn-primary"><f:message key="detail"/></my:a></td>
-                    <td>
-                        <form method="post" action="${pageContext.request.contextPath}/user/delete/${user.id}">
-                            <button type="submit" class="btn btn-danger">
-                                <f:message key="delete"/>
-                            </button>
-                        </form>
-                    </td>
+                    <th><f:message key="name"/></th>
+                    <th><f:message key="login.email"/></th>
+                    <th><f:message key="actions"/></th>
+                    <th></th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <c:forEach items="${users}" var="user">
+                    <tr>
+                        <td>${user.name} ${user.surname}
+                            <c:if test="${authenticatedUser.email == user.email}">
+                                <span class="glyphicon glyphicon-user"></span>
+                            </c:if>
+                            <c:if test="${user.admin}">
+                                <span class="badge badge-dark" > Admin </span>
+                            </c:if>
+                        </td>
+                        <td>${user.email}
+                        </td>
+                        <td><my:a href="/user/detail/${user.id}" class="btn btn-primary"><f:message key="detail"/></my:a></td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${authenticatedUser.email != user.email}">
+                                    <form method="post" action="${pageContext.request.contextPath}/user/delete/${user.id}">
+                                        <button type="submit" class="btn btn-danger">
+                                            <f:message key="delete"/>
+                                        </button>
+                                    </form>
+                                </c:when>
+                                <c:otherwise>
+                                    <button type="submit" class="btn btn-danger disabled">
+                                        <f:message key="delete"/>
+                                    </button>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
     </jsp:attribute>
 </my:masterpage>

@@ -12,21 +12,21 @@
         <form:form method="post" action="${pageContext.request.contextPath}/user/create"
                    modelAttribute="createUser" cssClass="form-horizontal">
             <div class="form-group ${name_error?'has-error':''}">
-                <form:label path="name" cssClass="col-sm-2 control-label"><f:message key="firstname"/></form:label>
+                <form:label path="name" cssClass="col-sm-2 control-label"><f:message key="user.firstname"/></form:label>
                 <div class="col-sm-10">
                     <form:input path="name" cssClass="form-control"/>
                     <form:errors path="name" cssClass="help-block"/>
                 </div>
             </div>
             <div class="form-group ${surname_error?'has-error':''}">
-                <form:label path="surname" cssClass="col-sm-2 control-label"><f:message key="surname"/></form:label>
+                <form:label path="surname" cssClass="col-sm-2 control-label"><f:message key="user.surname"/></form:label>
                 <div class="col-sm-10">
                     <form:input path="surname" cssClass="form-control"/>
                     <form:errors path="surname" cssClass="help-block"/>
                 </div>
             </div>
             <div class="form-group ${email_error?'has-error':''}">
-                <form:label path="email" cssClass="col-sm-2 control-label"><f:message key="email"/></form:label>
+                <form:label path="email" cssClass="col-sm-2 control-label"><f:message key="login.email"/></form:label>
                 <div class="col-sm-10">
                     <form:input path="email" cssClass="form-control"/>
                     <form:errors path="email" cssClass="help-block"/>

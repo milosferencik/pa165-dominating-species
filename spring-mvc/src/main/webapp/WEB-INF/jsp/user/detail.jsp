@@ -12,21 +12,21 @@
         <table class="table">
             <tbody>
             <tr>
-                <td><b><f:message key="firstname"/>:</b> ${user.name}</td>
+                <td><b><f:message key="user.firstname"/>:</b> ${user.name}</td>
             </tr>
             <tr>
-                <td><b><f:message key="surname"/>:</b> ${user.surname}</td>
+                <td><b><f:message key="user.surname"/>:</b> ${user.surname}</td>
             </tr>
             <tr>
-                <td><b><f:message key="email"/>:</b> ${user.email}</td>
+                <td><b><f:message key="login.email"/>:</b> ${user.email}</td>
             </tr>
             <tr>
                 <c:choose>
                     <c:when test="${user.admin}">
-                        <td><b><f:message key="role"/>:</b> Administrator </td>
+                        <td><b><f:message key="user.role"/>:</b> Administrator </td>
                     </c:when>
                     <c:otherwise>
-                        <td><b><f:message key="role"/>:</b> User </td>
+                        <td><b><f:message key="user.role"/>:</b> User </td>
                     </c:otherwise>
                 </c:choose>
             </tr>
