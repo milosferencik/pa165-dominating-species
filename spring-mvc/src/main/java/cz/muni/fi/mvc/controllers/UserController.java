@@ -5,6 +5,7 @@ import cz.muni.fi.dto.UserDTO;
 import cz.muni.fi.dto.UserUpdateDTO;
 import cz.muni.fi.facades.UserFacade;
 import cz.muni.fi.mvc.validators.UserCreateDtoValidator;
+import cz.muni.fi.mvc.validators.UserUpdateDtoValidator;
 import cz.muni.fi.services.exceptions.ServiceDataAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,10 @@ public class UserController {
         if (binder.getTarget() instanceof UserCreateDTO) {
             binder.addValidators(new UserCreateDtoValidator());
         }
+        if (binder.getTarget() instanceof UserUpdateDTO) {
+            binder.addValidators(new UserUpdateDtoValidator());
+        }
+
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
