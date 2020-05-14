@@ -3,6 +3,7 @@ package cz.muni.fi.facades;
 import cz.muni.fi.dto.AuthenticateUserDTO;
 import cz.muni.fi.dto.UserCreateDTO;
 import cz.muni.fi.dto.UserDTO;
+import cz.muni.fi.dto.UserUpdateDTO;
 import org.graalvm.compiler.lir.LIRInstruction;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface UserFacade {
      * Update user
      * @param userDTO
      */
-    void updateUser(UserDTO userDTO);
+    void updateUser(UserUpdateDTO userDTO);
 
     /**
      * Delete user

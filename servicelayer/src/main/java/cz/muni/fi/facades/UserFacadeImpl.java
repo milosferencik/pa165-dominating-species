@@ -3,6 +3,7 @@ package cz.muni.fi.facades;
 import cz.muni.fi.dto.AuthenticateUserDTO;
 import cz.muni.fi.dto.UserCreateDTO;
 import cz.muni.fi.dto.UserDTO;
+import cz.muni.fi.dto.UserUpdateDTO;
 import cz.muni.fi.services.interfaces.BeanMappingService;
 import cz.muni.fi.services.interfaces.UserService;
 import dao.entities.User;
@@ -34,9 +35,12 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public void updateUser(UserDTO userDTO) {
-        User user = beanMappingService.mapTo(userDTO, User.class);
-        userService.updateUser(user);
+    public void updateUser(UserUpdateDTO userDTO) {
+        User storedUser = userService.getUser(userDTO.getId());
+        storedUser.setSurname(userDTO.getSurname());
+        storedUser.setEmail(userDTO.getEmail());
+        storedUser.setName(userDTO.getName());
+        userService.updateUser(storedUser);
     }
 
     @Override

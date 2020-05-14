@@ -86,9 +86,9 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void updateUserTest() {
-        UserDTO userDTO = beanMappingService.mapTo(u1, UserDTO.class);
+        UserUpdateDTO userUpdateDTO = beanMappingService.mapTo(u1, UserUpdateDTO.class);
         ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
-        userFacade.updateUser(userDTO);
+        userFacade.updateUser(userUpdateDTO);
         Mockito.verify(userService).updateUser(argument.capture());
         assertThat(argument.getValue()).isEqualToComparingFieldByField(u1);
     }

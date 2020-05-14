@@ -2,15 +2,19 @@ package cz.muni.fi.mvc.controllers;
 
 import cz.muni.fi.dto.UserCreateDTO;
 import cz.muni.fi.dto.UserDTO;
+import cz.muni.fi.dto.UserUpdateDTO;
 import cz.muni.fi.facades.UserFacade;
 import cz.muni.fi.mvc.validators.UserCreateDtoValidator;
+import cz.muni.fi.services.exceptions.ServiceDataAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -84,9 +88,46 @@ public class UserController {
             return "user/create";
         }
 
-        Long id = userFacade.createUser(user,user.getPassword());
+        try {
+            userFacade.getUserByEmail(user.getEmail());
+            redirectAttributes.addFlashAttribute("alert_danger", "User with such email already exists!");
+            return "user/create";
+        } catch(ServiceDataAccessException ex) {
+            Long id = userFacade.createUser(user,user.getPassword());
+            redirectAttributes.addFlashAttribute("alert_success", "User " + user.getEmail() + " was created successfully");
+            return "redirect:" + urisBuilder.path("/user/detail/{id}").buildAndExpand(id).encode().toUriString();
+        }
+    }
 
-        redirectAttributes.addFlashAttribute("alert_success", "User " + user.getEmail() + " was created successfully");
-        return "redirect:" + urisBuilder.path("/user/detail/{id}").buildAndExpand(id).encode().toUriString();
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String update(@PathVariable Long id, Model model) {
+        model.addAttribute("userUpdate", userFacade.getUserById(id));
+        return "user/update";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(@Valid @ModelAttribute("userUpdate") UserUpdateDTO user,
+                         BindingResult bindingResult,
+                         Model model,
+                         RedirectAttributes redirectAttributes,
+                         UriComponentsBuilder urisBuilder) {
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                log.trace("ObjectError: {}", ge);
+            }
+            for (FieldError fe: bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+                log.trace("FieldError: {}", fe);
+            }
+            return "user/update";
+        }
+        try {
+            userFacade.updateUser(user);
+            redirectAttributes.addFlashAttribute("alert_success", "User " + user.getEmail() + " was updated successfully");
+        } catch (JpaSystemException ex){
+            redirectAttributes.addFlashAttribute("alert_danger", "User" + user.getEmail() + " already exists.");
+            return "user/update";
+        }
+        return "redirect:" + urisBuilder.path("/user/detail/{id}").buildAndExpand(user.getId()).encode().toUriString();
     }
 }

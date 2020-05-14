@@ -58,7 +58,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         foodChain(List.of(deer, wolf));
         log.info("Loaded food chains.");
 
-        user("Jane", "Doe", "janedoe@muni.cz", false, "MyPassword");
+        user("Jane", "Doe", "janedoe@muni.cz", false, "password");
         user("John","Doe", "johndoe@muni.cz", true, "admin");
         log.info("Loaded users.");
     }

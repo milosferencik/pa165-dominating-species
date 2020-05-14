@@ -64,7 +64,7 @@
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><my:a href="/user/detail/${authenticatedUser.id}"><f:message key="user.view"/></my:a></li>
-                            <li><a href="#"><f:message key="user.update"/></a></li>
+                            <li><my:a href="/user/update/${authenticatedUser.id}"><f:message key="user.update"/></my:a></li>
                             <li class="divider"></li>
                             <li><my:a href="/auth/logout"><f:message key="navigation.logout"/></my:a></li>
                         </ul>

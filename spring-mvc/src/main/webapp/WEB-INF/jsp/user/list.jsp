@@ -50,6 +50,9 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
+                        <td>
+                            <my:a href="/user/update/${user.id}" class="btn btn-success"><f:message key="button.update"/></my:a>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
