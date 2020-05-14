@@ -4,6 +4,7 @@ import cz.muni.fi.dto.AuthenticateUserDTO;
 import cz.muni.fi.dto.UserCreateDTO;
 import cz.muni.fi.dto.UserDTO;
 import cz.muni.fi.dto.UserUpdateDTO;
+import cz.muni.fi.services.exceptions.ServiceDataAccessException;
 import cz.muni.fi.services.interfaces.BeanMappingService;
 import cz.muni.fi.services.interfaces.UserService;
 import dao.entities.User;
@@ -56,8 +57,12 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public UserDTO getUserByEmail(String email) {
-        User user = userService.getUserByEmail(email);
-        return (user == null) ? null : beanMappingService.mapTo(user, UserDTO.class);
+        try {
+            User user = userService.getUserByEmail(email);
+            return beanMappingService.mapTo(user, UserDTO.class);
+        } catch (ServiceDataAccessException ex) {
+            return null;
+        }
     }
 
     @Override
