@@ -46,9 +46,10 @@
 
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><my:a href="/foodchain/list/"><i class="fa fa-chain"></i> <f:message key="navigation.foodChains"/></my:a></li>
-                <li><my:a href="/animal/"><i class="fa fa-paw"></i> <f:message key="navigation.animals"/></my:a></li>
-                <li><my:a href="/environment/"><i class="fa fa-tree"></i> <f:message key="navigation.environments"/></my:a></li>
+                <li><my:a href="/foodWeb/"><f:message key="navigation.foodWeb"/></my:a></li>
+                <li><my:a href="/foodchain/list/"><f:message key="navigation.foodChains"/></my:a></li>
+                <li><my:a href="/animal/"><f:message key="navigation.animals"/></my:a></li>
+                <li><my:a href="/environment/"><f:message key="navigation.environments"/></my:a></li>
                 <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
                     <li><my:a href="/user/"><i class="fa fa-users"></i> <f:message key="navigation.users"/></my:a></li>
                 </c:if>
@@ -83,8 +84,26 @@
         </div>
     </c:if>
 
+    <!-- alerts -->
+    <c:if test="${not empty alert_danger}">
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <c:out value="${alert_danger}"/></div>
+    </c:if>
+    <c:if test="${not empty alert_info}">
+        <div class="alert alert-info" role="alert"><c:out value="${alert_info}"/></div>
+    </c:if>
+    <c:if test="${not empty alert_success}">
+        <div class="alert alert-success" role="alert"><c:out value="${alert_success}"/></div>
+    </c:if>
+    <c:if test="${not empty alert_warning}">
+        <div class="alert alert-warning" role="alert"><c:out value="${alert_warning}"/></div>
+    </c:if>
+
+    <!-- page body -->
     <jsp:invoke fragment="body"/>
 
+    <!-- footer -->
     <footer class="panel-footer panel-primary">
         <p><f:message key="footer"/> </p>
         <p>&copy;&nbsp;<%=java.time.Year.now().toString()%>&nbsp;Peter Kostka, Katarína Matúšová, Miloš Ferenčík, Ondřej Slimák</p>

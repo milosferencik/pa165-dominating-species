@@ -6,15 +6,18 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<my:masterpage title="${environment.name}">
+<my:masterpage title="${animal.name}">
     <jsp:attribute name="body">
         <table class="table">
             <tbody>
             <tr>
-                <td><b><f:message key="label.name"/>:</b> ${environment.name}</td>
+                <td><b><f:message key="label.name"/>:</b> ${animal.name}</td>
             </tr>
             <tr>
-                <td><b><f:message key="environment.description"/>:</b> ${environment.description}</td>
+                <td><b><f:message key="animal.species"/>:</b> ${animal.species}</td>
+            </tr>
+            <tr>
+                <td><b><f:message key="environment"/>:</b> ${animal.environment.name}</td>
             </tr>
             </tbody>
         </table>

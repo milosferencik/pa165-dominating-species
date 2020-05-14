@@ -27,6 +27,12 @@
       <version>${project.parent.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+
     <!-- servlet, JSP, JSTL -->
     <!-- must be this instead of javaee-web for the springmvc-tests to succeed -->
     <dependency>

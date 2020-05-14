@@ -5,7 +5,6 @@ import cz.muni.fi.dto.UserCreateDTO;
 import cz.muni.fi.dto.UserDTO;
 import cz.muni.fi.dto.UserUpdateDTO;
 import org.graalvm.compiler.lir.LIRInstruction;
-
 import java.util.List;
 
 /**
