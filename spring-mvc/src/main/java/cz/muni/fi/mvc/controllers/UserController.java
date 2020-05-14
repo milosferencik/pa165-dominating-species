@@ -2,11 +2,11 @@ package cz.muni.fi.mvc.controllers;
 
 import cz.muni.fi.dto.UserCreateDTO;
 import cz.muni.fi.dto.UserDTO;
+import cz.muni.fi.dto.UserPasswordChangeDTO;
 import cz.muni.fi.dto.UserUpdateDTO;
 import cz.muni.fi.facades.UserFacade;
 import cz.muni.fi.mvc.validators.UserCreateDtoValidator;
 import cz.muni.fi.mvc.validators.UserUpdateDtoValidator;
-import cz.muni.fi.services.exceptions.ServiceDataAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +70,6 @@ public class UserController {
         if (binder.getTarget() instanceof UserUpdateDTO) {
             binder.addValidators(new UserUpdateDtoValidator());
         }
-
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -93,15 +92,15 @@ public class UserController {
             return "user/create";
         }
 
-        try {
-            userFacade.getUserByEmail(user.getEmail());
-            redirectAttributes.addFlashAttribute("alert_danger", "User with such email already exists!");
+        UserDTO userDTO = userFacade.getUserByEmail(user.getEmail());
+        if (userDTO != null) {
+            model.addAttribute("alert_danger", "User with such email already exists!");
             return "user/create";
-        } catch(ServiceDataAccessException ex) {
-            Long id = userFacade.createUser(user,user.getPassword());
-            redirectAttributes.addFlashAttribute("alert_success", "User " + user.getEmail() + " was created successfully");
-            return "redirect:" + urisBuilder.path("/user/detail/{id}").buildAndExpand(id).encode().toUriString();
         }
+        Long id = userFacade.createUser(user,user.getPassword());
+        redirectAttributes.addFlashAttribute("alert_success", "User " + user.getEmail() + " was created successfully");
+        return "redirect:" + urisBuilder.path("/user/detail/{id}").buildAndExpand(id).encode().toUriString();
+
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
@@ -130,9 +129,51 @@ public class UserController {
             userFacade.updateUser(user);
             redirectAttributes.addFlashAttribute("alert_success", "User " + user.getEmail() + " was updated successfully");
         } catch (JpaSystemException ex){
-            redirectAttributes.addFlashAttribute("alert_danger", "User" + user.getEmail() + " already exists.");
+            model.addAttribute("alert_danger", "User " + user.getEmail() + " already exists.");
             return "user/update";
         }
         return "redirect:" + urisBuilder.path("/user/detail/{id}").buildAndExpand(user.getId()).encode().toUriString();
     }
+
+    @RequestMapping(value = "/password/{id}", method = RequestMethod.GET)
+    public String passwordChange(@PathVariable long id, Model model) {
+        model.addAttribute("passwordChangeDto", new UserPasswordChangeDTO(id));
+        return "user/password";
+    }
+
+
+    @RequestMapping(value = "/password/{id}", method = RequestMethod.POST)
+    public String passwordChange(@PathVariable long id,
+                               Model model,
+                               @Valid @ModelAttribute("passwordChangeDto") UserPasswordChangeDTO dto,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes,
+                               UriComponentsBuilder uriBuilder) {
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                log.error("ObjectError: {}", ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+                log.error("FieldError: {}", fe);
+            }
+            return "user/password";
+        }
+        try {
+            UserDTO userToUpdate = userFacade.getUserById(id);
+            if (!dto.getNewPassword().equals(dto.getRepeatedPassword())) {
+                redirectAttributes.addFlashAttribute("alert_danger", "New password and repeated password does not match");
+                return "redirect:" + uriBuilder.path("/user/password/" + id).toUriString();
+            }
+            if (!userFacade.changePassword(userToUpdate, dto.getPassword(), dto.getNewPassword())) {
+                redirectAttributes.addFlashAttribute("alert_danger", "Incorrect current password");
+                return "redirect:" + uriBuilder.path("/user/password/" + id).toUriString();
+            }
+            redirectAttributes.addFlashAttribute("alert_success", "Password changed successfully");
+        } catch (JpaSystemException ex){
+            redirectAttributes.addFlashAttribute("alert_danger", "Password for could not be changed.");
+        }
+        return "redirect:" + uriBuilder.path("/user/detail/{id}").buildAndExpand(id).encode().toUriString();
+    }
+
 }

@@ -96,6 +96,22 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public boolean changePassword(User user, String password, String newPassword) throws IllegalArgumentException {
+        if (newPassword == null) {
+            throw new IllegalArgumentException("New password cannot be null");
+        }
+        if (newPassword.isEmpty()) {
+            throw new IllegalArgumentException("New password cannot be empty");
+        }
+        if (!passwordCheck(password, getUser(user.getId()).getPasswordHash())) {
+            return false;
+        }
+        String newPasswordHash = createHash(newPassword);
+        user.setPasswordHash(newPasswordHash);
+        userDao.updateUser(user);
+        return true;
+    }
 
     /**
      * Checks password against user's password hash.
@@ -168,7 +184,6 @@ public class UserServiceImpl implements UserService {
         }
         return diff == 0;
     }
-
 
     /**
      * Converts binary to hex

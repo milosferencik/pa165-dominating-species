@@ -81,4 +81,9 @@ public class UserFacadeImpl implements UserFacade {
         return userService.authenticate(userService.getUserByEmail(user.getEmail()), user.getPassword());
     }
 
+    @Override
+    public boolean changePassword(UserDTO userDTO, String password, String newPassword) {
+        User user = beanMappingService.mapTo(userDTO, User.class);
+        return userService.changePassword(user, password, newPassword);
+    }
 }

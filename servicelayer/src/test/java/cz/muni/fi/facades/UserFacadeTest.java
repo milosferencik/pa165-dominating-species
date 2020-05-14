@@ -58,6 +58,7 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
         u1.setName("Jane");
         u1.setSurname("Doe");
         u1.setEmail("janedoe@muni.cz");
+        u1.setPasswordHash("pass");
         u1.setAdmin(false);
     }
 

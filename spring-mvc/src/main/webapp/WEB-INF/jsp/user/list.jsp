@@ -18,6 +18,7 @@
                     <th><f:message key="login.email"/></th>
                     <th><f:message key="actions"/></th>
                     <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>

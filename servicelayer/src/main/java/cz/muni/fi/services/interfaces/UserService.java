@@ -62,4 +62,13 @@ public interface UserService {
      * @return true if password for given user was correct, false otherwise
      */
     boolean authenticate(User user, String password) throws DataAccessException;
+
+    /**
+     * Change user's password
+     * @param user given user
+     * @param password current password of user
+     * @param newPassword new password
+     * @return true if password was changed successfully, false otherwise
+     */
+    public boolean changePassword(User user, String password, String newPassword);
 }
