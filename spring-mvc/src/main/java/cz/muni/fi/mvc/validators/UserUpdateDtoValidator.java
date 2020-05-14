@@ -4,6 +4,9 @@ import cz.muni.fi.dto.UserUpdateDTO;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+/**
+ * @author Katarina Matusova
+ */
 public class UserUpdateDtoValidator implements Validator {
     @Override
     public boolean supports(Class<?> aClass) {

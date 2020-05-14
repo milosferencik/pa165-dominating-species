@@ -24,7 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 
 /**
- * @Katarina Matusova
+ * @author Katarina Matusova
  */
 @Controller
 @RequestMapping("/user")

@@ -1,5 +1,8 @@
 package cz.muni.fi.dto;
 
+/**
+ * @author Katarina Matusova
+ */
 public class UserUpdateDTO {
 
     private Long id;
