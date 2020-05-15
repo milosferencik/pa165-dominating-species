@@ -6,6 +6,7 @@ import cz.muni.fi.dto.UserPasswordChangeDTO;
 import cz.muni.fi.dto.UserUpdateDTO;
 import cz.muni.fi.facades.UserFacade;
 import cz.muni.fi.mvc.validators.UserCreateDtoValidator;
+import cz.muni.fi.mvc.validators.UserPasswordChangeDtoValidator;
 import cz.muni.fi.mvc.validators.UserUpdateDtoValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,6 +70,9 @@ public class UserController {
         }
         if (binder.getTarget() instanceof UserUpdateDTO) {
             binder.addValidators(new UserUpdateDtoValidator());
+        }
+        if (binder.getTarget() instanceof UserPasswordChangeDTO) {
+            binder.addValidators(new UserPasswordChangeDtoValidator());
         }
     }
 
