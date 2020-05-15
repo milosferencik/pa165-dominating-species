@@ -1,9 +1,6 @@
 package cz.muni.fi.rest.controllers;
 
-import cz.muni.fi.dto.EnvironmentCreateDTO;
-import cz.muni.fi.dto.EnvironmentDTO;
-import cz.muni.fi.dto.EnvironmentListDTO;
-import cz.muni.fi.dto.FoodChainDTO;
+import cz.muni.fi.dto.*;
 import cz.muni.fi.facades.FoodChainFacade;
 import cz.muni.fi.rest.exceptions.RequestedResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +43,31 @@ public class FoodChainController {
             foodChainFacade.deleteFoodChain(id);
         } catch (Exception ex) {
             throw new RequestedResourceNotFoundException();
+        }
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public final FoodChainCreateDTO createFoodChain(@RequestBody FoodChainCreateDTO foodChainCreateDTO) {
+        try {
+            foodChainFacade.createFoodChain(foodChainCreateDTO);
+            return foodChainCreateDTO;
+        } catch (Exception ex) {
+            throw new DataAccessResourceFailureException("Failed to create new FoodChain");
+        }
+    }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public final FoodChainDTO updateFoodChain(@PathVariable("id") Long id, @RequestBody FoodChainDTO foodChainDTO) {
+        foodChainDTO.setId(id);;
+
+        try {
+            foodChainFacade.updateFoodChain(foodChainDTO);
+            return foodChainFacade.getFoodChainById(id);
+        } catch (Exception ex) {
+            throw new DataAccessResourceFailureException("Failed to update FoodChain");
         }
     }
 
