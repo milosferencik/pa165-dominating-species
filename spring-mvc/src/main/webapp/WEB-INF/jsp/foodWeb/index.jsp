@@ -32,7 +32,7 @@
                         </c:forEach>
                         </select>
                     </label>
-                    <button type="submit" class="btn btn-default"><f:message key="foodweb.filter_by_environment"/></button>
+                    <button type="submit" class="btn btn-default"><f:message key="button.filter_by_environment"/></button>
                 </form:form>
             </div>
 
@@ -53,7 +53,7 @@
                         </select>
                     </label>
 
-                    <button type="submit" class="btn btn-default"><f:message key="foodweb.filter_by_animal"/></button>
+                    <button type="submit" class="btn btn-default"><f:message key="button.filter_by_animal"/></button>
                 </form:form>
             </div>
         </div>

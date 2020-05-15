@@ -3,6 +3,7 @@ package cz.muni.fi.facades;
 import cz.muni.fi.dto.AnimalCreateDTO;
 import cz.muni.fi.dto.AnimalDTO;
 import cz.muni.fi.dto.AnimalListDTO;
+import cz.muni.fi.dto.AnimalUpdateDTO;
 import cz.muni.fi.services.interfaces.AnimalService;
 import cz.muni.fi.services.interfaces.BeanMappingService;
 import cz.muni.fi.services.interfaces.EnvironmentService;
@@ -41,8 +42,10 @@ public class AnimalFacadeImpl implements AnimalFacade {
     }
 
     @Override
-    public void updateAnimal(AnimalDTO animalDTO) {
-        Animal newAnimal = beanMappingService.mapTo(animalDTO, Animal.class);
+    public void updateAnimal(AnimalUpdateDTO animalUpdateDto) {
+        Animal newAnimal = beanMappingService.mapTo(animalUpdateDto, Animal.class);
+        Environment environment = environmentService.getEnvironment(animalUpdateDto.getEnvironmentId());
+        newAnimal.setEnvironment(environment);
         animalService.updateAnimal(newAnimal);
     }
 
@@ -66,5 +69,15 @@ public class AnimalFacadeImpl implements AnimalFacade {
     public AnimalDTO getAnimalById(Long id) {
         Animal animal = animalService.getAnimal(id);
         return (animal == null) ? null : beanMappingService.mapTo(animal, AnimalDTO.class);
+    }
+
+    @Override
+    public AnimalUpdateDTO getAnimalUpdateById(Long id) {
+        Animal animal = animalService.getAnimal(id);
+        if (animal == null)
+            return null;
+        AnimalUpdateDTO animalUpdateDTO = beanMappingService.mapTo(animal, AnimalUpdateDTO.class);
+        animalUpdateDTO.setEnvironmentId(animal.getEnvironment().getId());
+        return animalUpdateDTO;
     }
 }
