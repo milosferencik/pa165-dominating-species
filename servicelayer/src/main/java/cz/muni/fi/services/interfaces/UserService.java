@@ -14,7 +14,7 @@ public interface UserService {
      * Creates new user in the database
      * @param user to be created
      */
-    void createUser(User user, String password) throws DataAccessException;
+    void createUser(User user) throws DataAccessException;
 
     /**
      * Gets all users from the database
@@ -54,21 +54,4 @@ public interface UserService {
      * @return true if giver user is admin, false if not
      */
     boolean isAdmin(Long id) throws DataAccessException;
-
-    /**
-     * Try to authenticate a user
-     * @param user a given user
-     * @param password a given password
-     * @return true if password for given user was correct, false otherwise
-     */
-    boolean authenticate(User user, String password) throws DataAccessException;
-
-    /**
-     * Change user's password
-     * @param user given user
-     * @param password current password of user
-     * @param newPassword new password
-     * @return true if password was changed successfully, false otherwise
-     */
-    public boolean changePassword(User user, String password, String newPassword);
 }

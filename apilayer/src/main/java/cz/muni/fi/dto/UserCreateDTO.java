@@ -12,7 +12,7 @@ public class UserCreateDTO {
 
     private String email;
 
-    private String password;
+    private String passwordHash;
 
     private boolean isAdmin;
 
@@ -40,12 +40,12 @@ public class UserCreateDTO {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public boolean isAdmin() {
@@ -65,11 +65,11 @@ public class UserCreateDTO {
                 Objects.equals(getName(), that.getName()) &&
                 Objects.equals(getSurname(), that.getSurname()) &&
                 Objects.equals(getEmail(), that.getEmail()) &&
-                Objects.equals(getPassword(), that.getPassword());
+                Objects.equals(getPasswordHash(), that.getPasswordHash());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getSurname(), getEmail(), getPassword(), isAdmin());
+        return Objects.hash(getName(), getSurname(), getEmail(), getPasswordHash(), isAdmin());
     }
 }

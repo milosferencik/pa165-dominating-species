@@ -21,7 +21,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,7 +57,7 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
         u1.setName("Jane");
         u1.setSurname("Doe");
         u1.setEmail("janedoe@muni.cz");
-        u1.setPasswordHash("pass");
+        u1.setPasswordHash("955db0b81ef1989b4a4dfeae8061a9a6");
         u1.setAdmin(false);
     }
 
@@ -73,29 +72,29 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
             User user = invocationOnMock.getArgumentAt(0, User.class);
             user.setId(2L);
             return user;
-        }).when(userService).createUser(any(User.class), any(String.class));
+        }).when(userService).createUser(any(User.class));
 
         UserCreateDTO userCreateDTO = new UserCreateDTO();
         userCreateDTO.setName(u1.getName());
         userCreateDTO.setAdmin(u1.isAdmin());
         userCreateDTO.setEmail(u1.getEmail());
         userCreateDTO.setSurname(u1.getSurname());
-        userCreateDTO.setPassword(u1.getPasswordHash());
-        Long id = userFacade.createUser(userCreateDTO, "password");
+        userCreateDTO.setPasswordHash(u1.getPasswordHash());
+        Long id = userFacade.createUser(userCreateDTO);
         assertThat(id).isEqualTo(2L);
     }
 
     @Test
-    public void updateUserTest() {
-        UserUpdateDTO userUpdateDTO = beanMappingService.mapTo(u1, UserUpdateDTO.class);
+    public void updateEnvironmentTest() {
+        UserDTO userDTO = beanMappingService.mapTo(u1, UserDTO.class);
         ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
-        userFacade.updateUser(userUpdateDTO);
+        userFacade.updateUser(userDTO);
         Mockito.verify(userService).updateUser(argument.capture());
         assertThat(argument.getValue()).isEqualToComparingFieldByField(u1);
     }
 
     @Test
-    public void deleteUserTest() {
+    public void deleteEnvironmentTest() {
         ArgumentCaptor<Long> argument = ArgumentCaptor.forClass(Long.class);
         userFacade.deleteUser(u1.getId());
         Mockito.verify(userService).deleteUser(argument.capture());
@@ -103,23 +102,9 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void getUserByIdTest() {
+    public void getEnvironmentByIdTest() {
         Mockito.when(userService.getUser(u1.getId())).thenReturn(u1);
         UserDTO userDTO = userFacade.getUserById(u1.getId());
         assertThat(userDTO).isEqualToComparingFieldByField(beanMappingService.mapTo(u1, UserDTO.class));
-    }
-
-    @Test
-    public void getUserByEmailTest() {
-        Mockito.when(userService.getUserByEmail(u1.getEmail())).thenReturn(u1);
-        UserDTO userDTO = userFacade.getUserByEmail(u1.getEmail());
-        assertThat(userDTO).isEqualToComparingFieldByField(beanMappingService.mapTo(u1, UserDTO.class));
-    }
-
-    @Test
-    public void getAllUsersTest() {
-        Mockito.when(userService.getAllUsers()).thenReturn(Collections.singletonList(u1));
-        List<UserDTO> users = userFacade.getAllUsers();
-        assertThat(users).isEqualTo(beanMappingService.mapTo(Collections.singletonList(u1), UserDTO.class));
     }
 }
