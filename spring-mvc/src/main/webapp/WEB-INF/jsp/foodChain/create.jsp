@@ -16,30 +16,23 @@
     <jsp:attribute name="body">
         <form:form method="post" action="${pageContext.request.contextPath}/animal/create"
                    modelAttribute="foodChainCreate" cssClass="form-horizontal">
-            <div class="form-group ${name_error?'has-error':''}">
+            <div class="form-group ${animals_error?'has-error':''}">
                 <form:label path="animals" cssClass="col-sm-2 control-label"><f:message key="foodChain.animals"/></form:label>
                 <div class="col-sm-10">
                     <form:input path="animals" cssClass="form-control"/>
                     <form:errors path="animals" cssClass="help-block"/>
                 </div>
             </div>
-            <div class="form-group ${species_error?'has-error':''}">
-                <form:label path="species" cssClass="col-sm-2 control-label"><f:message key="animal.species"/></form:label>
-                <div class="col-sm-10">
-                    <form:input path="species" cssClass="form-control"/>
-                    <form:errors path="species" cssClass="help-block"/>
-                </div>
-            </div>
-            <form:label path="environmentId" cssClass="col-sm-2 control-label"><f:message key="environment"/></form:label>
+            <form:label path="animalId" cssClass="col-sm-2 control-label"><f:message key="animal"/></form:label>
             <div class="col-sm-10">
-                <form:select path="environmentId" cssClass="form-control">
-                    <c:forEach items="${environments}" var="c">
+                <form:select path="animalId" cssClass="form-control">
+                    <c:forEach items="${animals}" var="c">
                         <form:option value="${c.id}">${c.name}</form:option>
                     </c:forEach>
                 </form:select>
-                <p class="help-block"><form:errors path="environmentId" cssClass="error"/></p>
+                <p class="help-block"><form:errors path="animalId" cssClass="error"/></p>
             </div>
-            <button class="btn btn-primary" type="submit"><f:message key="animals.createNew"/></button>
+            <button class="btn btn-primary" type="submit"><f:message key="foodChains.createNew"/></button>
         </form:form>
     </jsp:attribute>
 
