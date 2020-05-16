@@ -87,16 +87,4 @@ public class UserFacadeImpl implements UserFacade {
         User user = beanMappingService.mapTo(userDTO, User.class);
         return userService.changePassword(user, password, newPassword);
     }
-
-    @Override
-    public void makeAdmin(Long id) {
-        User user = userService.getUser(id);
-        userService.grantPermission(user, true);
-    }
-
-    @Override
-    public void revokeAdmin(Long id) {
-        User user = userService.getUser(id);
-        userService.grantPermission(user, false);
-    }
 }

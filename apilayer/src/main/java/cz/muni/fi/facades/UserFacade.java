@@ -73,7 +73,4 @@ public interface UserFacade {
      */
      boolean changePassword(UserDTO userDTO, String password, String newPassword);
 
-     void makeAdmin(Long id);
-
-    void revokeAdmin(Long id);
 }

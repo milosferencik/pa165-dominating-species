@@ -72,5 +72,4 @@ public interface UserService {
      */
     public boolean changePassword(User user, String password, String newPassword);
 
-    void grantPermission(User userD, boolean setAdmin);
 }
