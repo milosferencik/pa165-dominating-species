@@ -71,4 +71,14 @@ public class FoodChainController {
         }
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/foodChain/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final List<FoodChainDTO> getFoodChainByAnimal(@PathVariable("id") long id) {
+        List<FoodChainDTO> foodChainDTOS = foodChainFacade.getFoodChainsWithAnimal(id);
+        if (foodChainDTOS == null) {
+            throw new RequestedResourceNotFoundException();
+        }
+        return foodChainDTOS;
+    }
+
 }
