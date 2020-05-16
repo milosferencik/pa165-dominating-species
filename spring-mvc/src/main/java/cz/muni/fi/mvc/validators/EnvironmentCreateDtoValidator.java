@@ -20,12 +20,9 @@ public class EnvironmentCreateDtoValidator implements Validator {
         EnvironmentCreateDTO environmentCreateDTO = (EnvironmentCreateDTO) target;
 
         if (environmentCreateDTO.getName() == null || environmentCreateDTO.getName().isEmpty())
-            errors.rejectValue("name", "nameNull");
+            errors.rejectValue("name", "environment.name.error");
 
         if (environmentCreateDTO.getDescription() == null || environmentCreateDTO.getDescription().isEmpty())
-            errors.rejectValue("description", "descriptionNull");
-
-
+            errors.rejectValue("description", "environment.description.error");
     }
-
 }
