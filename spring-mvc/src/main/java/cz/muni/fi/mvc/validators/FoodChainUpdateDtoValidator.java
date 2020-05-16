@@ -20,6 +20,6 @@ public class FoodChainUpdateDtoValidator implements Validator{
         if (foodChainDTO.getId() == null) return;
 
         if (foodChainDTO.getAnimalsInFoodChain() == null || foodChainDTO.getAnimalsInFoodChain().isEmpty())
-            return;
+            errors.rejectValue("animals", "foodChain.animals.error");
     }
 }

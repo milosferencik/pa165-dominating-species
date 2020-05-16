@@ -18,6 +18,6 @@ public class FoodChainCreateDtoValidator implements Validator{
         FoodChainCreateDTO foodChainCreateDTO = (FoodChainCreateDTO) target;
 
         if (foodChainCreateDTO.getAnimalsInFoodChain() == null || foodChainCreateDTO.getAnimalsInFoodChain().isEmpty())
-           return;
+            errors.rejectValue("animals", "foodChain.animals.error");
     }
 }
