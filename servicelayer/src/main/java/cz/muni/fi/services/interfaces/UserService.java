@@ -71,4 +71,6 @@ public interface UserService {
      * @return true if password was changed successfully, false otherwise
      */
     public boolean changePassword(User user, String password, String newPassword);
+
+    void grantPermission(User userD, boolean setAdmin);
 }

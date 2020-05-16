@@ -37,11 +37,12 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public void updateUser(UserUpdateDTO userDTO) {
-        User storedUser = userService.getUser(userDTO.getId());
-        storedUser.setSurname(userDTO.getSurname());
-        storedUser.setEmail(userDTO.getEmail());
-        storedUser.setName(userDTO.getName());
-        userService.updateUser(storedUser);
+        User user = userService.getUser(userDTO.getId());
+        user.setSurname(userDTO.getSurname());
+        user.setEmail(userDTO.getEmail());
+        user.setName(userDTO.getName());
+        user.setAdmin(userDTO.isAdmin());
+        userService.updateUser(user);
     }
 
     @Override
@@ -85,5 +86,17 @@ public class UserFacadeImpl implements UserFacade {
     public boolean changePassword(UserDTO userDTO, String password, String newPassword) {
         User user = beanMappingService.mapTo(userDTO, User.class);
         return userService.changePassword(user, password, newPassword);
+    }
+
+    @Override
+    public void makeAdmin(Long id) {
+        User user = userService.getUser(id);
+        userService.grantPermission(user, true);
+    }
+
+    @Override
+    public void revokeAdmin(Long id) {
+        User user = userService.getUser(id);
+        userService.grantPermission(user, false);
     }
 }

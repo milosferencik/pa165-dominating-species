@@ -113,6 +113,12 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public void grantPermission(User user, boolean newAdmin) {
+        user.setAdmin(newAdmin);
+        userDao.updateUser(user);
+    }
+
     /**
      * Checks password against user's password hash.
      * Used source: PA165 seminar project

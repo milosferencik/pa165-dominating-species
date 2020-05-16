@@ -71,6 +71,9 @@ public interface UserFacade {
      * @param newPassword new password
      * @return true if password was changed successfully, false otherwise
      */
-    public boolean changePassword(UserDTO userDTO, String password, String newPassword);
+     boolean changePassword(UserDTO userDTO, String password, String newPassword);
 
+     void makeAdmin(Long id);
+
+    void revokeAdmin(Long id);
 }

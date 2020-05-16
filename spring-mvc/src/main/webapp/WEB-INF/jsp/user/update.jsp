@@ -32,9 +32,28 @@
                     <form:errors path="email" cssClass="help-block"/>
                 </div>
             </div>
+            <c:choose>
+                <c:when test="${authenticatedUser.email != user.email}">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="form-check">
+                            <form:label path="admin"> Is Admin
+                            <form:checkbox path="admin" cssClass="form-check-input"/> </form:label>
+                            <form:errors path="admin" cssClass="help-block"/>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="form-check">
+                            <form:label path="admin"> Is Admin
+                                <form:checkbox disabled="true" path="admin" cssClass="form-check-input"/> </form:label>
+                            <form:errors path="admin" cssClass="help-block"/>
+                        </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
             <button class="btn btn-primary" type="submit"><f:message key="button.update"/></button>
         </form:form>
     </jsp:attribute>
-
 </my:masterpage>
 
