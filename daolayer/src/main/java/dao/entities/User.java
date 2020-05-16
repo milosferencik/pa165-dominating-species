@@ -28,6 +28,7 @@ public class User implements Serializable {
 
     @NotNull(message = "Email cannot be null")
     @Email(message = "Email should be valid", regexp = ".+@.+\\..+")
+    @Column(unique = true)
     private String email;
 
     @NotNull(message = "Password cannot be null")

@@ -3,6 +3,7 @@ package cz.muni.fi.services;
 import cz.muni.fi.config.ServiceConfiguration;
 import cz.muni.fi.services.exceptions.ServiceDataAccessException;
 import cz.muni.fi.services.interfaces.UserService;
+import cz.muni.fi.utils.UserPasswordHandling;
 import dao.entities.User;
 import dao.interfaces.UserDao;
 import org.hibernate.service.spi.ServiceException;
@@ -54,14 +55,14 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
         u1.setName("Jane");
         u1.setSurname("Doe");
         u1.setEmail("janedoe@muni.cz");
-        u1.setPasswordHash("955db0b81ef1989b4a4dfeae8061a9a6");
+        //u1.setPasswordHash("MyPassword");
         u1.setAdmin(false);
 
         u2 = new User();
         u2.setName("John");
         u2.setSurname("Doe");
         u2.setEmail("johndoe@muni.cz");
-        u2.setPasswordHash("955db0b81ef1989b4a4dfeae8061a9b7");
+        //u2.setPasswordHash("123abc");
         u2.setAdmin(true);
     }
 
@@ -72,7 +73,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void createUserTest() {
-        userService.createUser(u1);
+        userService.createUser(u1, "password");
         Mockito.verify(userDao).createUser(u1);
     }
 
@@ -80,7 +81,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
     public void createUserWithNullTest() {
         doThrow(IllegalArgumentException.class).when(userDao).createUser(null);
 
-        userService.createUser(null);
+        userService.createUser(null,null);
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -94,7 +95,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
         }).when(userDao).createUser(any(User.class));
 
         u1.setName(null);
-        userService.createUser(u1);
+        userService.createUser(u1, "password");
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -108,7 +109,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
         }).when(userDao).createUser(any(User.class));
 
         u1.setName("");
-        userService.createUser(u1);
+        userService.createUser(u1, "password");
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -122,7 +123,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
         }).when(userDao).createUser(any(User.class));
 
         u1.setSurname(null);
-        userService.createUser(u1);
+        userService.createUser(u1,"password");
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -136,7 +137,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
         }).when(userDao).createUser(any(User.class));
 
         u1.setSurname("");
-        userService.createUser(u1);
+        userService.createUser(u1, "password");
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -150,38 +151,10 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
         }).when(userDao).createUser(any(User.class));
 
         u1.setEmail("email");
-        userService.createUser(u1);
+        userService.createUser(u1, "password");
 
         u1.setEmail(null);
-        userService.createUser(u1);
-    }
-
-    @Test(expectedExceptions = ServiceDataAccessException.class)
-    public void createUserWithNullPasswordHashTest() {
-        Mockito.doAnswer(invocationOnMock -> {
-            User user = invocationOnMock.getArgumentAt(0, User.class);
-            if (user == null || user.getPasswordHash() == null) {
-                throw new IllegalArgumentException("User cannot have null password hash.");
-            }
-            return user;
-        }).when(userDao).createUser(any(User.class));
-
-        u1.setPasswordHash(null);
-        userService.createUser(u1);
-    }
-
-    @Test(expectedExceptions = ServiceDataAccessException.class)
-    public void createUserWithEmptyPasswordHashTest() {
-        Mockito.doAnswer(invocationOnMock -> {
-            User user = invocationOnMock.getArgumentAt(0, User.class);
-            if (user == null || user.getPasswordHash().isEmpty()) {
-                throw new IllegalArgumentException("User cannot have empty password hash.");
-            }
-            return user;
-        }).when(userDao).createUser(any(User.class));
-
-        u1.setPasswordHash("");
-        userService.createUser(u1);
+        userService.createUser(u1, "password");
     }
 
     @Test(expectedExceptions = ServiceDataAccessException.class)
@@ -195,7 +168,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
         }).when(userDao).createUser(any(User.class));
 
         u1.setId(1L);
-        userService.createUser(u1);
+        userService.createUser(u1, "password");
     }
 
     @Test
@@ -240,7 +213,6 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
         Mockito.when(userDao.getUser(1L)).thenReturn(null);
         assertThat(userService.getUser(1L)).isNull();
     }
-
 
     @Test
     public void updateUserTest() {
@@ -408,5 +380,32 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
         Mockito.when(userDao.getUser(1L)).thenReturn(null);
 
         userService.isAdmin(1L);
+    }
+
+    @Test
+    public void authenticateCorrectTest() {
+        String password = "password";
+        String hashedPassword = UserPasswordHandling.createHash(password);
+        u1.setPasswordHash(hashedPassword);
+        assertThat(userService.authenticate(u1,password)).isTrue();
+    }
+
+    @Test
+    public void authenticateWrongPasswordTest() {
+        String hashedPassword = UserPasswordHandling.createHash("password");
+        u1.setPasswordHash(hashedPassword);
+        assertThat(userService.authenticate(u1,"INVALID")).isFalse();
+    }
+
+    @Test(expectedExceptions = ServiceDataAccessException.class)
+    public void authenticateUserWithoutPasswordTest() {
+        userService.authenticate(u1, "password");
+    }
+
+    @Test
+    public void authenticateUserWithNullPasswordTest() {
+        String hashedPassword = UserPasswordHandling.createHash("password");
+        u1.setPasswordHash(hashedPassword);
+        assertThat(userService.authenticate(u1,null)).isFalse();
     }
 }

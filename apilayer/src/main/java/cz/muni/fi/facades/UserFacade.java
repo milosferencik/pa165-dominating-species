@@ -1,10 +1,13 @@
 package cz.muni.fi.facades;
 
+import cz.muni.fi.dto.AuthenticateUserDTO;
 import cz.muni.fi.dto.UserCreateDTO;
 import cz.muni.fi.dto.UserDTO;
+import cz.muni.fi.dto.UserUpdateDTO;
+import java.util.List;
 
 /**
- * @autor on 25/04/2020.
+ * @Author Kostka on 25/04/2020.
  */
 public interface UserFacade {
     /**
@@ -12,13 +15,13 @@ public interface UserFacade {
      * @param userCreateDTO
      * @return
      */
-    Long createUser(UserCreateDTO userCreateDTO);
+    Long createUser(UserCreateDTO userCreateDTO, String password);
 
     /**
      * Update user
      * @param userDTO
      */
-    void updateUser(UserDTO userDTO);
+    void updateUser(UserUpdateDTO userDTO);
 
     /**
      * Delete user
@@ -41,9 +44,33 @@ public interface UserFacade {
     UserDTO getUserByEmail(String email);
 
     /**
-     * Checks whether user of given id has admin rights
+     * Check whether user of given id has admin rights
      * @param id id of user to check whether he is an admin
      * @return true if user is admin, false otherwise
      */
     boolean isUserAdmin(Long id);
+
+    /**
+     * Return information about all users
+     *
+     * @return list of all users
+     */
+    List<UserDTO> getAllUsers();
+
+    /**
+     * Try to authenticate a user
+     * @param user user's authentication DTO
+     * @return True, if the authentication was successful, false otherwise
+     */
+    boolean authenticate(AuthenticateUserDTO user);
+
+    /**
+     * Change user's password
+     * @param userDTO DTO of user
+     * @param password current password of user
+     * @param newPassword new password
+     * @return true if password was changed successfully, false otherwise
+     */
+    public boolean changePassword(UserDTO userDTO, String password, String newPassword);
+
 }
