@@ -8,13 +8,13 @@
 <my:masterpage title="New environment">
 
     <jsp:attribute name="body">
-        <form:form method="post" action="${pageContext.request.contextPath}/foodChain/create"
-                   modelAttribute="foodChainCreate" cssClass="form-horizontal">
-            <div class="form-group ${animals_error?'has-error':''}">
-                <form:label path="animals" cssClass="col-sm-2 control-label"><f:message key="foodChain.animals.error"/></form:label>
+        <form:form method="post" action="${pageContext.request.contextPath}/environment/create"
+                   modelAttribute="environmentCreate" cssClass="form-horizontal">
+            <div class="form-group ${name_error?'has-error':''}">
+                <form:label path="name" cssClass="col-sm-2 control-label"><f:message key="label.name"/></form:label>
                 <div class="col-sm-10">
-                    <form:input path="animals" cssClass="form-control"/>
-                    <form:errors path="animals" cssClass="help-block"/>
+                    <form:input path="name" cssClass="form-control"/>
+                    <form:errors path="name" cssClass="help-block"/>
                 </div>
             </div>
             <div class="form-group ${description_error?'has-error':''}">
