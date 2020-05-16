@@ -12,7 +12,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<my:masterpage title="${foodChain.id}">
+<my:masterpage title="${foodChain.id} update">
 
     <jsp:attribute name="body">
         <form:form method="post" action="${pageContext.request.contextPath}/foodChain/update"

@@ -13,19 +13,15 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<my:masterpage title="${foodChain.id}">
+<my:masterpage title="${foodChain.id} detail">
     <jsp:attribute name="body">
         <table class="table table-striped">
-            <thead>
-            <tr>
-                <th><f:message key="label.name"/></th>
-            </tr>
-            </thead>
+
             <tbody>
             <c:forEach items="${animals}" var="animal">
                 <tr>
                     <td>${animal.name}</td>
-                    <td><my:a href="/environment/detail/${animal.id}" class="btn btn-primary"><f:message key="button.detail"/></my:a></td>
+                    <td><my:a href="/animal/detail/${animal.id}" class="btn btn-primary"><f:message key="button.detail"/></my:a></td>
                     <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
                         <td>
                             <form method="post" action="${pageContext.request.contextPath}/animal/delete/${animal.id}">

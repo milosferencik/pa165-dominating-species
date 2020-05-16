@@ -13,7 +13,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<my:masterpage title="FoodChains">
+<my:masterpage title="FoodChain List">
     <jsp:attribute name="body">
         <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
             <td><my:a href="/foodChain/create" class="btn btn-success"><f:message key="foodChains.create"/></my:a></td>
