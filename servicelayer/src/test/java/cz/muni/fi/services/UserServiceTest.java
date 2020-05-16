@@ -55,14 +55,14 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
         u1.setName("Jane");
         u1.setSurname("Doe");
         u1.setEmail("janedoe@muni.cz");
-        //u1.setPasswordHash("MyPassword");
+        u1.setPasswordHash("password");
         u1.setAdmin(false);
 
         u2 = new User();
         u2.setName("John");
         u2.setSurname("Doe");
         u2.setEmail("johndoe@muni.cz");
-        //u2.setPasswordHash("123abc");
+        u2.setPasswordHash("123abc");
         u2.setAdmin(true);
     }
 
@@ -407,5 +407,17 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
         String hashedPassword = UserPasswordHandling.createHash("password");
         u1.setPasswordHash(hashedPassword);
         assertThat(userService.authenticate(u1,null)).isFalse();
+    }
+
+    @Test
+    public void changePassword() {
+        String password = "password";
+        String newPassword = "newPassword";
+        Mockito.when(userDao.getUser(u1.getId())).thenReturn(u1);
+
+        u1.setPasswordHash(UserPasswordHandling.createHash(password));
+        assertThat(userService.authenticate(u1,password)).isTrue();
+        assertThat(userService.changePassword(u1,password,newPassword)).isTrue();
+        assertThat(userService.authenticate(u1,newPassword)).isTrue();
     }
 }
