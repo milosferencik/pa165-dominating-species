@@ -59,6 +59,7 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
         u1.setSurname("Doe");
         u1.setEmail("janedoe@muni.cz");
         u1.setPasswordHash("pass");
+        u1.setId(1L);
         u1.setAdmin(false);
     }
 
@@ -87,6 +88,8 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void updateUserTest() {
+        u1.setSurname("NewSurname");
+        Mockito.when(userService.getUser(u1.getId())).thenReturn(u1);
         UserUpdateDTO userUpdateDTO = beanMappingService.mapTo(u1, UserUpdateDTO.class);
         ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
         userFacade.updateUser(userUpdateDTO);
@@ -121,5 +124,30 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
         Mockito.when(userService.getAllUsers()).thenReturn(Collections.singletonList(u1));
         List<UserDTO> users = userFacade.getAllUsers();
         assertThat(users).isEqualTo(beanMappingService.mapTo(Collections.singletonList(u1), UserDTO.class));
+    }
+
+    @Test
+    public void passwordChangeTest() {
+        String password = "pass";
+        String newPassword = "admin";
+        UserDTO u1DTO = beanMappingService.mapTo(u1, UserDTO.class);
+
+        Mockito.doReturn(u1).when(userService).getUser(u1.getId());
+        Mockito.doReturn(true).when(userService).changePassword(u1, password, newPassword);
+        AuthenticateUserDTO authenticateDTO = new AuthenticateUserDTO();
+        authenticateDTO.setPassword(newPassword);
+        assertThat(userFacade.changePassword(u1DTO, password, newPassword)).isTrue();
+    }
+
+    @Test
+    public void authenticateUserTest() {
+        String password = "pass";
+        Mockito.doReturn(u1).when(userService).getUserByEmail(u1.getEmail());
+        Mockito.doReturn(true).when(userService).authenticate(u1, password);
+        AuthenticateUserDTO authenticateDTO = new AuthenticateUserDTO();
+        authenticateDTO.setEmail(u1.getEmail());
+        authenticateDTO.setPassword(password);
+        assertThat(userFacade.authenticate(authenticateDTO)).isTrue();
+        Mockito.verify(userService).authenticate(u1, password);
     }
 }
