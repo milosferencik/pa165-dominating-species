@@ -3,18 +3,10 @@ package dao.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.*;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -29,12 +21,12 @@ public class Animal implements Serializable {
     @Column(name="Animal_Id")
     private Long id;
 
-
     @NotNull(message = "FoodChain cannot be null")
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
                 mappedBy = "animal")
     private List<AnimalInFoodChain> foodChains = new ArrayList<>();
 
+    @Column(unique=true)
     @NotNull(message = "Name cannot be null")
     @NotEmpty(message = "Name cannot be empty")
     private String name;

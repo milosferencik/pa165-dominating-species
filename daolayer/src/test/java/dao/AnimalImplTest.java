@@ -142,6 +142,16 @@ public class AnimalImplTest extends AbstractTestNGSpringContextTests {
         animalDao.createAnimal(lion);
     }
 
+    @Test(expectedExceptions = JpaSystemException.class)
+    public void testCreateAnimalWithExistingAnimalName() {
+        animalDao.createAnimal(lion);
+        em.flush();
+        em.detach(lion);
+
+        hamster.setName("Lion");
+        animalDao.createAnimal(hamster);
+    }
+
     @Test
     public void testGetAllAnimalsOnEmptyDb(){
         assertThat(animalDao.getAllAnimals()).isEmpty();
