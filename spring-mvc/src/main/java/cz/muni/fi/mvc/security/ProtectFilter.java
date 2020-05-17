@@ -25,10 +25,10 @@ public class ProtectFilter implements Filter {
     private final static Logger log = LoggerFactory.getLogger(ProtectFilter.class);
 
     private static final Set<String> ALLOWED_USER_PATHS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList("/user/update", "/user/password", "user/detail")));
+            Arrays.asList("/user/update", "/user/password", "/user/detail")));
 
     private static final Set<String> ALLOWED_ADMIN_PATHS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList("/animal/update", "/animal/delete", "/user/update", "/user/password", "/user/delete", "/environment/update", "/environment/delete", "user/detail")));
+            Arrays.asList("/animal/update", "/animal/delete", "/user/update", "/user/password", "/user/delete", "/environment/update", "/environment/delete", "/user/detail", "/user")));
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
@@ -38,14 +38,11 @@ public class ProtectFilter implements Filter {
 
         String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
         String last_part = path.substring(path.lastIndexOf('/') + 1);
-        System.out.println("last part : " + last_part);
         Long id = null;
         if (isNumeric(last_part)){
             id = Long.parseLong(last_part);
             path = path.substring(0, path.lastIndexOf('/'));
         }
-
-        System.out.println("path: " + path);
 
         UserDTO userDTO = (UserDTO) request.getSession().getAttribute("authenticatedUser");
 
