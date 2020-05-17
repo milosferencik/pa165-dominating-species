@@ -16,21 +16,23 @@
 <my:masterpage title="${foodChain.id} detail">
     <jsp:attribute name="body">
         <table class="table table-striped">
-
+            <tr>
+                <td>FoodChain ${foodChain.id}</td>
+            </tr>
             <tbody>
             <c:forEach items="${animals}" var="animal">
                 <tr>
-                    <td>${animal.name}</td>
-                    <td><my:a href="/animal/detail/${animal.id}" class="btn btn-primary"><f:message key="button.detail"/></my:a></td>
+                    <td>${animal.animal.name}</td>
+                    <td><my:a href="/animal/detail/${animal.animal.id}" class="btn btn-primary"><f:message key="button.detail"/></my:a></td>
                     <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
                         <td>
-                            <form method="post" action="${pageContext.request.contextPath}/animal/delete/${animal.id}">
+                            <form method="post" action="${pageContext.request.contextPath}/animal/delete/${animal.animal.id}">
                                 <button type="submit" class="btn btn-danger">
                                     <f:message key="button.delete" />
                                 </button>
                             </form>
                         </td>
-                        <td><my:a href="/animal/update/${animal.id}" class="btn btn-success"><f:message key="button.update"/></my:a></td>
+                        <td><my:a href="/animal/update/${animal.animal.id}" class="btn btn-success"><f:message key="button.update"/></my:a></td>
                     </c:if>
                 </tr>
             </c:forEach>

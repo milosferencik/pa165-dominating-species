@@ -67,6 +67,7 @@ public class FoodChainController {
     public String detail(@PathVariable long id, Model model) {
         log.debug("detail({})", id);
         model.addAttribute("foodChain", foodChainFacade.getFoodChainById(id));
+        model.addAttribute("animals", foodChainFacade.getFoodChainById(id).getAnimalsInFoodChain());
         return "foodChain/detail";
     }
 
