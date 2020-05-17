@@ -15,9 +15,7 @@
 
 <my:masterpage title="FoodChain List">
     <jsp:attribute name="body">
-        <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
-            <td><my:a href="/foodChain/create" class="btn btn-success"><f:message key="foodChains.create"/></my:a></td>
-        </c:if>
+
         <div>
             <form:form method="post" action="${pageContext.request.contextPath}/foodChain/animal"
                        modelAttribute="animals" cssClass="form-inline">

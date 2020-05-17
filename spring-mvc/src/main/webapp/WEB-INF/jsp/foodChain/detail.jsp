@@ -15,22 +15,7 @@
 
 <my:masterpage title="${foodChain.id} detail">
     <jsp:attribute name="body">
-        <div>
-            <form:form method="post" action="${pageContext.request.contextPath}/foodChain/detail/${foodChain.id}/addAnimal"
-                       modelAttribute="animalsNotInFoodChain" cssClass="form-inline">
-            <label class="control-label" for="animalId"><f:message key="animal"/>:
-                <select name="animalId" class="form-control" id="animalId">
-                    <c:forEach items="${animalsNotInFoodChain}" var="animal">
-                        <option value="${animal.id}"
-                                <c:if test="${selectedAnimalId == animal.id}">selected="selected"</c:if>>
-                                ${animal.name}
-                        </option>
-                    </c:forEach>
-                </select>
-            </label>
-            <button type="submit" class="btn btn-default"><f:message key="button.add_animal"/></button>
-            </form:form>
-        </div>
+
         <table class="table table-striped">
 
             <tbody>
@@ -40,13 +25,6 @@
                     <td>${animal.animal.name}</td>
                     <td><my:a href="/animal/detail/${animal.animal.id}" class="btn btn-primary"><f:message key="button.detail"/></my:a></td>
                     <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
-                        <td>
-                            <form method="post" action="${pageContext.request.contextPath}/foodChain/detail/${foodChain.id}/removeAnimal/${animal.animal.id}">
-                                <button type="submit" class="btn btn-danger">
-                                    <f:message key="button.delete" />
-                                </button>
-                            </form>
-                        </td>
                         <td><my:a href="/animal/update/${animal.animal.id}" class="btn btn-success"><f:message key="button.update"/></my:a></td>
                     </c:if>
                 </tr>
