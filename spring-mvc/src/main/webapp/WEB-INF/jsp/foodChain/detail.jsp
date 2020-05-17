@@ -17,10 +17,10 @@
     <jsp:attribute name="body">
         <div>
             <form:form method="post" action="${pageContext.request.contextPath}/foodChain/detail/${foodChain.id}/addAnimal"
-                       modelAttribute="animals" cssClass="form-inline">
+                       modelAttribute="animalsNotInFoodChain" cssClass="form-inline">
             <label class="control-label" for="animalId"><f:message key="animal"/>:
                 <select name="animalId" class="form-control" id="animalId">
-                    <c:forEach items="${animals}" var="animal">
+                    <c:forEach items="${animalsNotInFoodChain}" var="animal">
                         <option value="${animal.id}"
                                 <c:if test="${selectedAnimalId == animal.id}">selected="selected"</c:if>>
                                 ${animal.name}

@@ -19,7 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author Petr Kostka
@@ -69,7 +72,25 @@ public class FoodChainController {
         log.debug("detail({})", id);
         List<AnimalInFoodChainDTO> animalInFoodChainDTOS = foodChainFacade.getFoodChainById(id).getAnimalsInFoodChain();
         model.addAttribute("foodChain", foodChainFacade.getFoodChainById(id));
-        //model.addAttribute("animalsNotInFoodChain", animalFacade.getAllAnimals().removeAll(animalInFoodChainDTOS));
+        List<AnimalListDTO> animalNotInFoodChainDTOS = new ArrayList<>();
+        boolean contained = true;
+
+        for (AnimalListDTO a : animalFacade.getAllAnimals()){
+            for(AnimalInFoodChainDTO dto : animalInFoodChainDTOS){
+                if (Objects.equals(a.getId(), dto.getAnimal().getId())){
+                    contained = true;
+                    break;
+                }
+                else{
+                    contained = false;
+                }
+            }
+            if (!contained){
+                contained = true;
+                animalNotInFoodChainDTOS.add(a);
+            }
+        }
+        model.addAttribute("animalsNotInFoodChain", animalNotInFoodChainDTOS);
         model.addAttribute("animalsInFoodChain", animalInFoodChainDTOS);
         return "foodChain/detail";
     }
@@ -82,7 +103,7 @@ public class FoodChainController {
         FoodChainDTO foodChainDTO = foodChainFacade.getFoodChainById(id1);
         AnimalInFoodChainDTO animalInFoodChainDTO = null;
         for(AnimalInFoodChainDTO a : foodChainDTO.getAnimalsInFoodChain()){
-            if (a.getId().equals(id2)){
+            if (a.getAnimal().getId().equals(id2)){
                 animalInFoodChainDTO = a;
             }
         }
@@ -113,7 +134,7 @@ public class FoodChainController {
         }
         foodChainFacade.addAnimalToBeginning(animalDTO,id1);
 
-        return "foodChain/detail";
+        return "foodChain/list";
     }
 
 
@@ -121,6 +142,7 @@ public class FoodChainController {
     public String create(Model model) {
         log.debug("create()");
         model.addAttribute("foodChainCreate", new FoodChainCreateDTO());
+        model.addAttribute("animals", animals());
         return "foodChain/create";
     }
 
@@ -146,37 +168,6 @@ public class FoodChainController {
 
         redirectAttributes.addFlashAttribute("alert_success", "FoodChain " + id + " was created successfully");
         return "redirect:" + urisBuilder.path("/foodChain/detail/{id}").buildAndExpand(id).encode().toUriString();
-    }
-
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable Long id, Model model) {
-        log.debug("update()");
-        model.addAttribute("foodChainUpdate", foodChainFacade.getFoodChainById(id));
-        return "foodChain/update";
-    }
-
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(@Valid @ModelAttribute("foodChainUpdate") FoodChainDTO foodChainDTO,
-                         BindingResult bindingResult,
-                         Model model,
-                         RedirectAttributes redirectAttributes,
-                         UriComponentsBuilder urisBuilder) {
-        log.debug("update(environmentUpdate={})", foodChainDTO);
-        if (bindingResult.hasErrors()) {
-            for (ObjectError ge : bindingResult.getGlobalErrors()) {
-                log.trace("ObjectError: {}", ge);
-            }
-            for (FieldError fe: bindingResult.getFieldErrors()) {
-                model.addAttribute(fe.getField() + "_error", true);
-                log.trace("FieldError: {}", fe);
-            }
-            return "foodChain/update";
-        }
-
-        foodChainFacade.updateFoodChain(foodChainDTO);
-
-        redirectAttributes.addFlashAttribute("alert_success", "FoodChain " +foodChainDTO.getId() + " was updated successfully");
-        return "redirect:" + urisBuilder.path("/foodChain/detail/{id}").buildAndExpand(foodChainDTO.getId()).encode().toUriString();
     }
 
     @RequestMapping(value = "/animal", method = RequestMethod.POST)
