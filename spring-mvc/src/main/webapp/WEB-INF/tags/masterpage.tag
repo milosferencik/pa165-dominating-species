@@ -47,7 +47,7 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><my:a href="/foodWeb/"><i class="fa fa-globe"></i> <f:message key="navigation.foodWeb"/></my:a></li>
-                <li><my:a href="/foodchain/list/"><i class="fa fa-chain"></i> <f:message key="navigation.foodChains"/></my:a></li>
+                <li><my:a href="/foodChain/"><i class="fa fa-chain"></i> <f:message key="navigation.foodChains"/></my:a></li>
                 <li><my:a href="/animal/"><i class="fa fa-paw"></i> <f:message key="navigation.animals"/></my:a></li>
                 <li><my:a href="/environment/"><i class="fa fa-tree"></i> <f:message key="navigation.environments"/></my:a></li>
                 <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
