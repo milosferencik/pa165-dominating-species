@@ -46,7 +46,7 @@
             <tbody>
             <c:forEach items="${foodChains}" var="foodChain">
                 <tr>
-                    <td>${foodChain.id}</td>
+                    <td>[${foodChain.id}] <c:forEach items="${foodChain.animalsInFoodChain}" var="animal">${animal.indexInFoodChain + 1}.${animal.animal.name} </c:forEach> </td>
                     <td><my:a href="/foodChain/detail/${foodChain.id}" class="btn btn-primary"><f:message key="button.detail"/></my:a></td>
                     <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
                         <td>

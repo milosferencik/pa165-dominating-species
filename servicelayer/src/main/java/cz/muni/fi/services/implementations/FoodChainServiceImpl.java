@@ -104,7 +104,7 @@ public class FoodChainServiceImpl implements FoodChainService {
 
             throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
         List<AnimalInFoodChain> animals = foodChain.getAnimalsInFoodChain();
-        int index = 1;
+        int index = 0;
 
         AnimalInFoodChain tmp = new AnimalInFoodChain();
         tmp.setAnimal(animal);

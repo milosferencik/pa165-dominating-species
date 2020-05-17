@@ -28,7 +28,8 @@
                     </c:forEach>
                 </select>
             </label>
-            <button type="submit" class="btn btn-default"><f:message key="button.add_animal"/></button>
+            <button type="submit" name="beginning" class="btn btn-default"><f:message key="button.add_animal_beginning"/></button>
+                <button type="submit" name="end" class="btn btn-default"><f:message key="button.add_animal_end"/></button>
             </form:form>
         </div>
         <table class="table table-striped">
