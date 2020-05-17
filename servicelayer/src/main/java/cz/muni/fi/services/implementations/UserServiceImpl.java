@@ -113,6 +113,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+
     /**
      * Checks password against user's password hash.
      * Used source: PA165 seminar project
