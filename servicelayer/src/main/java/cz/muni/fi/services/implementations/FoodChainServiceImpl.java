@@ -81,11 +81,18 @@ public class FoodChainServiceImpl implements FoodChainService {
             throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
 
         List<AnimalInFoodChain> animals = foodChain.getAnimalsInFoodChain();
+        int index = 1;
+
         AnimalInFoodChain tmp = new AnimalInFoodChain();
         tmp.setAnimal(animal);
         tmp.setFoodChain(foodChain);
-        tmp.setIndexInFoodChain(0);
+        tmp.setIndexInFoodChain(index);
         animals.add(0, tmp);
+
+        for (AnimalInFoodChain animalInFoodChain : animals) {
+            animalInFoodChain.setIndexInFoodChain(index);
+            ++index;
+        }
 
         updateFoodChain(foodChain);
     }
@@ -94,11 +101,21 @@ public class FoodChainServiceImpl implements FoodChainService {
     public void addAnimalToEndOfFoodChain(Animal animal, Long id) {
         FoodChain foodChain = getFoodChain(id);
         if (foodChain == null)
-            throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
 
-        List<Animal> animals = foodChain.getAnimals();
-        animals.add(animal);
-        foodChain.setAnimals(animals);
+            throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
+        List<AnimalInFoodChain> animals = foodChain.getAnimalsInFoodChain();
+        int index = 1;
+
+        AnimalInFoodChain tmp = new AnimalInFoodChain();
+        tmp.setAnimal(animal);
+        tmp.setFoodChain(foodChain);
+        tmp.setIndexInFoodChain(index);
+        animals.add(tmp);
+
+        for (AnimalInFoodChain animalInFoodChain : animals) {
+            animalInFoodChain.setIndexInFoodChain(index);
+            ++index;
+        }
         updateFoodChain(foodChain);
     }
 
