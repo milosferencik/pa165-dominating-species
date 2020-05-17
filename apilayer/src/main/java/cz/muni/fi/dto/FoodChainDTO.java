@@ -28,9 +28,6 @@ public class FoodChainDTO {
     public List<AnimalInFoodChainDTO> getAnimalsInFoodChain() {
         return animalsInFoodChain;
     }
-    public List<AnimalInFoodChainDTO> getAnimalsNotInFoodChain() {
-        return animalsInFoodChain;
-    }
 
     @Override
     public boolean equals(Object o) {
