@@ -127,7 +127,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
         foodChainDao.createFoodChain(foodChain1);
     }
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
+    @Test
     public void testCreateFoodChainWithEmptyList() {
         foodChain1.setAnimalsInFoodChain(new ArrayList<>());
         foodChainDao.createFoodChain(foodChain1);
@@ -152,7 +152,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
     }
 
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
+    @Test
     public void testCreateFoodChainWithOneExistingAnimal() {
         FoodChain foodChain = new FoodChain();
         List<Animal> animals = new ArrayList<>();
@@ -217,7 +217,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
         entityManager.flush();
     }
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
+    @Test
     public void testUpdateFoodChainWithEmptyList() {
         foodChainDao.createFoodChain(foodChain1);
         foodChain1.setAnimalsInFoodChain(new ArrayList<>());
@@ -226,7 +226,7 @@ public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
     }
 
 
-    @Test
+    @Test(expectedExceptions = DataAccessException.class)
     public void testUpdateFoodChainWithNonExistingAnimals() {
         List<Animal> noneExistingAnimalList = foodChain1.getAnimals();
 

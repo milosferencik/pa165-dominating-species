@@ -21,7 +21,6 @@ public class FoodChain implements Serializable {
     @Column(name="FoodChain_Id")
     private Long id;
 
-    @Size(min = 2)
     @NotNull(message = "Animals cannot be null")
     @OneToMany(cascade = {CascadeType.ALL},
                 mappedBy = "foodChain")
