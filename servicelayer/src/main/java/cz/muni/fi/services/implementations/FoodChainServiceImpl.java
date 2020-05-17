@@ -80,9 +80,13 @@ public class FoodChainServiceImpl implements FoodChainService {
         if (foodChain == null)
             throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
 
-        List<Animal> animals = foodChain.getAnimals();
-        animals.add(0, animal);
-        foodChain.setAnimals(animals);
+        List<AnimalInFoodChain> animals = foodChain.getAnimalsInFoodChain();
+        AnimalInFoodChain tmp = new AnimalInFoodChain();
+        tmp.setAnimal(animal);
+        tmp.setFoodChain(foodChain);
+        tmp.setIndexInFoodChain(0);
+        animals.add(0, tmp);
+
         updateFoodChain(foodChain);
     }
 
@@ -113,7 +117,6 @@ public class FoodChainServiceImpl implements FoodChainService {
         FoodChain foodChain = animalInFoodChain.getFoodChain();
         List<AnimalInFoodChain> animalsInFoodChain = foodChain.getAnimalsInFoodChain();
         animalsInFoodChain.remove(animalInFoodChain);
-
         if (animalsInFoodChain.size() < 2) {
             deleteFoodChain(foodChain.getId());
         } else {

@@ -18,7 +18,7 @@
         <div>
             <form:form method="post" action="${pageContext.request.contextPath}/foodChain/detail/${foodChain.id}/addAnimal"
                        modelAttribute="animalsNotInFoodChain" cssClass="form-inline">
-            <label class="control-label" for="animalId"><f:message key="animal"/>:
+            <label class="control-label" for="animalId"><f:message key="animal" />:
                 <select name="animalId" class="form-control" id="animalId">
                     <c:forEach items="${animalsNotInFoodChain}" var="animal">
                         <option value="${animal.id}"
@@ -41,7 +41,7 @@
                     <td><my:a href="/animal/detail/${animal.animal.id}" class="btn btn-primary"><f:message key="button.detail"/></my:a></td>
                     <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
                         <td>
-                            <form method="post" action="${pageContext.request.contextPath}/foodChain/detail/${foodChain.id}/removeAnimal/${animal.animal.id}">
+                            <form method="post" action="${pageContext.request.contextPath}/foodChain/detail/${foodChain.id}/removeAnimal/${animal.id}">
                                 <button type="submit" class="btn btn-danger">
                                     <f:message key="button.delete" />
                                 </button>

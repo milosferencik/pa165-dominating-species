@@ -101,13 +101,15 @@ public class FoodChainController {
                          Model model,
                          UriComponentsBuilder uriBuilder,
                          RedirectAttributes redirectAttributes) {
+
         FoodChainDTO foodChainDTO = foodChainFacade.getFoodChainById(id1);
         AnimalInFoodChainDTO animalInFoodChainDTO = null;
         for(AnimalInFoodChainDTO a : foodChainDTO.getAnimalsInFoodChain()){
-            if (a.getAnimal().getId().equals(id2)){
+            if (a.getId().equals(id2)){
                 animalInFoodChainDTO = a;
             }
         }
+        log.warn(animalInFoodChainDTO.getAnimal().getName());
         foodChainFacade.removeAnimal(animalInFoodChainDTO);
 
         redirectAttributes.addFlashAttribute("alert_success", "Animal" + animalInFoodChainDTO.getAnimal().getName() +
@@ -174,7 +176,7 @@ public class FoodChainController {
 
             aaa.setIndexInFoodChain(i+1);
             aaa.setAnimal(animal);
-            aaa.setFoodChain();
+            //aaa.setFoodChain();
             animalInFoodChain.add(aaa);
         }
 
