@@ -20,9 +20,6 @@
                        modelAttribute="animals" cssClass="form-inline">
             <label class="control-label" for="animalId"><f:message key="animal"/>:
                 <select name="animalId" class="form-control" id="animalId">
-                    <option value="0" <c:if test="${selectedAnimalId == 0}">selected="selected"</c:if>>
-                        -
-                    </option>
                     <c:forEach items="${animals}" var="animal">
                         <option value="${animal.id}"
                                 <c:if test="${selectedAnimalId == animal.id}">selected="selected"</c:if>>
@@ -38,7 +35,7 @@
 
             <tbody>
 
-            <c:forEach items="${animals}" var="animal">
+            <c:forEach items="${animalsInFoodChain}" var="animal">
                 <tr>
                     <td>${animal.animal.name}</td>
                     <td><my:a href="/animal/detail/${animal.animal.id}" class="btn btn-primary"><f:message key="button.detail"/></my:a></td>

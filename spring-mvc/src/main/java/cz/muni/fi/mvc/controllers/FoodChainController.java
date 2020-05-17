@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author Petr Kostka
@@ -66,8 +67,10 @@ public class FoodChainController {
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable long id, Model model) {
         log.debug("detail({})", id);
+        List<AnimalInFoodChainDTO> animalInFoodChainDTOS = foodChainFacade.getFoodChainById(id).getAnimalsInFoodChain();
         model.addAttribute("foodChain", foodChainFacade.getFoodChainById(id));
-        model.addAttribute("animals", foodChainFacade.getFoodChainById(id).getAnimalsInFoodChain());
+        //model.addAttribute("animalsNotInFoodChain", animalFacade.getAllAnimals().removeAll(animalInFoodChainDTOS));
+        model.addAttribute("animalsInFoodChain", animalInFoodChainDTOS);
         return "foodChain/detail";
     }
 
@@ -77,20 +80,25 @@ public class FoodChainController {
                          UriComponentsBuilder uriBuilder,
                          RedirectAttributes redirectAttributes) {
         FoodChainDTO foodChainDTO = foodChainFacade.getFoodChainById(id1);
-        AnimalInFoodChainDTO animalInFoodChainDTO = foodChainDTO.getAnimalsInFoodChain().get((int)id2);
+        AnimalInFoodChainDTO animalInFoodChainDTO = null;
+        for(AnimalInFoodChainDTO a : foodChainDTO.getAnimalsInFoodChain()){
+            if (a.getId().equals(id2)){
+                animalInFoodChainDTO = a;
+            }
+        }
         foodChainFacade.removeAnimal(animalInFoodChainDTO);
 
         redirectAttributes.addFlashAttribute("alert_success", "Animal" + animalInFoodChainDTO.getAnimal().getName() +
                 " was successfully removed from FoodChain");
-        return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").toUriString();
+        return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").buildAndExpand(id1).encode().toUriString();
     }
 
-    @RequestMapping(value = "/detail/{id}/addAnimal", method = RequestMethod.POST)
-    public String addAnimalFormHandler(@RequestParam("animalId") Long id, UriComponentsBuilder uriBuilder) {
-        if (id == 0) {
-            return "redirect:" + uriBuilder.path("/foodChain/detail/{id}").encode().toUriString();
+    @RequestMapping(value = "/detail/{id1}/addAnimal", method = RequestMethod.POST)
+    public String addAnimalFormHandler(@PathVariable long id1, @RequestParam("animalId") Long id2, UriComponentsBuilder uriBuilder) {
+        if (id2 == 0) {
+            return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").encode().toUriString();
         }
-        return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}/addAnimal/{id2}").buildAndExpand(id).encode().toUriString();
+        return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}/addAnimal/{id2}").buildAndExpand(id1, id2).encode().toUriString();
     }
 
     @RequestMapping(value = "/detail/{id1}/addAnimal/{id2}", method = RequestMethod.GET)
@@ -190,5 +198,10 @@ public class FoodChainController {
 
         model.addAttribute("foodChains", foodChainFacade.getFoodChainsWithAnimal(animalDTO.getId()));
         return "foodChain/list";
+    }
+    @ModelAttribute("animals")
+    public List<AnimalListDTO> animals() {
+        log.debug("animals()");
+        return animalFacade.getAllAnimals();
     }
 }

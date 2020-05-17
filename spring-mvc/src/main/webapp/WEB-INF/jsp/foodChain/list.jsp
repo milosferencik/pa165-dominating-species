@@ -18,6 +18,25 @@
         <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
             <td><my:a href="/foodChain/create" class="btn btn-success"><f:message key="foodChains.create"/></my:a></td>
         </c:if>
+        <div>
+            <form:form method="post" action="${pageContext.request.contextPath}/foodChain/animal"
+                       modelAttribute="animals" cssClass="form-inline">
+            <label class="control-label" for="animalId"><f:message key="animal"/>:
+                <select name="animalId" class="form-control" id="animalId">
+                    <option value="0" <c:if test="${selectedAnimalId == 0}">selected="selected"</c:if>>
+                        -
+                    </option>
+                    <c:forEach items="${animals}" var="animal">
+                        <option value="${animal.id}"
+                                <c:if test="${selectedAnimalId == animal.id}">selected="selected"</c:if>>
+                                ${animal.name}
+                        </option>
+                    </c:forEach>
+                </select>
+            </label>
+            <button type="submit" class="btn btn-default"><f:message key="button.filter_by_animal"/></button>
+            </form:form>
+        </div>
         <table class="table table-striped">
             <thead>
             <tr>
