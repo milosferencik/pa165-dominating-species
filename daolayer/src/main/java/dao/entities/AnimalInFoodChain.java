@@ -17,12 +17,12 @@ public class AnimalInFoodChain implements Serializable {
     @Column(name = "FoodChain_Animal_Id")
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @NotNull(message = "FoodChain cannot be null")
     @JoinColumn(name = "FoodChain_Id")
     private FoodChain foodChain;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @NotNull(message = "Animal cannot be null")
     @JoinColumn(name = "Animal_Id")
     private Animal animal;

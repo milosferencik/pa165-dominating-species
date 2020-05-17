@@ -5,6 +5,7 @@ import cz.muni.fi.facades.AnimalFacade;
 import cz.muni.fi.facades.FoodChainFacade;
 import cz.muni.fi.mvc.validators.FoodChainCreateDtoValidator;
 import cz.muni.fi.mvc.validators.FoodChainUpdateDtoValidator;
+import dao.entities.AnimalInFoodChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,6 +165,21 @@ public class FoodChainController {
             return "foodChain/create";
         }
 
+        List<AnimalInFoodChainDTO> animalInFoodChain = new ArrayList<>();
+        List<Long> animalInFoodChainIds = foodChainCreateDTO.getAnimalInFoodChainIds();
+        for (int i = 0; i < animalInFoodChainIds.size(); i++) {
+            Long id = animalInFoodChainIds.get(i);
+            AnimalDTO animal = animalFacade.getAnimalById(id);
+            AnimalInFoodChainDTO aaa = new AnimalInFoodChainDTO();
+
+            aaa.setIndexInFoodChain(i+1);
+            aaa.setAnimal(animal);
+            aaa.setFoodChain();
+            animalInFoodChain.add(aaa);
+        }
+
+        foodChainCreateDTO.setAnimalsInFoodChain(animalInFoodChain);
+        log.warn("size: " + foodChainCreateDTO.getAnimalsInFoodChain().size());
         Long id = foodChainFacade.createFoodChain(foodChainCreateDTO);
 
         redirectAttributes.addFlashAttribute("alert_success", "FoodChain " + id + " was created successfully");

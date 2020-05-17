@@ -14,11 +14,11 @@
 <my:masterpage title="New FoodChain">
 
     <jsp:attribute name="body">
-        <form:form method="post" action="${pageContext.request.contextPath}/animal/create"
+        <form:form method="post" action="${pageContext.request.contextPath}/foodChain/create"
                    modelAttribute="foodChainCreate" cssClass="form-horizontal">
             <form:label path="animalsInFoodChain" cssClass="col-sm-2 control-label"><f:message key="animal"/></form:label>
             <div class="col-sm-10">
-                <form:select path="animalsInFoodChain" cssClass="form-control">
+                <form:select path="animalInFoodChainIds" cssClass="form-control">
                     <c:forEach items="${animals}" var="c">
                         <form:option value="${c.id}">${c.name}</form:option>
                     </c:forEach>

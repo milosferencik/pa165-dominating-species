@@ -15,9 +15,9 @@ public class FoodChainCreateDtoValidator implements Validator{
 
     @Override
     public void validate(Object target, Errors errors) {
-        FoodChainCreateDTO foodChainCreateDTO = (FoodChainCreateDTO) target;
+        //FoodChainCreateDTO foodChainCreateDTO = (FoodChainCreateDTO) target;
 
-        if (foodChainCreateDTO.getAnimalsInFoodChain() == null || foodChainCreateDTO.getAnimalsInFoodChain().isEmpty())
-            errors.rejectValue("animals", "foodChain.animals.error");
+        //if (foodChainCreateDTO.getAnimalsInFoodChain() == null || foodChainCreateDTO.getAnimalsInFoodChain().isEmpty())
+          //  errors.rejectValue("animals", "foodChain.animals.error");
     }
 }
