@@ -63,6 +63,12 @@ public class ProtectFilter implements Filter {
             return;
         }
 
+        if (userDTO.isAdmin() && path.equals("/user/password") && !userDTO.getId().equals(id)) {
+            log.warn("admin can not change the password of another user");
+            response.sendRedirect(request.getContextPath() + "/");
+            return;
+        }
+
         filterChain.doFilter(request, response);
     }
 
