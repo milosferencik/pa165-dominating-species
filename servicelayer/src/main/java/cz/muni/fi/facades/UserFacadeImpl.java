@@ -37,11 +37,12 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public void updateUser(UserUpdateDTO userDTO) {
-        User storedUser = userService.getUser(userDTO.getId());
-        storedUser.setSurname(userDTO.getSurname());
-        storedUser.setEmail(userDTO.getEmail());
-        storedUser.setName(userDTO.getName());
-        userService.updateUser(storedUser);
+        User user = userService.getUser(userDTO.getId());
+        user.setSurname(userDTO.getSurname());
+        user.setEmail(userDTO.getEmail());
+        user.setName(userDTO.getName());
+        user.setAdmin(userDTO.isAdmin());
+        userService.updateUser(user);
     }
 
     @Override
