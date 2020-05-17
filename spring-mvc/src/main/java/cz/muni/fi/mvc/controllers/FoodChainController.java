@@ -71,6 +71,44 @@ public class FoodChainController {
         return "foodChain/detail";
     }
 
+    @RequestMapping(value = "/detail/{id1}/removeAnimal/{id2}", method = RequestMethod.POST)
+    public String removeAnimal(@PathVariable long id1,@PathVariable long id2,
+                         Model model,
+                         UriComponentsBuilder uriBuilder,
+                         RedirectAttributes redirectAttributes) {
+        FoodChainDTO foodChainDTO = foodChainFacade.getFoodChainById(id1);
+        AnimalInFoodChainDTO animalInFoodChainDTO = foodChainDTO.getAnimalsInFoodChain().get((int)id2);
+        foodChainFacade.removeAnimal(animalInFoodChainDTO);
+
+        redirectAttributes.addFlashAttribute("alert_success", "Animal" + animalInFoodChainDTO.getAnimal().getName() +
+                " was successfully removed from FoodChain");
+        return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").toUriString();
+    }
+
+    @RequestMapping(value = "/detail/{id}/addAnimal", method = RequestMethod.POST)
+    public String addAnimalFormHandler(@RequestParam("animalId") Long id, UriComponentsBuilder uriBuilder) {
+        if (id == 0) {
+            return "redirect:" + uriBuilder.path("/foodChain/detail/{id}").encode().toUriString();
+        }
+        return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}/addAnimal/{id2}").buildAndExpand(id).encode().toUriString();
+    }
+
+    @RequestMapping(value = "/detail/{id1}/addAnimal/{id2}", method = RequestMethod.GET)
+    public String addAnimal(@PathVariable Long id1, @PathVariable Long id2, Model model, UriComponentsBuilder uriBuilder) {
+        log.debug("addAnimal({})", id2);
+        model.addAttribute("selectedAnimalId", id2);
+
+        AnimalDTO animalDTO = animalFacade.getAnimalById(id2);
+
+        if (animalDTO == null) {
+            return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").encode().toUriString();
+        }
+        foodChainFacade.addAnimalToBeginning(animalDTO,id1);
+
+        return "foodChain/detail";
+    }
+
+
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(Model model) {
         log.debug("create()");
