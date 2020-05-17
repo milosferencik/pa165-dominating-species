@@ -7,8 +7,8 @@ import cz.muni.fi.dto.AnimalListDTO;
 import cz.muni.fi.dto.AnimalUpdateDTO;
 import cz.muni.fi.facades.AnimalFacade;
 import cz.muni.fi.rest.exceptions.RequestedResourceNotFoundException;
+import cz.muni.fi.rest.exceptions.ResourceAlreadyExistingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -70,7 +70,7 @@ public class AnimalController {
             animalFacade.createAnimal(animal);
             return animal;
         } catch (Exception ex) {
-            throw new DataAccessResourceFailureException("Failed to create animal"); // TODO: maybe better exception
+            throw new ResourceAlreadyExistingException();
         }
     }
 
@@ -82,7 +82,7 @@ public class AnimalController {
             animalFacade.updateAnimal(animal);
             return animalFacade.getAnimalById(id);
         } catch (Exception ex) {
-            throw new DataAccessResourceFailureException("Failed to update animal");  // TODO: maybe better exception
+            throw new ResourceAlreadyExistingException();
         }
     }
 }

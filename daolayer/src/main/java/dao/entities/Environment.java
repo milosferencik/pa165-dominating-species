@@ -16,6 +16,7 @@ public class Environment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique=true)
     @NotNull(message = "Name cannot be null")
     @NotEmpty(message = "Name cannot be empty")
     private String name;

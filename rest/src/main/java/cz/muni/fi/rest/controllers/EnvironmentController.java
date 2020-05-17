@@ -5,8 +5,8 @@ import cz.muni.fi.dto.EnvironmentDTO;
 import cz.muni.fi.dto.EnvironmentListDTO;
 import cz.muni.fi.facades.EnvironmentFacade;
 import cz.muni.fi.rest.exceptions.RequestedResourceNotFoundException;
+import cz.muni.fi.rest.exceptions.ResourceAlreadyExistingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +59,7 @@ public class EnvironmentController {
             environmentFacade.createEnvironment(env);
             return env;
         } catch (Exception ex) {
-            throw new DataAccessResourceFailureException("Failed to create environment"); // TODO: maybe better exception
+            throw new ResourceAlreadyExistingException();
         }
     }
 
@@ -72,7 +72,7 @@ public class EnvironmentController {
             environmentFacade.updateEnvironment(env);
             return environmentFacade.getEnvironmentById(id);
         } catch (Exception ex) {
-            throw new DataAccessResourceFailureException("Failed to create testing environment");  // TODO: maybe better exception
+            throw new ResourceAlreadyExistingException();
         }
     }
 

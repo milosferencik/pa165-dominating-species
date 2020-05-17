@@ -101,7 +101,13 @@ public class EnvironmentController {
             return "environment/create";
         }
 
-        Long id = environmentFacade.createEnvironment(env);
+        Long id;
+        try {
+            id = environmentFacade.createEnvironment(env);
+        } catch (Exception e) {
+            model.addAttribute("alert_danger", "Environment " + env.getName() + " already exists.");
+            return "environment/create";
+        }
 
         redirectAttributes.addFlashAttribute("alert_success", "Environment " + env.getName() + " was created successfully");
         return "redirect:" + urisBuilder.path("/environment/detail/{id}").buildAndExpand(id).encode().toUriString();
@@ -132,7 +138,12 @@ public class EnvironmentController {
             return "environment/update";
         }
 
-        environmentFacade.updateEnvironment(env);
+        try {
+            environmentFacade.updateEnvironment(env);
+        } catch (Exception e) {
+            model.addAttribute("alert_danger", "Environment " + env.getName() + " already exists.");
+            return "environment/update";
+        }
 
         redirectAttributes.addFlashAttribute("alert_success", "Environment " + env.getName() + " was updated successfully");
         return "redirect:" + urisBuilder.path("/environment/detail/{id}").buildAndExpand(env.getId()).encode().toUriString();

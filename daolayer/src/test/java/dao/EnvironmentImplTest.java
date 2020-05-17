@@ -100,6 +100,16 @@ public class EnvironmentImplTest extends AbstractTestNGSpringContextTests {
         environmentDao.createEnvironment(dam);
     }
 
+    @Test(expectedExceptions = JpaSystemException.class)
+    public void testCreateEnvironmentWithExistingEnvironmentName() {
+        environmentDao.createEnvironment(forest);
+        entityManager.flush();
+        entityManager.detach(forest);
+
+        dam.setName("Forest");
+        environmentDao.createEnvironment(dam);
+    }
+
     @Test
     public void testUpdateEnvironment() {
         environmentDao.createEnvironment(dam);

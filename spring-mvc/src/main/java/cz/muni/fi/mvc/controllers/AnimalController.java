@@ -129,8 +129,13 @@ public class AnimalController {
             return "animal/create";
         }
 
-        Long id = animalFacade.createAnimal(animal);
-
+        Long id;
+        try {
+            id = animalFacade.createAnimal(animal);
+        } catch (Exception e) {
+            model.addAttribute("alert_danger", "Animal " + animal.getName() + " already exists.");
+            return "animal/create";
+        }
         redirectAttributes.addFlashAttribute("alert_success", "Animal " + animal.getName() + " was created");
         return "redirect:" + uriBuilder.path("/animal/detail/{id}").buildAndExpand(id).encode().toUriString();
     }
@@ -161,9 +166,12 @@ public class AnimalController {
             return "animal/update";
         }
 
-        System.out.println(animal);
-        animalFacade.updateAnimal(animal);
-
+        try {
+            animalFacade.updateAnimal(animal);
+        } catch (Exception e) {
+            model.addAttribute("alert_danger", "Animal " + animal.getName() + " already exists.");
+            return "animal/update";
+        }
         redirectAttributes.addFlashAttribute("alert_success", "Animal " + animal.getName() + " was updated");
         return "redirect:" + uriBuilder.path("/animal/detail/{id}").buildAndExpand(animal.getId()).encode().toUriString();
     }
