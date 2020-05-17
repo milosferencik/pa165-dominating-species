@@ -19,7 +19,7 @@ import java.util.Set;
  *
  * @author Milos Ferencik
  */
-@WebFilter(urlPatterns = {"/animal/*", "/user/*", "/environment/*", "/foodchain/*"})
+@WebFilter(urlPatterns = {"/animal/*", "/user/*", "/environment/*", "/foodChain/*"})
 public class ProtectFilter implements Filter {
 
     private final static Logger log = LoggerFactory.getLogger(ProtectFilter.class);
