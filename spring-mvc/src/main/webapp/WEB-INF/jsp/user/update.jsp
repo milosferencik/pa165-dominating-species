@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<my:masterpage title="${user.name} ${user.surname}">
+<my:masterpage title="${userUpdate.name} ${userUpdate.surname}">
 
     <jsp:attribute name="body">
         <form:form method="post" action="${pageContext.request.contextPath}/user/update"
@@ -32,9 +32,22 @@
                     <form:errors path="email" cssClass="help-block"/>
                 </div>
             </div>
+            <c:choose>
+                <c:when test="${authenticatedUser.email != userUpdate.email}">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="form-check">
+                            <form:label path="admin"> Is Admin
+                            <form:checkbox path="admin" cssClass="form-check-input"/> </form:label>
+                            <form:errors path="admin" cssClass="help-block"/>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <form:hidden path="admin" value="${userUpdate.admin}"></form:hidden>
+                </c:otherwise>
+            </c:choose>
             <button class="btn btn-primary" type="submit"><f:message key="button.update"/></button>
         </form:form>
     </jsp:attribute>
-
 </my:masterpage>
 
