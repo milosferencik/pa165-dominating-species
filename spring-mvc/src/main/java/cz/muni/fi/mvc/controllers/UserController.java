@@ -113,7 +113,7 @@ public class UserController {
         return "user/update";
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     public String update(@Valid @ModelAttribute("userUpdate") UserUpdateDTO user,
                          BindingResult bindingResult,
                          Model model,

@@ -29,10 +29,6 @@
             </div>
         </div>
 
-        <c:if test="${not empty alert_warning}">
-            <p class="text-warning"><c:out value="${alert_warning}"/></p>
-        </c:if>
-
         <button class="btn btn-primary" type="submit">Login</button>
     </form:form>
 

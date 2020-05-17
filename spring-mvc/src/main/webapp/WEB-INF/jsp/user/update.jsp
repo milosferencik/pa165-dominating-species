@@ -8,7 +8,7 @@
 <my:masterpage title="${user.name} ${user.surname}">
 
     <jsp:attribute name="body">
-        <form:form method="post" action="${pageContext.request.contextPath}/user/update"
+        <form:form method="post" action="${pageContext.request.contextPath}/user/update/${userUpdate.id}"
                    modelAttribute="userUpdate" cssClass="form-horizontal">
             <form:hidden path="id" value="${user.id}"></form:hidden>
             <div class="form-group ${name_error?'has-error':''}">
