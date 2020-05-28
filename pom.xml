@@ -8,9 +8,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
-
-        <project.version>1.0-SNAPSHOT</project.version>
-
         <springframework.version>5.2.5.RELEASE</springframework.version>
         <junit.version>4.12</junit.version>
     </properties>
@@ -18,7 +15,7 @@
     <artifactId>dominating-species</artifactId>
     <groupId>cz.muni.fi.pa165.dominatingspecies</groupId>
     <packaging>pom</packaging>
-    <version>${project.version}</version>
+    <version>1.0-SNAPSHOT</version>
 
     <modelVersion>4.0.0</modelVersion>
 

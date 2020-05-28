@@ -2,7 +2,6 @@ package dao.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -10,7 +9,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "FoodChain_Animals")
-public class AnimalInFoodChain implements Serializable {
+public class AnimalInFoodChain {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

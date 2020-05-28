@@ -3,14 +3,13 @@ package dao.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * @author Kostka on 23/03/2020.
  */
 @Entity
-public class Environment implements Serializable {
+public class Environment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
