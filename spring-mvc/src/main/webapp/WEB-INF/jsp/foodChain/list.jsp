@@ -5,7 +5,7 @@
   Time: 11:42
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="false"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="false" %>
 
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -42,15 +42,22 @@
             </tr>
             </thead>
             <tbody>
+            <c:if test="${foodChains.size() == 0}">
+                <tr>
+                    <td><f:message key="no_data"/></td>
+                </tr>
+            </c:if>
             <c:forEach items="${foodChains}" var="foodChain">
                 <tr>
                     <td>${foodChain.id}</td>
-                    <td><my:a href="/foodChain/detail/${foodChain.id}" class="btn btn-primary"><f:message key="button.detail"/></my:a></td>
+                    <td><my:a href="/foodChain/detail/${foodChain.id}" class="btn btn-primary"><f:message
+                            key="button.detail"/></my:a></td>
                     <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
                         <td>
-                            <form method="post" action="${pageContext.request.contextPath}/foodChain/delete/${foodChain.id}">
+                            <form method="post"
+                                  action="${pageContext.request.contextPath}/foodChain/delete/${foodChain.id}">
                                 <button type="submit" class="btn btn-danger">
-                                    <f:message key="button.delete" />
+                                    <f:message key="button.delete"/>
                                 </button>
                             </form>
                         </td>
