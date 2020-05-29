@@ -61,7 +61,7 @@
                 </c:if>
                 <c:if test="${not empty authenticatedUser}">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown">${authenticatedUser.name}_${authenticatedUser.surname}
+                        <a class="dropdown-toggle" data-toggle="dropdown">${authenticatedUser.name}&nbsp${authenticatedUser.surname}
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><my:a href="/user/detail/${authenticatedUser.id}"><f:message key="user.view"/></my:a></li>
