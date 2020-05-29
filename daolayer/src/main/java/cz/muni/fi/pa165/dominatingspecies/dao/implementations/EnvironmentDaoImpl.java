@@ -12,7 +12,7 @@ import java.util.List;
  * @author Kostka on 23/03/2020.
  */
 @Repository
-public class EnvironmentImpl implements EnvironmentDao {
+public class EnvironmentDaoImpl implements EnvironmentDao {
 
     @PersistenceContext
     private EntityManager entityManager;

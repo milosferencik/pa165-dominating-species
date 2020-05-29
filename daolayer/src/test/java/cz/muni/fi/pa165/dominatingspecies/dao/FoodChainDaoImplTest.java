@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.*;
 @ContextConfiguration(classes = MainConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
-public class FoodChainImplTest extends AbstractTestNGSpringContextTests {
+public class FoodChainDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private FoodChainDao foodChainDao;

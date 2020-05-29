@@ -27,7 +27,7 @@ import java.util.Collections;
 @ContextConfiguration(classes = MainConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
-public class UserImplTest extends AbstractTestNGSpringContextTests{
+public class UserDaoImplTest extends AbstractTestNGSpringContextTests{
 
     @Autowired
     private UserDao userDao;

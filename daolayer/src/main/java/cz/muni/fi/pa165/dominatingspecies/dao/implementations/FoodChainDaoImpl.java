@@ -13,7 +13,7 @@ import java.util.List;
  * @author Ondrej Slimak on 25/03/2020.
  */
 @Repository
-public class FoodChainImpl implements FoodChainDao {
+public class FoodChainDaoImpl implements FoodChainDao {
 
     @PersistenceContext
     private EntityManager entityManager;

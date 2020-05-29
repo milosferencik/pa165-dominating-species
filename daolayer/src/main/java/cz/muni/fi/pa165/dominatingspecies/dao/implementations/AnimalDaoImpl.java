@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 @Repository
-public class AnimalImpl implements AnimalDao {
+public class AnimalDaoImpl implements AnimalDao {
 
     @PersistenceContext
     private EntityManager entityManager;

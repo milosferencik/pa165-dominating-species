@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = MainConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
-public class AnimalImplTest extends AbstractTestNGSpringContextTests {
+public class AnimalImplDaoTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private AnimalDao animalDao;

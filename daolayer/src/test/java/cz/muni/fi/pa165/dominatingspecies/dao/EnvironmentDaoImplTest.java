@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = MainConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
-public class EnvironmentImplTest extends AbstractTestNGSpringContextTests {
+public class EnvironmentDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private EnvironmentDao environmentDao;
