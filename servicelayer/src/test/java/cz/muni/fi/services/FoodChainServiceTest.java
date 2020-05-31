@@ -2,11 +2,13 @@ package cz.muni.fi.services;
 
 import cz.muni.fi.config.ServiceConfiguration;
 import cz.muni.fi.services.exceptions.ServiceDataAccessException;
+import cz.muni.fi.services.implementations.FoodChainServiceImpl;
 import cz.muni.fi.services.interfaces.FoodChainService;
 import dao.entities.Animal;
 import dao.entities.AnimalInFoodChain;
 import dao.entities.Environment;
 import dao.entities.FoodChain;
+import dao.implementations.FoodChainImpl;
 import dao.interfaces.FoodChainDao;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.*;
@@ -117,7 +119,7 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
     }
 
 
-    @Test(expectedExceptions = ServiceDataAccessException.class)
+    @Test
     public void createEmptyFoodChainTest() {
         addFoodChainCreationMethodMock();
         foodChainService.createFoodChain(emptyFoodChain);
@@ -267,7 +269,7 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void removeAnimalFromFoodChainCorrectlyTest() {
-        addFoodChainManipulationMethodsMock();
+        addFoodChainExtendedManipulationMethodsMock();
 
         foodChainAnimalList.add(frog);
         foodChainAnimalList.add(fox);
@@ -315,14 +317,20 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
         foodChainService.removeAnimal(invalidAnimalAssociation);
     }
 
-    @Test
-    public void removeAnimalFromFoodChainMakingItTooSmallTest() {
+    private void addFoodChainExtendedManipulationMethodsMock() {
         addFoodChainManipulationMethodsMock();
-        doAnswer(invoke -> null).when(foodChainDao).deleteFoodChain(any(Long.class));
-
-        foodChainService.removeAnimal(standardFoodChain.getAnimalsInFoodChain().get(0));
-        Mockito.verify(foodChainDao).deleteFoodChain(standardFoodChain.getId());
+        doAnswer(invocationOnMock -> {
+            AnimalInFoodChain af = invocationOnMock.getArgumentAt(0, AnimalInFoodChain.class);
+            if (af == null) {
+                throw new IllegalArgumentException("FoodChain animals cannot be null.");
+            }
+            List<AnimalInFoodChain> animalsInFoodChain = af.getFoodChain().getAnimalsInFoodChain();
+            int idx = animalsInFoodChain.indexOf(af);
+            animalsInFoodChain.remove(af.getFoodChain().getAnimalsInFoodChain().get(idx));
+            return null;
+        }).when(foodChainDao).removeAnimalFromFoodChain(any(AnimalInFoodChain.class));
     }
+
 
     private void addFoodChainManipulationMethodsMock() {
         addFoodChainCreationMethodMock();
@@ -333,8 +341,8 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
     private void addFoodChainCreationMethodMock() {
         doAnswer(invocationOnMock -> {
             FoodChain fd = invocationOnMock.getArgumentAt(0, FoodChain.class);
-            if (fd == null || fd.getAnimals() == null || fd.getAnimals().size() < 2) {
-                throw new IllegalArgumentException("FoodChain must have at least 2 animals assigned.");
+            if (fd == null || fd.getAnimals() == null) {
+                throw new IllegalArgumentException("FoodChain animals cannot be null.");
             }
             return fd;
         }).when(foodChainDao).createFoodChain(any(FoodChain.class));
@@ -343,8 +351,8 @@ public class FoodChainServiceTest extends AbstractTestNGSpringContextTests {
     private void addFoodChainUpdateMethodMock() {
         doAnswer(invocationOnMock -> {
             FoodChain fd = invocationOnMock.getArgumentAt(0, FoodChain.class);
-            if (fd == null || fd.getAnimals() == null || fd.getAnimals().size() < 2) {
-                throw new IllegalArgumentException("FoodChain must have at least 2 animals assigned.");
+            if (fd == null || fd.getAnimals() == null) {
+                throw new IllegalArgumentException("FoodChain animals cannot be null.");
             }
             return fd;
         }).when(foodChainDao).updateFoodChain(any(FoodChain.class));

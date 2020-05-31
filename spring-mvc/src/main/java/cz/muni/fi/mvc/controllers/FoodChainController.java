@@ -74,6 +74,10 @@ public class FoodChainController {
         List<AnimalInFoodChainDTO> animalInFoodChainDTOS = foodChainFacade.getFoodChainById(id).getAnimalsInFoodChain();
         List<AnimalListDTO> animalNotInFoodChainDTOS = new ArrayList<>();
 
+        for (AnimalInFoodChainDTO a :
+                animalInFoodChainDTOS) {
+            log.info("got id {} - idx {} - animal {}", a.getId(), a.getIndexInFoodChain(), a.getAnimal().getName());
+        }
         boolean contained = false;
 
         for (AnimalListDTO a : animalFacade.getAllAnimals()) {
@@ -98,7 +102,6 @@ public class FoodChainController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id,
-                         Model model,
                          UriComponentsBuilder uriBuilder,
                          RedirectAttributes redirectAttributes) {
         FoodChainDTO foodChainDTO = foodChainFacade.getFoodChainById(id);
@@ -110,7 +113,6 @@ public class FoodChainController {
 
     @RequestMapping(value = "/detail/{id1}/removeAnimal/{id2}", method = RequestMethod.POST)
     public String removeAnimal(@PathVariable long id1,@PathVariable long id2,
-                         Model model,
                          UriComponentsBuilder uriBuilder,
                          RedirectAttributes redirectAttributes) {
         log.info("removeAnimal(foodChainId{}, animalId{})", id1, id2);
@@ -123,9 +125,15 @@ public class FoodChainController {
             }
         }
 
+        log.info("removeAnimal() - found AnimalInFoodChain with ID {} and idx {} and foodchain id {} and animal id {}",
+                animalInFoodChainDTO != null ? animalInFoodChainDTO.getId() : null,
+                animalInFoodChainDTO != null ? animalInFoodChainDTO.getIndexInFoodChain() : null,
+                animalInFoodChainDTO != null ? animalInFoodChainDTO.getFoodChain().getId() : null,
+                animalInFoodChainDTO != null ? animalInFoodChainDTO.getAnimal().getId() : null);
+
         foodChainFacade.removeAnimal(animalInFoodChainDTO);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Animal" + animalInFoodChainDTO.getAnimal().getName() +
+        redirectAttributes.addFlashAttribute("alert_success", "Animal " + animalInFoodChainDTO.getAnimal().getName() +
                 " was successfully removed from FoodChain");
         return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").buildAndExpand(id1).encode().toUriString();
     }

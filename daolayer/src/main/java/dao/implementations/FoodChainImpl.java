@@ -1,9 +1,11 @@
 package dao.implementations;
 
 import dao.entities.Animal;
+import dao.entities.AnimalInFoodChain;
 import dao.entities.FoodChain;
 import dao.interfaces.FoodChainDao;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +14,7 @@ import java.util.List;
 /**
  * @author Ondrej Slimak on 25/03/2020.
  */
+@Transactional
 @Repository
 public class FoodChainImpl implements FoodChainDao {
 
@@ -40,6 +43,17 @@ public class FoodChainImpl implements FoodChainDao {
         if (foodChain != null) {
             entityManager.remove(foodChain);
         }
+    }
+
+    @Override
+    public void removeAnimalFromFoodChain(AnimalInFoodChain animalInFoodChain) {
+        if (entityManager.contains(animalInFoodChain)) {
+            entityManager.remove(animalInFoodChain);
+        } else {
+            AnimalInFoodChain found = entityManager.getReference(AnimalInFoodChain.class, animalInFoodChain.getId());
+            entityManager.remove(found);
+        }
+        entityManager.flush();
     }
 
     @Override

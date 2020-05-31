@@ -68,12 +68,12 @@ public class AnimalInFoodChain implements Serializable {
         AnimalInFoodChain that = (AnimalInFoodChain) o;
         return getIndexInFoodChain() == that.getIndexInFoodChain() &&
                 getFoodChain().getId().equals(that.getFoodChain().getId()) &&
-                getAnimal().equals(that.getAnimal());
+                getAnimal().getId().equals(that.getAnimal().getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getFoodChain().getId(), getAnimal(), getIndexInFoodChain());
+        return Objects.hash(getFoodChain().getId(), getAnimal().getId(), getIndexInFoodChain());
     }
 }
 
