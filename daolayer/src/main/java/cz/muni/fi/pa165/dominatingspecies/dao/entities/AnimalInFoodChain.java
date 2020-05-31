@@ -16,12 +16,12 @@ public class AnimalInFoodChain {
     @Column(name = "FoodChain_Animal_Id")
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @NotNull(message = "FoodChain cannot be null")
     @JoinColumn(name = "FoodChain_Id")
     private FoodChain foodChain;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @NotNull(message = "Animal cannot be null")
     @JoinColumn(name = "Animal_Id")
     private Animal animal;
@@ -67,12 +67,12 @@ public class AnimalInFoodChain {
         AnimalInFoodChain that = (AnimalInFoodChain) o;
         return getIndexInFoodChain() == that.getIndexInFoodChain() &&
                 getFoodChain().getId().equals(that.getFoodChain().getId()) &&
-                getAnimal().equals(that.getAnimal());
+                getAnimal().getId().equals(that.getAnimal().getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getFoodChain().getId(), getAnimal(), getIndexInFoodChain());
+        return Objects.hash(getFoodChain().getId(), getAnimal().getId(), getIndexInFoodChain());
     }
 }
 

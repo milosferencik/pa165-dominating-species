@@ -80,9 +80,20 @@ public class FoodChainServiceImpl implements FoodChainService {
         if (foodChain == null)
             throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
 
-        List<Animal> animals = foodChain.getAnimals();
-        animals.add(0, animal);
-        foodChain.setAnimals(animals);
+        List<AnimalInFoodChain> animals = foodChain.getAnimalsInFoodChain();
+        int index = 0;
+
+        AnimalInFoodChain tmp = new AnimalInFoodChain();
+        tmp.setAnimal(animal);
+        tmp.setFoodChain(foodChain);
+        tmp.setIndexInFoodChain(index);
+        animals.add(0, tmp);
+
+        for (AnimalInFoodChain animalInFoodChain : animals) {
+            animalInFoodChain.setIndexInFoodChain(index);
+            ++index;
+        }
+
         updateFoodChain(foodChain);
     }
 
@@ -90,11 +101,21 @@ public class FoodChainServiceImpl implements FoodChainService {
     public void addAnimalToEndOfFoodChain(Animal animal, Long id) {
         FoodChain foodChain = getFoodChain(id);
         if (foodChain == null)
-            throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
 
-        List<Animal> animals = foodChain.getAnimals();
-        animals.add(animal);
-        foodChain.setAnimals(animals);
+            throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
+        List<AnimalInFoodChain> animals = foodChain.getAnimalsInFoodChain();
+        int index = 0;
+
+        AnimalInFoodChain tmp = new AnimalInFoodChain();
+        tmp.setAnimal(animal);
+        tmp.setFoodChain(foodChain);
+        tmp.setIndexInFoodChain(index);
+        animals.add(tmp);
+
+        for (AnimalInFoodChain animalInFoodChain : animals) {
+            animalInFoodChain.setIndexInFoodChain(index);
+            ++index;
+        }
         updateFoodChain(foodChain);
     }
 
@@ -110,15 +131,22 @@ public class FoodChainServiceImpl implements FoodChainService {
         if (animalInFoodChain.getAnimal() == null)
             throw new ServiceDataAccessException("Animal in the animal-foodchain association cannot be null");
 
-        FoodChain foodChain = animalInFoodChain.getFoodChain();
-        List<AnimalInFoodChain> animalsInFoodChain = foodChain.getAnimalsInFoodChain();
-        animalsInFoodChain.remove(animalInFoodChain);
+        foodChainDao.removeAnimalFromFoodChain(animalInFoodChain);
 
-        if (animalsInFoodChain.size() < 2) {
+        FoodChain foodChain = getFoodChain(animalInFoodChain.getFoodChain().getId());
+        if (foodChain.getAnimalsInFoodChain().size() == 0) {
             deleteFoodChain(foodChain.getId());
         } else {
-            foodChain.setAnimalsInFoodChain(animalsInFoodChain);
-            updateFoodChain(foodChain);
+            recalculateIndexes(foodChain);
         }
+    }
+
+    private void recalculateIndexes(FoodChain foodChain) {
+        List<AnimalInFoodChain> animalsInFoodChain = foodChain.getAnimalsInFoodChain();
+        for (int i = 0; i < animalsInFoodChain.size(); i++) {
+            AnimalInFoodChain animal = animalsInFoodChain.get(i);
+            animal.setIndexInFoodChain(i);
+        }
+        foodChainDao.updateFoodChain(foodChain);
     }
 }

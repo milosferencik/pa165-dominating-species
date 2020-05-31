@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,23 +41,6 @@ public class FoodChainController {
 
     final static Logger log = LoggerFactory.getLogger(FoodChainController.class);
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String list(Model model) {
-        model.addAttribute("foodChains", foodChainFacade.getAllFoodChains());
-        return "foodChain/list";
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public String delete(@PathVariable long id,
-                         Model model,
-                         UriComponentsBuilder uriBuilder,
-                         RedirectAttributes redirectAttributes) {
-        FoodChainDTO foodChainDTO = foodChainFacade.getFoodChainById(id);
-        foodChainFacade.deleteFoodChain(id);
-
-        redirectAttributes.addFlashAttribute("alert_success", "FoodChain with id " + foodChainDTO.getId() + " was successfully deleted");
-        return "redirect:" + uriBuilder.path("/foodChain/").toUriString();
-    }
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
@@ -67,32 +52,126 @@ public class FoodChainController {
         }
     }
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String list(Model model) {
+        log.info("list()");
+        model.addAttribute("foodChains", foodChainFacade.getAllFoodChains());
+        return "foodChain/list";
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String create(UriComponentsBuilder uriBuilder) {
+        log.info("create()");
+        FoodChainCreateDTO foodChainDTO = new FoodChainCreateDTO();
+        foodChainDTO.setAnimalsInFoodChain(new ArrayList<>());
+        Long foodChainId = foodChainFacade.createFoodChain(foodChainDTO);
+        return "redirect:" + uriBuilder.path("/foodChain/detail/{id}").buildAndExpand(foodChainId).encode().toUriString();
+    }
+
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable long id, Model model) {
-        log.debug("detail({})", id);
+        log.info("detail({})", id);
         List<AnimalInFoodChainDTO> animalInFoodChainDTOS = foodChainFacade.getFoodChainById(id).getAnimalsInFoodChain();
-        model.addAttribute("foodChain", foodChainFacade.getFoodChainById(id));
         List<AnimalListDTO> animalNotInFoodChainDTOS = new ArrayList<>();
-        boolean contained = true;
 
-        for (AnimalListDTO a : animalFacade.getAllAnimals()){
-            for(AnimalInFoodChainDTO dto : animalInFoodChainDTOS){
-                if (Objects.equals(a.getId(), dto.getAnimal().getId())){
+        boolean contained = false;
+        for (AnimalListDTO a : animalFacade.getAllAnimals()) {
+            for (AnimalInFoodChainDTO dto : animalInFoodChainDTOS) {
+                if (Objects.equals(a.getId(), dto.getAnimal().getId())) {
                     contained = true;
                     break;
                 }
-                else{
-                    contained = false;
-                }
             }
+
             if (!contained){
-                contained = true;
                 animalNotInFoodChainDTOS.add(a);
             }
+            contained = false;
         }
+
+        model.addAttribute("foodChain", foodChainFacade.getFoodChainById(id));
         model.addAttribute("animalsNotInFoodChain", animalNotInFoodChainDTOS);
         model.addAttribute("animalsInFoodChain", animalInFoodChainDTOS);
         return "foodChain/detail";
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public String delete(@PathVariable long id,
+                         UriComponentsBuilder uriBuilder,
+                         RedirectAttributes redirectAttributes) {
+        FoodChainDTO foodChainDTO = foodChainFacade.getFoodChainById(id);
+        foodChainFacade.deleteFoodChain(id);
+
+        redirectAttributes.addFlashAttribute("alert_success", "FoodChain with id" + foodChainDTO.getId() + " was successfully deleted");
+        return "redirect:" + uriBuilder.path("/foodChain/").toUriString();
+    }
+
+
+    @RequestMapping(value = "/detail/{id1}/removeAnimal/{id2}", method = RequestMethod.POST)
+    public String removeAnimal(@PathVariable long id1,@PathVariable long id2,
+                         UriComponentsBuilder uriBuilder,
+                         RedirectAttributes redirectAttributes) {
+        log.info("removeAnimal(foodChainId{}, animalId{})", id1, id2);
+
+        FoodChainDTO foodChainDTO = foodChainFacade.getFoodChainById(id1);
+        AnimalInFoodChainDTO animalInFoodChainDTO = null;
+        for(AnimalInFoodChainDTO a : foodChainDTO.getAnimalsInFoodChain()){
+            if (a.getId().equals(id2)){
+                animalInFoodChainDTO = a;
+            }
+        }
+
+        foodChainFacade.removeAnimal(animalInFoodChainDTO);
+        redirectAttributes.addFlashAttribute("alert_success", "Animal " + animalInFoodChainDTO.getAnimal().getName() +
+                " was successfully removed from FoodChain");
+        return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").buildAndExpand(id1).encode().toUriString();
+    }
+
+    @RequestMapping(value = "/detail/{id1}/addAnimal", method = RequestMethod.POST)
+    public String addAnimalFormHandler(
+            @PathVariable long id1,
+            @RequestParam("animalId") Long id2,
+            Model model,
+            RedirectAttributes redirectAttributes,
+            UriComponentsBuilder uriBuilder,
+            HttpServletRequest request) {
+        log.info("addAnimalFormHandler(foodChainId{}, animalId{})", id1, id2);
+
+        if (id2 == 0) {
+            redirectAttributes.addFlashAttribute("alert_success", "Animal not found.");
+            return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").encode().toUriString();
+        }
+        return addAnimal(id1, id2, model, uriBuilder, request);
+    }
+
+    @RequestMapping(value = "/detail/{id1}/addAnimal/{id2}", method = RequestMethod.GET)
+    public String addAnimal(@PathVariable Long id1,
+                            @PathVariable Long id2,
+                            Model model,
+                            UriComponentsBuilder uriBuilder,
+                            HttpServletRequest request) {
+
+        log.info("addAnimal({})", id2);
+        model.addAttribute("selectedAnimalId", id2);
+
+        AnimalDTO animalDTO = animalFacade.getAnimalById(id2);
+
+        if (animalDTO == null) {
+            log.info("animal({}) not found", id2);
+            return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").encode().toUriString();
+        }
+
+        if (request.getParameter("beginning") != null) {
+            log.info("addAnimalToBeginning({})", id2);
+            foodChainFacade.addAnimalToBeginning(animalDTO, id1);
+
+        } else if (request.getParameter("end") != null) {
+            log.info("addAnimalToEnd({})", id2);
+            foodChainFacade.addAnimalToEnd(animalDTO, id1);
+        }
+
+
+        return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").buildAndExpand(id1).encode().toUriString();
     }
 
 
@@ -106,7 +185,7 @@ public class FoodChainController {
 
     @RequestMapping(value = "/animal/{id}", method = RequestMethod.GET)
     public String getFoodChainsByAnimal(@PathVariable Long id, Model model, UriComponentsBuilder uriBuilder) {
-        log.debug("getFoodChainsByAnimal({})", id);
+        log.info("getFoodChainsByAnimal({})", id);
         model.addAttribute("selectedAnimalId", id);
         AnimalDTO animalDTO = animalFacade.getAnimalById(id);
         if (animalDTO == null) {
@@ -118,7 +197,6 @@ public class FoodChainController {
     }
     @ModelAttribute("animals")
     public List<AnimalListDTO> animals() {
-        log.debug("animals()");
         return animalFacade.getAllAnimals();
     }
 }

@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.dominatingspecies.dao.interfaces;
 
 import cz.muni.fi.pa165.dominatingspecies.dao.entities.Animal;
+import cz.muni.fi.pa165.dominatingspecies.dao.entities.AnimalInFoodChain;
 import cz.muni.fi.pa165.dominatingspecies.dao.entities.FoodChain;
 
 import java.util.List;
@@ -40,6 +41,12 @@ public interface FoodChainDao {
      * @param id of foodChain to be deleted
      */
     void deleteFoodChain(Long id);
+
+    /**
+     * Removes animal from food chain
+     * @param animalInFoodChain object to be removed,
+     */
+    void removeAnimalFromFoodChain(AnimalInFoodChain animalInFoodChain);
 
     /**
      * Finds foodChains with animal

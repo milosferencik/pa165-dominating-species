@@ -1,9 +1,11 @@
 package cz.muni.fi.pa165.dominatingspecies.dao.implementations;
 
 import cz.muni.fi.pa165.dominatingspecies.dao.entities.Animal;
+import cz.muni.fi.pa165.dominatingspecies.dao.entities.AnimalInFoodChain;
 import cz.muni.fi.pa165.dominatingspecies.dao.entities.FoodChain;
 import cz.muni.fi.pa165.dominatingspecies.dao.interfaces.FoodChainDao;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +14,7 @@ import java.util.List;
 /**
  * @author Ondrej Slimak on 25/03/2020.
  */
+@Transactional
 @Repository
 public class FoodChainDaoImpl implements FoodChainDao {
 
@@ -40,6 +43,17 @@ public class FoodChainDaoImpl implements FoodChainDao {
         if (foodChain != null) {
             entityManager.remove(foodChain);
         }
+    }
+
+    @Override
+    public void removeAnimalFromFoodChain(AnimalInFoodChain animalInFoodChain) {
+        if (entityManager.contains(animalInFoodChain)) {
+            entityManager.remove(animalInFoodChain);
+        } else {
+            AnimalInFoodChain found = entityManager.getReference(AnimalInFoodChain.class, animalInFoodChain.getId());
+            entityManager.remove(found);
+        }
+        entityManager.flush();
     }
 
     @Override

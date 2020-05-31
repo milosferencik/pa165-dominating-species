@@ -11,6 +11,8 @@ public class FoodChainCreateDTO {
 
     private List<AnimalInFoodChainDTO> animalsInFoodChain;
 
+    private List<Long> animalInFoodChainIds;
+
     public List<AnimalInFoodChainDTO> getAnimalsInFoodChain() {
         return animalsInFoodChain;
     }
@@ -46,5 +48,13 @@ public class FoodChainCreateDTO {
     @Override
     public int hashCode() {
         return Objects.hash(getAnimalsInFoodChain());
+    }
+
+    public List<Long> getAnimalInFoodChainIds() {
+        return animalInFoodChainIds;
+    }
+
+    public void setAnimalInFoodChainIds(List<Long> animalInFoodChainIds) {
+        this.animalInFoodChainIds = animalInFoodChainIds;
     }
 }
