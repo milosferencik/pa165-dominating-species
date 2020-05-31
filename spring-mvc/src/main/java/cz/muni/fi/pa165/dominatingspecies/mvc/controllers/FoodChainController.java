@@ -103,7 +103,7 @@ public class FoodChainController {
         foodChainFacade.deleteFoodChain(id);
 
         redirectAttributes.addFlashAttribute("alert_success", "FoodChain with id" + foodChainDTO.getId() + " was successfully deleted");
-        return "redirect:" + uriBuilder.path("/foodChain").toUriString();
+        return "redirect:" + uriBuilder.path("/foodChain/").toUriString();
     }
 
 
@@ -132,10 +132,13 @@ public class FoodChainController {
             @PathVariable long id1,
             @RequestParam("animalId") Long id2,
             Model model,
+            RedirectAttributes redirectAttributes,
             UriComponentsBuilder uriBuilder,
             HttpServletRequest request) {
         log.info("addAnimalFormHandler(foodChainId{}, animalId{})", id1, id2);
+
         if (id2 == 0) {
+            redirectAttributes.addFlashAttribute("alert_success", "Animal not found.");
             return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").encode().toUriString();
         }
         return addAnimal(id1, id2, model, uriBuilder, request);
