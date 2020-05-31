@@ -15,33 +15,38 @@
 
 <my:masterpage title="Food Chain detail">
     <jsp:attribute name="body">
-        <div>
-            <form:form method="post"
-                       action="${pageContext.request.contextPath}/foodChain/detail/${foodChain.id}/addAnimal"
-                       modelAttribute="animalsNotInFoodChain" cssClass="form-inline">
-            <label class="control-label" for="animalId"><f:message key="animal"/>:
-                <select name="animalId" class="form-control" id="animalId">
-                    <c:forEach items="${animalsNotInFoodChain}" var="animal">
-                        <option value="${animal.id}"
-                                <c:if test="${selectedAnimalId == animal.id}">selected="selected"</c:if>>
-                                ${animal.name}
-                        </option>
-                    </c:forEach>
-                </select>
-            </label>
-            <button type="submit" name="beginning" class="btn btn-default"><f:message
-                    key="button.add_animal_beginning"/></button>
-                <button type="submit" name="end" class="btn btn-default"><f:message
-                        key="button.add_animal_end"/></button>
-            </form:form>
-        </div>
+        <c:if test="${animalsNotInFoodChain.size() != 0}">
+            <div>
+                <form:form method="post"
+                           action="${pageContext.request.contextPath}/foodChain/detail/${foodChain.id}/addAnimal"
+                           modelAttribute="animalsNotInFoodChain" cssClass="form-inline">
+
+                    <label class="control-label" for="animalId"><f:message key="animal"/>:
+                        <select name="animalId" class="form-control" id="animalId">
+                            <c:forEach items="${animalsNotInFoodChain}" var="animal">
+                                <option value="${animal.id}"
+                                        <c:if test="${selectedAnimalId == animal.id}">selected="selected"</c:if>>
+                                        ${animal.name}
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </label>
+                        <button type="submit" name="beginning" class="btn btn-default">
+                            <f:message key="button.add_animal_beginning"/>
+                        </button>
+                        <button type="submit" name="end" class="btn btn-default">
+                            <f:message key="button.add_animal_end"/>
+                        </button>
+                </form:form>
+            </div>
+        </c:if>
         <table class="table table-striped">
 
             <thead>
-                <tr>
-                    <td>index</td>
-                    <td>animal</td>
-                </tr>
+            <tr>
+                <td>index</td>
+                <td>animal</td>
+            </tr>
             </thead>
             <tbody>
 
