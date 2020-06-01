@@ -12,7 +12,6 @@ import java.util.Objects;
  * @author Matusova on 26/03/2020.
  */
 @Entity
-@Table(name = "Animal")
 public class Animal {
 
     @Id

@@ -8,12 +8,10 @@ import java.util.Objects;
  * @author Ondrej Slimak on 18/04/2020.
  */
 @Entity
-@Table(name = "FoodChain_Animals")
 public class AnimalInFoodChain {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "FoodChain_Animal_Id")
     private Long id;
 
     @ManyToOne

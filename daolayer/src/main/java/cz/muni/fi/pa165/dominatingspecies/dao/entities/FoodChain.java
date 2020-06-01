@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.dominatingspecies.dao.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,7 +11,6 @@ import java.util.Objects;
  */
 
 @Entity()
-@Table(name = "FoodChain")
 public class FoodChain {
 
     @Id

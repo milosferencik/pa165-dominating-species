@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Ferencik on 25/03/2020.
  */
 @Entity
-@Table(name = "Users", uniqueConstraints = {@UniqueConstraint(columnNames = "ID")})
+@Table(name = "Users")
 public class User {
 
     @Id
