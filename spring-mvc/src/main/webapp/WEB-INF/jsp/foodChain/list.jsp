@@ -42,7 +42,9 @@
             <tr>
                 <th><f:message key="foodChain"/></th>
                 <th><f:message key="actions" /></th>
-                <th></th>
+                <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
+                    <th></th>
+                </c:if>
             </tr>
             </thead>
             <tbody>
