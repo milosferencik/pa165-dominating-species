@@ -40,7 +40,9 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>FoodChains</th>
+                <th><f:message key="foodChain"/></th>
+                <th><f:message key="actions" /></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>

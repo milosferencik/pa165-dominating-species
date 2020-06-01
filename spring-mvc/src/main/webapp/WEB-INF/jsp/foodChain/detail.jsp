@@ -44,8 +44,11 @@
 
             <thead>
             <tr>
-                <td>index</td>
-                <td>animal</td>
+                <th><f:message key="foodChain.animals.index"/></th>
+                <th><f:message key="animal"/></th>
+                <th><f:message key="actions"/></th>
+                <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>

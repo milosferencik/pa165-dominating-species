@@ -36,6 +36,9 @@
             <thead>
             <tr>
                 <th><f:message key="label.name"/></th>
+                <th><f:message key="actions"/></th>
+                <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
