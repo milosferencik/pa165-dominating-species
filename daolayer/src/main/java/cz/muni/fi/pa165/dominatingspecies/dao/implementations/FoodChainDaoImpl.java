@@ -35,7 +35,6 @@ public class FoodChainDaoImpl implements FoodChainDao {
 
     public void updateFoodChain(FoodChain foodChain) {
         entityManager.merge(foodChain);
-
     }
 
     public void deleteFoodChain(Long id) {

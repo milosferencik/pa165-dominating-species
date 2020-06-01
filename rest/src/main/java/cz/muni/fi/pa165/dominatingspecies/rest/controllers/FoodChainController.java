@@ -61,22 +61,9 @@ public class FoodChainController {
         }
     }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public final FoodChainDTO updateFoodChain(@PathVariable("id") Long id, @RequestBody FoodChainDTO foodChainDTO) {
-        foodChainDTO.setId(id);;
-
-        try {
-            foodChainFacade.updateFoodChain(foodChainDTO);
-            return foodChainFacade.getFoodChainById(id);
-        } catch (Exception ex) {
-            throw new DataAccessResourceFailureException("Failed to update FoodChain");
-        }
-    }
-
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/foodChain/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final List<FoodChainDTO> getFoodChainByAnimal(@PathVariable("id") long id) {
+    @RequestMapping(value = "/animal/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final List<FoodChainDTO> getFoodChainsByAnimal(@PathVariable("id") long id) {
         List<FoodChainDTO> foodChainDTOS = foodChainFacade.getFoodChainsWithAnimal(id);
         if (foodChainDTOS == null) {
             throw new RequestedResourceNotFoundException();
