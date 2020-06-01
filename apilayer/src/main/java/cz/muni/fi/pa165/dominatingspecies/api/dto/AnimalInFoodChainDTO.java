@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.dominatingspecies.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 /**
@@ -11,6 +13,7 @@ public class AnimalInFoodChainDTO {
     private Long id;
     private int indexInFoodChain;
     private AnimalDTO animal;
+    @JsonIgnore
     private FoodChainDTO foodChain;
 
     public FoodChainDTO getFoodChain() {
