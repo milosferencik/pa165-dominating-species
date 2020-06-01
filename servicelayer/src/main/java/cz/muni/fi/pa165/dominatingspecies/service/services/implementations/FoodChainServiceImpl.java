@@ -76,29 +76,21 @@ public class FoodChainServiceImpl implements FoodChainService {
 
     @Override
     public void addAnimalToBeginningOfFoodChain(Animal animal, Long id) {
-        FoodChain foodChain = getFoodChain(id);
-        if (foodChain == null)
-            throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
-
-        List<AnimalInFoodChain> animals = foodChain.getAnimalsInFoodChain();
-        int index = 0;
-
-        AnimalInFoodChain tmp = new AnimalInFoodChain();
-        tmp.setAnimal(animal);
-        tmp.setFoodChain(foodChain);
-        tmp.setIndexInFoodChain(index);
-        animals.add(0, tmp);
-
-        for (AnimalInFoodChain animalInFoodChain : animals) {
-            animalInFoodChain.setIndexInFoodChain(index);
-            ++index;
-        }
-
-        updateFoodChain(foodChain);
+        addAnimalToFoodChain(animal, id, true);
     }
 
     @Override
     public void addAnimalToEndOfFoodChain(Animal animal, Long id) {
+        addAnimalToFoodChain(animal, id, false);
+    }
+
+    /**
+     * add animal to the foodChain
+     * @param animal
+     * @param id
+     * @param place if it is true, then animal is added to the beginning, else animal is added to the end
+     */
+    private void addAnimalToFoodChain(Animal animal, Long id, boolean place) {
         FoodChain foodChain = getFoodChain(id);
         if (foodChain == null)
             throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
@@ -110,7 +102,12 @@ public class FoodChainServiceImpl implements FoodChainService {
         tmp.setAnimal(animal);
         tmp.setFoodChain(foodChain);
         tmp.setIndexInFoodChain(index);
-        animals.add(tmp);
+
+        if (place) {
+            animals.add(0, tmp);
+        } else {
+            animals.add(tmp);
+        }
 
         for (AnimalInFoodChain animalInFoodChain : animals) {
             animalInFoodChain.setIndexInFoodChain(index);
@@ -118,7 +115,6 @@ public class FoodChainServiceImpl implements FoodChainService {
         }
         updateFoodChain(foodChain);
     }
-
 
     @Override
     public boolean removeAnimal(AnimalInFoodChain animalInFoodChain) {

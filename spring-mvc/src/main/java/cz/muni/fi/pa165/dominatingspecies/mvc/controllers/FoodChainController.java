@@ -94,11 +94,15 @@ public class FoodChainController {
     public String delete(@PathVariable long id,
                          UriComponentsBuilder uriBuilder,
                          RedirectAttributes redirectAttributes) {
-        FoodChainDTO foodChainDTO = foodChainFacade.getFoodChainById(id);
-        foodChainFacade.deleteFoodChain(id);
 
-        redirectAttributes.addFlashAttribute("alert_success", "FoodChain with id " + foodChainDTO.getId() + " was successfully deleted");
-        return "redirect:" + uriBuilder.path("/foodChain/").toUriString();
+        try {
+            foodChainFacade.deleteFoodChain(id);
+            redirectAttributes.addFlashAttribute("alert_success", "FoodChain with id " + id + " was successfully deleted");
+            return "redirect:" + uriBuilder.path("/foodChain/").toUriString();
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_danger", "FoodChain with id " + id + " cannot be deleted");
+            return "redirect:" + uriBuilder.path("/foodChain/").toUriString();
+        }
     }
 
 
