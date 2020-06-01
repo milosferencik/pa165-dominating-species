@@ -44,6 +44,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     public void loadData() throws IOException {
         Environment field = environment("Field", "Regular field");
         Environment forest = environment("Forest", "50 % of coniferous trees and 50 % broadleaved trees ");
+        Environment pond = environment("Pond", "Pond or marsh surrounded with tall grass.");
         log.info("Loaded environments.");
 
         Animal insect = animal("Insect", "Grasshopper", field);
@@ -51,12 +52,17 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Animal hawk = animal("Hawk", "Red-tailed Hawk", field);
         Animal fox = animal("Fox", "Red Fox", forest);
         Animal wolf = animal("Wolf", "Grey Wolf", forest);
-        Animal deer =animal("Deer", "Roe deer", forest);
+        Animal deer = animal("Deer", "Roe deer", forest);
+        Animal frog = animal("Frog", "European grass frog", pond);
+        Animal snake = animal("Snake", "Ring-necked snake", field);
         log.info("Loaded animals.");
 
         foodChain(Arrays.asList(insect, vole, hawk));
         foodChain(Arrays.asList(insect, vole, fox, wolf));
+        foodChain(Arrays.asList(insect, frog, fox, wolf));
         foodChain(Arrays.asList(deer, wolf));
+        foodChain(Arrays.asList(insect, frog, snake, hawk));
+        foodChain(Arrays.asList(insect, vole, snake));
         log.info("Loaded food chains.");
 
         user("Jane", "Doe", "janedoe@muni.cz", false, "password");

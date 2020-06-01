@@ -5,6 +5,7 @@ package cz.muni.fi.pa165.dominatingspecies.dao;
  */
 import cz.muni.fi.pa165.dominatingspecies.dao.config.MainConfiguration;
 import cz.muni.fi.pa165.dominatingspecies.dao.entities.Animal;
+import cz.muni.fi.pa165.dominatingspecies.dao.entities.AnimalInFoodChain;
 import cz.muni.fi.pa165.dominatingspecies.dao.entities.Environment;
 import cz.muni.fi.pa165.dominatingspecies.dao.entities.FoodChain;
 import cz.muni.fi.pa165.dominatingspecies.dao.interfaces.FoodChainDao;
@@ -279,4 +280,26 @@ public class FoodChainDaoImplTest extends AbstractTestNGSpringContextTests {
         assertThat(result2).hasSize(2);
     }
 
+    @Test
+    public void testRemoveAnimalFromFoodChain() {
+        foodChainDao.createFoodChain(foodChain1);
+        AnimalInFoodChain animalInFoodChain = foodChain1.getAnimalsInFoodChain().get(0);
+        Assertions.assertThat(foodChainDao.getAllFoodChains()).isEqualTo(Collections.singletonList(foodChain1));
+        Assertions.assertThat(foodChainDao.getFoodChain(foodChain1.getId()).getAnimalsInFoodChain()).hasSize(3);
+        entityManager.flush();
+        entityManager.detach(foodChain1);
+        foodChainDao.removeAnimalFromFoodChain(animalInFoodChain);
+        Assertions.assertThat(foodChainDao.getFoodChain(foodChain1.getId()).getAnimalsInFoodChain()).hasSize(2);
+    }
+
+    @Test(expectedExceptions = DataAccessException.class)
+    public void testRemoveAnimalNotBelongingToFoodChain() {
+        foodChainDao.createFoodChain(foodChain1);
+        AnimalInFoodChain animalInFoodChain = foodChain2.getAnimalsInFoodChain().get(2);
+        Assertions.assertThat(foodChainDao.getAllFoodChains()).isEqualTo(Collections.singletonList(foodChain1));
+        Assertions.assertThat(foodChainDao.getFoodChain(foodChain1.getId()).getAnimalsInFoodChain()).hasSize(3);
+        entityManager.flush();
+        entityManager.detach(foodChain1);
+        foodChainDao.removeAnimalFromFoodChain(animalInFoodChain);
+    }
 }
