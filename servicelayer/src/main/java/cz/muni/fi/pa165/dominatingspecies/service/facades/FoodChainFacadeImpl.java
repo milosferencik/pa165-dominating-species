@@ -77,8 +77,8 @@ public class FoodChainFacadeImpl implements FoodChainFacade {
     }
 
     @Override
-    public void removeAnimal(AnimalInFoodChainDTO animalInFoodChainDTO) {
-        foodChainService.removeAnimal(beanMappingService.mapTo(animalInFoodChainDTO, AnimalInFoodChain.class));
+    public boolean removeAnimal(AnimalInFoodChainDTO animalInFoodChainDTO) {
+        return foodChainService.removeAnimal(beanMappingService.mapTo(animalInFoodChainDTO, AnimalInFoodChain.class));
     }
 
     @Override

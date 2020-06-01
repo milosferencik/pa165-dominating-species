@@ -66,6 +66,7 @@ public interface FoodChainService {
     /**
      * Remove the animal from the foodChain
      * @param animalInFoodChain animal in association FoodChain-Animal to be removed
+     * @return true if it removes the foodChain
      */
-    void removeAnimal(AnimalInFoodChain animalInFoodChain) throws DataAccessException;
+    boolean removeAnimal(AnimalInFoodChain animalInFoodChain) throws DataAccessException;
 }

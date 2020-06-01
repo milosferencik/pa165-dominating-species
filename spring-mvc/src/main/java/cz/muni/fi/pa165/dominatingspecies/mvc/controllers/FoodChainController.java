@@ -1,11 +1,7 @@
 package cz.muni.fi.pa165.dominatingspecies.mvc.controllers;
 
 
-import cz.muni.fi.pa165.dominatingspecies.api.dto.AnimalDTO;
-import cz.muni.fi.pa165.dominatingspecies.api.dto.AnimalInFoodChainDTO;
-import cz.muni.fi.pa165.dominatingspecies.api.dto.AnimalListDTO;
-import cz.muni.fi.pa165.dominatingspecies.api.dto.FoodChainCreateDTO;
-import cz.muni.fi.pa165.dominatingspecies.api.dto.FoodChainDTO;
+import cz.muni.fi.pa165.dominatingspecies.api.dto.*;
 import cz.muni.fi.pa165.dominatingspecies.api.facades.AnimalFacade;
 import cz.muni.fi.pa165.dominatingspecies.api.facades.FoodChainFacade;
 import cz.muni.fi.pa165.dominatingspecies.mvc.validators.FoodChainCreateDtoValidator;
@@ -21,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -102,7 +97,7 @@ public class FoodChainController {
         FoodChainDTO foodChainDTO = foodChainFacade.getFoodChainById(id);
         foodChainFacade.deleteFoodChain(id);
 
-        redirectAttributes.addFlashAttribute("alert_success", "FoodChain with id" + foodChainDTO.getId() + " was successfully deleted");
+        redirectAttributes.addFlashAttribute("alert_success", "FoodChain with id " + foodChainDTO.getId() + " was successfully deleted");
         return "redirect:" + uriBuilder.path("/foodChain/").toUriString();
     }
 
@@ -121,10 +116,22 @@ public class FoodChainController {
             }
         }
 
-        foodChainFacade.removeAnimal(animalInFoodChainDTO);
-        redirectAttributes.addFlashAttribute("alert_success", "Animal " + animalInFoodChainDTO.getAnimal().getName() +
-                " was successfully removed from FoodChain");
-        return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").buildAndExpand(id1).encode().toUriString();
+        try {
+            if(foodChainFacade.removeAnimal(animalInFoodChainDTO))
+            {
+                redirectAttributes.addFlashAttribute("alert_success", "FoodChain with id " + foodChainDTO.getId() +
+                        " was successfully deleted");
+                return "redirect:" + uriBuilder.path("/foodChain/").toUriString();
+            }
+            redirectAttributes.addFlashAttribute("alert_success", "Animal " + animalInFoodChainDTO.getAnimal().getName() +
+                    " was successfully removed from FoodChain");
+            return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").buildAndExpand(id1).encode().toUriString();
+        } catch (Exception e)
+        {
+            redirectAttributes.addFlashAttribute("alert_danger", "Animal " +animalInFoodChainDTO.getAnimal().getName()
+                    + " is not in the FoodChain with id " + foodChainDTO.getId() + "!");
+            return "redirect:" + uriBuilder.path("/foodChain/detail/{id1}").buildAndExpand(id1).encode().toUriString();
+        }
     }
 
     @RequestMapping(value = "/detail/{id1}/addAnimal", method = RequestMethod.POST)

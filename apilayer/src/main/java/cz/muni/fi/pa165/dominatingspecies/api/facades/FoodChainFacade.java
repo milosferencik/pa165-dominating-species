@@ -64,8 +64,9 @@ public interface FoodChainFacade {
     /**
      * Removes animal from food chain
      * @param animalInFoodChain animal in association FoodChain-Animal to be removed
+     * @return true if it removes the foodChain
      */
-    void removeAnimal(AnimalInFoodChainDTO animalInFoodChain);
+    boolean removeAnimal(AnimalInFoodChainDTO animalInFoodChain);
 
     /**
      * Creates new food chain

@@ -101,8 +101,8 @@ public class FoodChainServiceImpl implements FoodChainService {
     public void addAnimalToEndOfFoodChain(Animal animal, Long id) {
         FoodChain foodChain = getFoodChain(id);
         if (foodChain == null)
-
             throw new ServiceDataAccessException("FoodChain with the id doesn't exist.");
+
         List<AnimalInFoodChain> animals = foodChain.getAnimalsInFoodChain();
         int index = 0;
 
@@ -121,7 +121,7 @@ public class FoodChainServiceImpl implements FoodChainService {
 
 
     @Override
-    public  void removeAnimal(AnimalInFoodChain animalInFoodChain) {
+    public boolean removeAnimal(AnimalInFoodChain animalInFoodChain) {
         if (animalInFoodChain == null)
             throw new ServiceDataAccessException("AnimalInFoodChain cannot be null");
 
@@ -136,9 +136,10 @@ public class FoodChainServiceImpl implements FoodChainService {
         FoodChain foodChain = getFoodChain(animalInFoodChain.getFoodChain().getId());
         if (foodChain.getAnimalsInFoodChain().size() == 0) {
             deleteFoodChain(foodChain.getId());
-        } else {
-            recalculateIndexes(foodChain);
+            return true;
         }
+        recalculateIndexes(foodChain);
+        return false;
     }
 
     private void recalculateIndexes(FoodChain foodChain) {
