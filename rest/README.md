@@ -46,3 +46,21 @@ example: curl -X PUT http://localhost:8080/pa165/rest/animals/update/1 \
             -H 'content-type: application/json' \
             -d '{"name":"owl","species":"brown owl","environmentId":2}'
 
+## FoodChains
+GET http://localhost:8080/pa165/rest/foodChains \
+example: curl -X GET http://localhost:8080/pa165/rest/foodChains
+
+GET http://localhost:8080/pa165/rest/foodChains/<id> \
+example: curl -X GET http://localhost:8080/pa165/rest/foodChains/1
+
+GET http://localhost:8080/pa165/rest/foodChains/animal/<id> \
+example: curl -X GET http://localhost:8080/pa165/rest/foodChains/animal/1
+
+DELETE http://localhost:8080/pa165/rest/foodChains/<id> \
+example: curl -X DELETE http://localhost:8080/pa165/rest/foodChains/1
+
+POST http://localhost:8080/pa165/rest/foodChains/create (in body: [list] animalsInFoodChain) \
+example: curl -X POST http://localhost:8080/pa165/rest/foodChains/create/ \
+            -H 'content-type: application/json' \
+            -d '{"animalsInFoodChain":[]}'
+           

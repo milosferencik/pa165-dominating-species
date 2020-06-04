@@ -2,12 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ds</groupId>
-    <artifactId>ds</artifactId>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>11</java.version>
+        <springframework.version>5.2.5.RELEASE</springframework.version>
+        <junit.version>4.12</junit.version>
+    </properties>
+
+    <artifactId>dominating-species</artifactId>
+    <groupId>cz.muni.fi.pa165.dominatingspecies</groupId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
+    <modelVersion>4.0.0</modelVersion>
 
     <modules>
         <module>servicelayer</module>
@@ -18,12 +28,6 @@
         <module>spring-mvc</module>
     </modules>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>11</java.version>
-    </properties>
-
     <build>
         <pluginManagement>
             <plugins>
@@ -31,8 +35,8 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                         <compilerArgument>-Xlint:unchecked,deprecation</compilerArgument>
                     </configuration>
                 </plugin>
@@ -81,22 +85,22 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
-                <version>5.0.0.RELEASE</version>
+                <version>${springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-tx</artifactId>
-                <version>5.0.0.RELEASE</version>
+                <version>${springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
-                <version>5.0.0.RELEASE</version>
+                <version>${springframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
-                <version>5.0.0.RELEASE</version>
+                <version>${springframework.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -112,7 +116,7 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.12</version>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>

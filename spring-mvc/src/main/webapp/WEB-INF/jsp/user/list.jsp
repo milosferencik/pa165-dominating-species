@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="false"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="false" %>
 
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -22,6 +22,11 @@
                 </tr>
                 </thead>
                 <tbody>
+                <c:if test="${users.size() == 0}">
+                    <tr>
+                        <td><f:message key="no_data"/></td>
+                    </tr>
+                </c:if>
                 <c:forEach items="${users}" var="user">
                     <tr>
                         <td>${user.name} ${user.surname}
@@ -29,16 +34,18 @@
                                 <span class="glyphicon glyphicon-user"></span>
                             </c:if>
                             <c:if test="${user.admin}">
-                                <span class="badge badge-dark" > Admin </span>
+                                <span class="badge badge-dark"> Admin </span>
                             </c:if>
                         </td>
                         <td>${user.email}
                         </td>
-                        <td><my:a href="/user/detail/${user.id}" class="btn btn-primary"><f:message key="detail"/></my:a></td>
+                        <td><my:a href="/user/detail/${user.id}" class="btn btn-primary"><f:message
+                                key="detail"/></my:a></td>
                         <td>
                             <c:choose>
                                 <c:when test="${authenticatedUser.email != user.email}">
-                                    <form method="post" action="${pageContext.request.contextPath}/user/delete/${user.id}">
+                                    <form method="post"
+                                          action="${pageContext.request.contextPath}/user/delete/${user.id}">
                                         <button type="submit" class="btn btn-danger">
                                             <f:message key="delete"/>
                                         </button>
@@ -52,7 +59,8 @@
                             </c:choose>
                         </td>
                         <td>
-                            <my:a href="/user/update/${user.id}" class="btn btn-success"><f:message key="button.update"/></my:a>
+                            <my:a href="/user/update/${user.id}" class="btn btn-success"><f:message
+                                    key="button.update"/></my:a>
                         </td>
                     </tr>
                 </c:forEach>
