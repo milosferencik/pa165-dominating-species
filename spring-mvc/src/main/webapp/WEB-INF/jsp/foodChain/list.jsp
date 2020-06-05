@@ -15,7 +15,7 @@
 
 <my:masterpage title="FoodChain List">
     <jsp:attribute name="body">
-        <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
+        <c:if test="${not empty authenticatedUser}">
             <td><my:a href="/foodChain/create" class="btn btn-success"><f:message key="foodChains.create"/></my:a></td>
         </c:if>
         <div>
@@ -42,9 +42,7 @@
             <tr>
                 <th><f:message key="foodChain"/></th>
                 <th><f:message key="actions" /></th>
-                <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
-                    <th></th>
-                </c:if>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -57,7 +55,7 @@
                 <tr>
                     <td>[${foodChain.id}] <c:forEach items="${foodChain.animalsInFoodChain}" var="animal">${animal.indexInFoodChain + 1}.${animal.animal.name} </c:forEach> </td>
                     <td><my:a href="/foodChain/detail/${foodChain.id}" class="btn btn-primary"><f:message key="button.detail"/></my:a></td>
-                    <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
+                    <c:if test="${not empty authenticatedUser}">
                         <td>
                             <form method="post"
                                   action="${pageContext.request.contextPath}/foodChain/delete/${foodChain.id}">

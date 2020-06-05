@@ -28,7 +28,8 @@ public class ProtectFilter implements Filter {
             Arrays.asList("/user/update", "/user/password", "/user/detail")));
 
     private static final Set<String> ALLOWED_ADMIN_PATHS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList("/animal/update", "/animal/delete", "/user/update", "/user/password", "/user/delete", "/environment/update", "/environment/delete", "/user/detail", "/user")));
+            Arrays.asList("/animal/update", "/animal/delete", "/user/update", "/user/password", "/user/delete",
+                    "/environment/update", "/environment/delete", "/user/detail", "/user", "/animal/create", "/environment/create", "/user/create")));
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)

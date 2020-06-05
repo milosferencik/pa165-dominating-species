@@ -48,7 +48,9 @@
                 <th><f:message key="animal"/></th>
                 <th><f:message key="actions"/></th>
                 <th></th>
-                <th></th>
+                <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
+                    <th></th>
+                </c:if>
             </tr>
             </thead>
             <tbody>
@@ -59,7 +61,7 @@
                     <td>${animal.animal.name}</td>
                     <td><my:a href="/animal/detail/${animal.animal.id}" class="btn btn-primary"><f:message
                             key="button.detail"/></my:a></td>
-                    <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
+                    <c:if test="${not empty authenticatedUser}">
                         <td>
                             <form method="post"
                                   action="${pageContext.request.contextPath}/foodChain/detail/${foodChain.id}/removeAnimal/${animal.id}">
@@ -68,6 +70,8 @@
                                 </button>
                             </form>
                         </td>
+                    </c:if>
+                    <c:if test="${not empty authenticatedUser && authenticatedUser.admin}">
                         <td><my:a href="/animal/update/${animal.animal.id}" class="btn btn-success"><f:message
                                 key="button.update"/></my:a></td>
                     </c:if>
